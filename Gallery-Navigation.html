@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://kharis.org/wp-content/uploads/2022/08/Logo_transparent_noText.png">
+    <title>Gallery Navigation - KP2 Birmingham</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f9fafb;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            flex: 1;
+            width: 100%;
+        }
+
+        .tabs-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid #d1d5db;
+            position: relative;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            color: #6b7280;
+            transition: color 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tab:hover {
+            color: #1f2937;
+        }
+
+        .tab-indicator {
+            position: absolute;
+            bottom: -1px;
+            left: -15px;
+            height: 1px;
+            background-color: #750c83;
+            transition: transform 0.3s ease, width 0.3s ease;
+            z-index: 1;
+            width: 9%;
+        }
+
+        .content-wrapper {
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            transform: translateX(0);
+            opacity: 1;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .grid.hidden {
+            transform: translateX(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: relative;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 0;
+            padding: 30px;
+            border: 1px solid #888;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .modal-content h1 {
+            margin-bottom: 20px;
+            color: #1f2937;
+            font-size: 24px;
+        }
+
+        .modal-content p {
+            margin-bottom: 20px;
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+        }
+
+        .modal-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: 500;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background-color: #750c83;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            background-color: #5a0a68;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: #750c83;
+            color: #fff;
+            text-align: center;
+            padding: 30px 10px 20px 10px;
+            margin-top: auto;
+            width: 110%;
+            margin-left: -24px;
+            margin-right: -24px;
+            margin-bottom: -24px;
+        }
+
+        footer div {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        footer p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        footer p:nth-of-type(2) {
+            margin-bottom: 10px;
+        }
+
+        footer p:last-child {
+            font-size: 0.95em;
+            opacity: 0.8;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 1200px) {
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .card-image {
+                height: 140px;
+            }
+            .card-content {
+                padding: 12px;
+            }
+            .card-title {
+                font-size: 12px;
+                min-height: 30px;
+            }
+            .card-items {
+                font-size: 11px;
+            }
+            .modal-content {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 16px;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .card-image {
+                height: 160px;
+            }
+            .card-content {
+                padding: 12px;
+            }
+            .card-title {
+                font-size: 12px;
+                min-height: 28px;
+            }
+            .card-items {
+                font-size: 11px;
+            }
+            .modal-content {
+                width: 90%;
+            }
+        }
+
+        .card-button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            width: 100%;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-8px);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-content {
+            padding: 16px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            min-height: 36px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-items {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .back-strip {
+            margin-bottom: 16px;
+        }
+        .btn--back-home {
+            display: inline-flex;
+            align-items: center;
+            color: #750c83;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 18px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+        .btn--back-home:hover {
+            background: #f3e5f5;
+            border-color: #c084fc;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <div class="container">
+        <div class="tabs-wrapper">
+          <div class="back-strip">
+            <a href="/Index.html" class="btn--back-home">&#8592; Back to Home</a>
+            </div>
+            <div class="tabs">
+                <button class="tab active">Gallery Selection</button>
+                <div class="tab-indicator"></div>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <!-- Grid Section -->
+            <div id="AlbumsGrid" class="grid">
+                <!-- Sunday Service Gallery Card -->
+                <button class="card-button" onclick="openModal('modal1')">
+                    <div class="card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Sunday Service" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title">Sunday Service Gallery</h3>
+                            <p class="card-items">18 albums</p>
+                        </div>
+                    </div>
+                </button>
+                <div id="modal1" class="modal">
+                    <form class="modal-content">
+                        <span class="close" onclick="closeModal('modal1')">&times;</span>
+                        <h1>Sunday Service Gallery</h1>
+                        <p>View Albums?</p>
+                        <div class="modal-buttons">
+                            <a href="/Gallery-Selection/Sunday-Service-Album-Select.html" class="modal-btn">open</a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Midweek Service Gallery Card -->
+                <button class="card-button" onclick="openModal('modal2')">
+                    <div class="card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Midweek Service" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title">Midweek Service Gallery</h3>
+                            <p class="card-items">18 albums</p>
+                        </div>
+                    </div>
+                </button>
+                <div id="modal2" class="modal">
+                    <form class="modal-content">
+                        <span class="close" onclick="closeModal('modal2')">&times;</span>
+                        <h1>Midweek Service Gallery</h1>
+                        <p>View Albums?</p>
+                        <div class="modal-buttons">
+                            <a href="/Gallery-Selection/Midweek-Service-Selection.HTML" class="modal-btn">Open</a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Special Events Gallery Card -->
+                <button class="card-button" onclick="openModal('modal3')">
+                    <div class="card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Special Events" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title">Special Events & Services</h3>
+                            <p class="card-items">10 albums</p>
+                        </div>
+                    </div>
+                </button>
+                <div id="modal3" class="modal">
+                    <form class="modal-content">
+                        <span class="close" onclick="closeModal('modal3')">&times;</span>
+                        <h1>Special Events & Services</h1>
+                        <p>View Albums?</p>
+                        <div class="modal-buttons">
+                            <a href="/Gallery-Selection/Events-selection.HTML" class="modal-btn">Open</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <footer>
+        <div>
+            <p>&copy; 2025 Kharis Church. All rights reserved.</p>
+            <p>
+                <a href="/Index.html">Home</a> |
+                <a href="mailto:info@kharis.org">Contact</a> |
+                <a href="https://www.facebook.com/KharisMinistries" target="_blank">Facebook</a> |
+                <a href="https://www.instagram.com/kharischurch/" target="_blank">Instagram</a>
+            </p>
+            <p>Kharis Church, London, UK</p>
+        </div>
+    </footer>
+
+    <script>
+        // Modal functionality
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "flex";
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

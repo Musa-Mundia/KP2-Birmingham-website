@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" type="text/css" href="External_demo.css">
+      <link rel="icon" type="image/png" href="https://kharis.org/wp-content/uploads/2022/08/Logo_transparent_noText.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=person" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=person" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- JSZip and FileSaver libraries for downloading images as ZIP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <title>Service Gallery</title>  
+</head> 
+
+<body>     
+    <style>
+      /* Text styling of choice from Google fonts */
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      body {
+       font-family: "Oswald", serif;
+       display: flex;
+       flex-direction: column;
+     }
+
+     header {
+       background-color: purple;
+       width: 105%;
+       padding: 0;
+       margin: 0;
+     }
+
+     .uicore.elementor-container {
+       display: flex;
+       align-items: center;
+       padding: 0;
+       margin: 0;
+       width: 100%;
+     }
+
+     .uicore-branding {
+       background-color: purple;
+       padding: 20px;
+       width: 100%;
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-branding a {
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-logo {
+       width: 8% !important;
+       height: auto;
+     }
+
+     @media screen and (max-width: 768px) {
+        .topnav {
+            padding-left: 0;
+        }
+        .uicore-logo {
+          width: 12% !important;
+        }
+     }
+
+     section.featured-gallery {
+       flex: 1;
+       display: flex;
+       flex-direction: column;
+     }
+
+    /* Gallery Grid */
+    .gallery-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    /* Row and Column Styles */
+    .row > .column {
+      padding: 0 8px;
+    }
+
+
+    /* Create four equal columns that floats next to eachother */
+    .column {
+      float: left;
+      padding: 0 8px;
+      display: flex;
+      flex-direction: column;
+      max-inline-size: 100%;
+    }
+
+    /* The Modal (background) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: black;
+    }
+
+    /* Modal Content */
+    .modal-content {
+      position: relative;
+      background-color: #000;
+      margin: auto;
+      padding: 0;
+      width: 90%;
+      max-width: 1200px;
+    }
+
+    /* The Close Button */
+    .close {
+      color: white;
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #999;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Hide the slides by default */
+    .mySlides {
+      display: none;
+    }
+
+    /* Next & previous buttons */
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      padding: 16px;
+      margin-top: -50px;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .prev {
+      left: 0;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Number text (1/3 etc) */
+    .numbertext {
+      color: #f2f2f2;
+      font-size: 12px;
+      padding: 8px 12px;
+      position: absolute;
+      top: 0;
+    }
+
+    /* Caption text */
+    .caption-container {
+      text-align: center;
+      background-color: black;
+      padding: 2px 16px;
+      color: white;
+    }
+
+    img.demo {
+      opacity: 0.6;
+      cursor: pointer;
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: 0.3s;
+      flex-grow: 1;
+    }
+
+    .active,
+    .demo:hover {
+      opacity: 1;
+    }
+
+    img.hover-shadow {
+      transition: 0.3s;
+    }
+
+    .hover-shadow:hover {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    /* Responsive columns for mobile */
+    @media screen and (max-width: 1200px) {
+      .gallery-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media screen and (max-width: 800px) {
+      .column {
+        width: 50%;
+      }
+      .gallery-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+      img.demo {
+        height: 200px;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .column {
+        width: 100%;
+      }
+      .gallery-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      img.demo {
+        height: 180px;
+      }
+    }
+
+    .btn {
+      background-color: rgb(115, 16, 118);
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 500;
+      padding: 10px 20px;
+      letter-spacing: 0.5px;
+      border-radius: 5000px;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .btn--download {
+      padding: 16px 32px 15px 20px;
+      font-size: 16px;
+      position: fixed;
+      bottom: 27px;
+      left: calc(46%);
+      z-index: 100;
+      text-align: center;
+      box-shadow: 0 6px 23px rgba(0,0,0,0.45);
+      animation: fade-up 0.5s 0.4s backwards;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn--download:hover {
+      text-decoration: none;
+      background-color: rgb(61, 37, 68);
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Darker background on mouse-over */
+    .btn:hover {
+      background-color: rgb(61, 37, 68);
+    }
+
+    .btn--back {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 18px;
+      margin-right: 20px;
+      margin-left: 20px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      transition: background 0.2s;
+      align-self: center;
+      white-space: nowrap;
+      order: -1;
+    }
+
+    .btn--back:hover {
+      background: rgba(255,255,255,0.25);
+      color: white;
+    }
+
+   </style>
+ <header>
+            <nav class="uicore elementor-container">
+                     <div class="uicore-branding">
+                
+            <a href="/Index.html" rel="home">
+                <img class="uicore uicore-logo uicore-main" src="https://kharis.org/wp-content/uploads/2022/08/Logo_transparent_noText.png" alt="Kharis Church">
+                    </a>
+
+                </div>
+                <a href="/Gallery-Selection/Midweek-Service-Selection.HTML" class="btn--back">&#8592; Back</a>
+      </nav>
+    </header>
+<section class="featured-gallery">
+    <div class="categories">
+      <div class="small-container">
+        <div class="row row-2">
+          <h2>Midweek Service</h2>
+      </div>
+
+      <div>
+      <button onclick="downloadAllImagesAsZip()" class="btn btn--download">
+           <i class="fa fa-download"></i> Download all <span class="u-bolder">photos</span>
+      </button>
+      </div>
+
+    <div class="gallery-row">
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/010B9879-765E-4447-A8F8-5D55FEA8984C.jpg" onclick="openModal();currentSlide(1)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/04021FE6-4580-4FE9-AF81-D35608A7F0E6.jpg" onclick="openModal();currentSlide(2)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/060A2B40-5B2D-43D9-93DA-7C0FF7893249.jpg" onclick="openModal();currentSlide(3)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/0661120F-469A-4096-B19A-F891DB4FE93C.jpg" onclick="openModal();currentSlide(4)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/08DD95F0-D99C-4E61-9BA1-AF9336396623.jpg" onclick="openModal();currentSlide(5)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/09015353-4AF3-4725-8172-31A65CE32B6F.jpg" onclick="openModal();currentSlide(6)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/0A785360-E3B9-4FD9-A8D3-DCB8FE9D70B5.jpg" onclick="openModal();currentSlide(7)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/0D0B0C1A-BE6E-4B63-A992-3E0E765BA181.jpg" onclick="openModal();currentSlide(8)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/10DBDACD-B0E9-4500-B86B-586A95BC7B7E.jpg" onclick="openModal();currentSlide(9)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/1C448439-0C47-4BDB-A869-F0F91FF1DFF8.jpg" onclick="openModal();currentSlide(10)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/1FEB25F0-19E0-4080-AD86-DA81E67D3293.jpg" onclick="openModal();currentSlide(11)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/2194268C-91B4-4E43-936D-C120C4C3DDED.jpg" onclick="openModal();currentSlide(12)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/242168F7-4701-4F27-B3DB-8AF996E6B738.jpg" onclick="openModal();currentSlide(13)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/297292CE-0DF3-4BBE-89ED-3FC3D3B798C0.jpg" onclick="openModal();currentSlide(14)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/2B131BE9-4FE9-4A8B-8EE5-E97AED663735.jpg" onclick="openModal();currentSlide(15)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/2D482B89-1291-4BE1-B20B-1F5EB597FF66.jpg" onclick="openModal();currentSlide(16)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/2F67921F-19A2-4DAC-88A5-17616FE4EE61.jpg" onclick="openModal();currentSlide(17)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/3390EC13-2322-4592-AA0D-DF7E66D86864.jpg" onclick="openModal();currentSlide(18)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/33E32A1F-5AB7-4C5F-AEB1-17E40DCBBFA5.jpg" onclick="openModal();currentSlide(19)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/340D911D-5C55-4F18-97C6-6932AD1CBD82.jpg" onclick="openModal();currentSlide(20)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/351FD641-9F85-45C3-9EBE-DCD7EEB8B963.jpg" onclick="openModal();currentSlide(21)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/37AF303B-F205-451C-A322-ED92C71A4921.jpg" onclick="openModal();currentSlide(22)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/3A940A50-A8D6-469B-8D47-052C42AD5F57.jpg" onclick="openModal();currentSlide(23)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/3C1EFB07-C608-4DE1-BC24-2159599A43EE.jpg" onclick="openModal();currentSlide(24)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/419A4255-9B68-4DC2-9231-47A91CF09FBC.jpg" onclick="openModal();currentSlide(25)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/4243CD56-F6CF-40B4-9BE2-C6E372E42C75.jpg" onclick="openModal();currentSlide(26)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/42FF5491-3CDE-4565-9C4D-96B1CF866D52.jpg" onclick="openModal();currentSlide(27)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/4329EF28-EE5D-4900-ADFF-0874DD04AE0B.jpg" onclick="openModal();currentSlide(28)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/4773EE56-C18E-4063-8701-9AA84776C427.jpg" onclick="openModal();currentSlide(29)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/4939D0B8-37E4-4081-9674-E05BC66D276A.jpg" onclick="openModal();currentSlide(30)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/4C9DC187-2E62-4474-BE0C-4F1487065868.jpg" onclick="openModal();currentSlide(31)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/4D2A11DE-4BFF-4664-A281-F955E532249A.jpg" onclick="openModal();currentSlide(32)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/4E33F0CA-3CAC-435C-9510-2F278F42BA3F.jpg" onclick="openModal();currentSlide(33)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/5095E548-380A-4B30-BB99-23190EDB37D6.jpg" onclick="openModal();currentSlide(34)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/54FDFCF3-4D3B-444A-8CC7-89D649982AFC.jpg" onclick="openModal();currentSlide(35)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/57D11C1C-EAE4-4B5D-AEAD-686C31093CB1.jpg" onclick="openModal();currentSlide(36)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/57FBE5E0-086A-452D-BF6E-24EB8379F8B8.jpg" onclick="openModal();currentSlide(37)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/5C2AF318-3334-4207-B8A0-3D6FD70A8BA9.jpg" onclick="openModal();currentSlide(38)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/5CDE4C50-09BB-4CD5-B6E4-79600C869A45.jpg" onclick="openModal();currentSlide(39)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/5CE5B7FF-AAD2-430E-8FB7-66A4464A6647.jpg" onclick="openModal();currentSlide(40)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/5ED64B2D-EFC4-4598-A1B7-C33DD4885F2D.jpg" onclick="openModal();currentSlide(41)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/5F5A9226-1495-473D-A6BB-5FB472E5DF51.jpg" onclick="openModal();currentSlide(42)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/60CEB476-A414-4FCA-BBDF-F1BCA71F4BFD.jpg" onclick="openModal();currentSlide(43)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/61F60779-0FD2-4B49-9270-F113A6C66DC3.jpg" onclick="openModal();currentSlide(44)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/67C65477-FCE4-47C4-B31A-9C87C35432EA.jpg" onclick="openModal();currentSlide(45)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/6C01FEBB-F564-4B0E-9FB2-C22BA92253B6.jpg" onclick="openModal();currentSlide(46)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/750B32E1-F419-4904-89A6-C72752CD527A.jpg" onclick="openModal();currentSlide(47)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/7760320A-71FC-456E-9D52-62CCE7BFEBE4.jpg" onclick="openModal();currentSlide(48)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/7BEE7C5D-93C8-4220-9D5B-F51324D520D9.jpg" onclick="openModal();currentSlide(49)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/7F75990E-0517-4375-83D6-2960FBDE5096.jpg" onclick="openModal();currentSlide(50)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/80AF87A9-C6FE-41FE-9571-1ABC7E4BC4F7.jpg" onclick="openModal();currentSlide(51)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/8162A121-2C5B-4EAB-A3FC-D0C62B5F2B71.jpg" onclick="openModal();currentSlide(52)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/83CB9BE0-756F-462C-A5F7-DFBE657B9D66.jpg" onclick="openModal();currentSlide(53)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/85E3443D-8892-4605-90F1-2B8CB3C97BB7.jpg" onclick="openModal();currentSlide(54)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/8747E96C-A380-4F7C-9941-E5BAF83B13AB.jpg" onclick="openModal();currentSlide(55)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/899A3FAA-918D-4342-A6F1-D17BEA2FCA23.jpg" onclick="openModal();currentSlide(56)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/8B411BE2-D1CE-49B8-BF7E-FC5745C68904.jpg" onclick="openModal();currentSlide(57)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/8C8AD41E-4FA8-40C5-92A3-3DC55CCDA7F7.jpg" onclick="openModal();currentSlide(58)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/8FA3F67F-FD78-47CC-A816-96F3395F4637.jpg" onclick="openModal();currentSlide(59)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/90FB3848-3EAF-47F0-B92B-15716DFE81D2.jpg" onclick="openModal();currentSlide(60)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/91928FBB-121C-4680-86CB-6739EDAA21E4.jpg" onclick="openModal();currentSlide(61)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/97DD9686-7337-4CB0-B634-1B2C1CE5A704.jpg" onclick="openModal();currentSlide(62)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/9D584292-31A0-42A9-9CB1-97970F2002B7.jpg" onclick="openModal();currentSlide(63)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/A253AA90-CED4-4148-AF60-6921A665BCA7.jpg" onclick="openModal();currentSlide(64)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/A25F9877-9CA6-408A-A2B1-4A8F82B52EBE.jpg" onclick="openModal();currentSlide(65)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/A5A4F458-6EBA-4A10-BCB5-1A5C343E260B.jpg" onclick="openModal();currentSlide(66)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/A65E0A8F-7D98-4127-AA52-EE646427DFDB.jpg" onclick="openModal();currentSlide(67)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/A90F2F94-D334-4CC5-85EC-81A5C249B0CC.jpg" onclick="openModal();currentSlide(68)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/A93809AC-7BC7-472B-A92A-8A26F8758190.jpg" onclick="openModal();currentSlide(69)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/A96D6D4E-FC02-421A-8980-768A509A5AE3.jpg" onclick="openModal();currentSlide(70)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/A9F6382E-9321-4AFA-8FD6-E71DBED1A629.jpg" onclick="openModal();currentSlide(71)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/AB6CACBA-5211-4561-A94B-898C9BB44DC4.jpg" onclick="openModal();currentSlide(72)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/AD91C37F-4731-412F-98E9-C4FAA1FC38C7.jpg" onclick="openModal();currentSlide(73)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/AE1E381F-4063-4D3D-95E9-B4353885F5F0.jpg" onclick="openModal();currentSlide(74)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/B0DB783A-2EFE-4859-BC7A-628C3579C336.jpg" onclick="openModal();currentSlide(75)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/B242E920-C720-40A4-BE78-A4B0BE12DD48.jpg" onclick="openModal();currentSlide(76)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/B82B456D-651C-4EE8-969A-48381A2F93B0.jpg" onclick="openModal();currentSlide(77)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/BAFD12BA-698D-49EA-A71A-B4F72A63E25F.jpg" onclick="openModal();currentSlide(78)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/BBB06F8E-CD1C-4FBC-85A1-70DB173FF568.jpg" onclick="openModal();currentSlide(79)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/BE09843B-1061-4739-A9F2-B7805059F3FC.jpg" onclick="openModal();currentSlide(80)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/C384C4C6-805E-4CFE-9AE1-0B56E4C983C9.jpg" onclick="openModal();currentSlide(81)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/C8C69418-838D-43DE-9CB8-D59353F16F4C.jpg" onclick="openModal();currentSlide(82)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/C9547C7E-3490-453B-870F-D03509D41D62.jpg" onclick="openModal();currentSlide(83)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/CB87D95A-B798-4160-9EEC-16956C3927C3.jpg" onclick="openModal();currentSlide(84)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/CFD1D9A3-85DD-4090-94AB-1E6AA0F76AF3.jpg" onclick="openModal();currentSlide(85)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/D2BC4796-9E34-47C3-94B8-5209475D0A7A.jpg" onclick="openModal();currentSlide(86)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/D2C9822D-35A4-4DA3-9DDC-F7BFB73E3EFC.jpg" onclick="openModal();currentSlide(87)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/DB1BF5B7-F96B-4E03-B7BB-13A4BCB35678.jpg" onclick="openModal();currentSlide(88)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/DB2C256A-AAA2-4303-BB02-0A6EDE57F52B.jpg" onclick="openModal();currentSlide(89)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/DD263185-F9EA-4ABE-961A-E5A8C90B952B.jpg" onclick="openModal();currentSlide(90)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/DD4D8ED5-E40A-4024-93EA-7622A8CF8A7C.jpg" onclick="openModal();currentSlide(91)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/DD95785D-F5DD-416C-93E8-F01A83ED469C.jpg" onclick="openModal();currentSlide(92)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/E14796AE-2773-4422-AA74-65EB2E5CACAA.jpg" onclick="openModal();currentSlide(93)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/E1A8BF24-FFCC-4E1D-AE0B-A1493A6F612D.jpg" onclick="openModal();currentSlide(94)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/E295444F-9E3B-4421-B546-4AA4535C9DAF.jpg" onclick="openModal();currentSlide(95)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/E3829241-1A67-4F28-921A-A92C178557F9.jpg" onclick="openModal();currentSlide(96)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/E4851385-4219-46E3-A401-3BB96A181A47.jpg" onclick="openModal();currentSlide(97)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/EC047E08-21E9-4644-BB19-864DE54AC8C2.jpg" onclick="openModal();currentSlide(98)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/EFDB9C87-06B5-4D01-8FA0-16BE9F802EB9.jpg" onclick="openModal();currentSlide(99)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/F0897870-9411-4D90-8123-429993ED8B2E.jpg" onclick="openModal();currentSlide(100)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/F3567420-2F5C-4CFD-BAD8-94CF0A4EC83D.jpg" onclick="openModal();currentSlide(101)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/F523932D-41AB-49C8-88F9-4E90D5CB7954.jpg" onclick="openModal();currentSlide(102)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/F6071A67-1799-460F-8287-C65D86EA779D.jpg" onclick="openModal();currentSlide(103)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/FC86D2F5-59E3-4F86-A120-407726A7B2E1.jpg" onclick="openModal();currentSlide(104)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/FEF10897-298F-4898-A290-4091420D7A50.jpg" onclick="openModal();currentSlide(105)" alt="Service Photo">
+      </div>
+    </div>
+</section>
+
+<!-- The Modal/Lightbox -->
+<div id="myModal" class="modal">
+  <span class="close cursor" onclick="closeModal()">&times;</span>
+  <div class="modal-content">
+
+    <div class="mySlides">
+      <div class="numbertext">1 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/010B9879-765E-4447-A8F8-5D55FEA8984C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">2 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/04021FE6-4580-4FE9-AF81-D35608A7F0E6.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">3 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/060A2B40-5B2D-43D9-93DA-7C0FF7893249.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">4 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/0661120F-469A-4096-B19A-F891DB4FE93C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">5 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/08DD95F0-D99C-4E61-9BA1-AF9336396623.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">6 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/09015353-4AF3-4725-8172-31A65CE32B6F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">7 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/0A785360-E3B9-4FD9-A8D3-DCB8FE9D70B5.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">8 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/0D0B0C1A-BE6E-4B63-A992-3E0E765BA181.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">9 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/10DBDACD-B0E9-4500-B86B-586A95BC7B7E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">10 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/1C448439-0C47-4BDB-A869-F0F91FF1DFF8.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">11 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/1FEB25F0-19E0-4080-AD86-DA81E67D3293.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">12 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/2194268C-91B4-4E43-936D-C120C4C3DDED.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">13 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/242168F7-4701-4F27-B3DB-8AF996E6B738.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">14 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/297292CE-0DF3-4BBE-89ED-3FC3D3B798C0.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">15 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/2B131BE9-4FE9-4A8B-8EE5-E97AED663735.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">16 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/2D482B89-1291-4BE1-B20B-1F5EB597FF66.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">17 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/2F67921F-19A2-4DAC-88A5-17616FE4EE61.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">18 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/3390EC13-2322-4592-AA0D-DF7E66D86864.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">19 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/33E32A1F-5AB7-4C5F-AEB1-17E40DCBBFA5.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">20 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/340D911D-5C55-4F18-97C6-6932AD1CBD82.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">21 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/351FD641-9F85-45C3-9EBE-DCD7EEB8B963.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">22 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/37AF303B-F205-451C-A322-ED92C71A4921.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">23 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/3A940A50-A8D6-469B-8D47-052C42AD5F57.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">24 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/3C1EFB07-C608-4DE1-BC24-2159599A43EE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">25 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/419A4255-9B68-4DC2-9231-47A91CF09FBC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">26 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/4243CD56-F6CF-40B4-9BE2-C6E372E42C75.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">27 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/42FF5491-3CDE-4565-9C4D-96B1CF866D52.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">28 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/4329EF28-EE5D-4900-ADFF-0874DD04AE0B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">29 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/4773EE56-C18E-4063-8701-9AA84776C427.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">30 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/4939D0B8-37E4-4081-9674-E05BC66D276A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">31 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/4C9DC187-2E62-4474-BE0C-4F1487065868.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">32 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/4D2A11DE-4BFF-4664-A281-F955E532249A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">33 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/4E33F0CA-3CAC-435C-9510-2F278F42BA3F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">34 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/5095E548-380A-4B30-BB99-23190EDB37D6.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">35 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/54FDFCF3-4D3B-444A-8CC7-89D649982AFC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">36 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/57D11C1C-EAE4-4B5D-AEAD-686C31093CB1.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">37 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/57FBE5E0-086A-452D-BF6E-24EB8379F8B8.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">38 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/5C2AF318-3334-4207-B8A0-3D6FD70A8BA9.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">39 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/5CDE4C50-09BB-4CD5-B6E4-79600C869A45.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">40 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/5CE5B7FF-AAD2-430E-8FB7-66A4464A6647.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">41 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/5ED64B2D-EFC4-4598-A1B7-C33DD4885F2D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">42 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/5F5A9226-1495-473D-A6BB-5FB472E5DF51.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">43 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/60CEB476-A414-4FCA-BBDF-F1BCA71F4BFD.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">44 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/61F60779-0FD2-4B49-9270-F113A6C66DC3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">45 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/67C65477-FCE4-47C4-B31A-9C87C35432EA.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">46 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/6C01FEBB-F564-4B0E-9FB2-C22BA92253B6.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">47 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/750B32E1-F419-4904-89A6-C72752CD527A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">48 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/7760320A-71FC-456E-9D52-62CCE7BFEBE4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">49 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/7BEE7C5D-93C8-4220-9D5B-F51324D520D9.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">50 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/7F75990E-0517-4375-83D6-2960FBDE5096.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">51 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/80AF87A9-C6FE-41FE-9571-1ABC7E4BC4F7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">52 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/8162A121-2C5B-4EAB-A3FC-D0C62B5F2B71.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">53 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/83CB9BE0-756F-462C-A5F7-DFBE657B9D66.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">54 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/85E3443D-8892-4605-90F1-2B8CB3C97BB7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">55 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/8747E96C-A380-4F7C-9941-E5BAF83B13AB.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">56 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/899A3FAA-918D-4342-A6F1-D17BEA2FCA23.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">57 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/8B411BE2-D1CE-49B8-BF7E-FC5745C68904.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">58 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/8C8AD41E-4FA8-40C5-92A3-3DC55CCDA7F7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">59 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/8FA3F67F-FD78-47CC-A816-96F3395F4637.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">60 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/90FB3848-3EAF-47F0-B92B-15716DFE81D2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">61 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/91928FBB-121C-4680-86CB-6739EDAA21E4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">62 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/97DD9686-7337-4CB0-B634-1B2C1CE5A704.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">63 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/9D584292-31A0-42A9-9CB1-97970F2002B7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">64 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/A253AA90-CED4-4148-AF60-6921A665BCA7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">65 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/A25F9877-9CA6-408A-A2B1-4A8F82B52EBE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">66 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/A5A4F458-6EBA-4A10-BCB5-1A5C343E260B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">67 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/A65E0A8F-7D98-4127-AA52-EE646427DFDB.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">68 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/A90F2F94-D334-4CC5-85EC-81A5C249B0CC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">69 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/A93809AC-7BC7-472B-A92A-8A26F8758190.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">70 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/A96D6D4E-FC02-421A-8980-768A509A5AE3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">71 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/A9F6382E-9321-4AFA-8FD6-E71DBED1A629.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">72 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/AB6CACBA-5211-4561-A94B-898C9BB44DC4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">73 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/AD91C37F-4731-412F-98E9-C4FAA1FC38C7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">74 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/AE1E381F-4063-4D3D-95E9-B4353885F5F0.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">75 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/B0DB783A-2EFE-4859-BC7A-628C3579C336.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">76 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/B242E920-C720-40A4-BE78-A4B0BE12DD48.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">77 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/B82B456D-651C-4EE8-969A-48381A2F93B0.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">78 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/BAFD12BA-698D-49EA-A71A-B4F72A63E25F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">79 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/BBB06F8E-CD1C-4FBC-85A1-70DB173FF568.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">80 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/BE09843B-1061-4739-A9F2-B7805059F3FC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">81 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/C384C4C6-805E-4CFE-9AE1-0B56E4C983C9.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">82 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/C8C69418-838D-43DE-9CB8-D59353F16F4C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">83 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/C9547C7E-3490-453B-870F-D03509D41D62.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">84 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/CB87D95A-B798-4160-9EEC-16956C3927C3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">85 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/CFD1D9A3-85DD-4090-94AB-1E6AA0F76AF3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">86 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/D2BC4796-9E34-47C3-94B8-5209475D0A7A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">87 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/D2C9822D-35A4-4DA3-9DDC-F7BFB73E3EFC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">88 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/DB1BF5B7-F96B-4E03-B7BB-13A4BCB35678.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">89 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/DB2C256A-AAA2-4303-BB02-0A6EDE57F52B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">90 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/DD263185-F9EA-4ABE-961A-E5A8C90B952B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">91 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/DD4D8ED5-E40A-4024-93EA-7622A8CF8A7C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">92 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/DD95785D-F5DD-416C-93E8-F01A83ED469C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">93 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/E14796AE-2773-4422-AA74-65EB2E5CACAA.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">94 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/E1A8BF24-FFCC-4E1D-AE0B-A1493A6F612D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">95 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/E295444F-9E3B-4421-B546-4AA4535C9DAF.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">96 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/E3829241-1A67-4F28-921A-A92C178557F9.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">97 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/E4851385-4219-46E3-A401-3BB96A181A47.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">98 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/EC047E08-21E9-4644-BB19-864DE54AC8C2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">99 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/EFDB9C87-06B5-4D01-8FA0-16BE9F802EB9.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">100 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/F0897870-9411-4D90-8123-429993ED8B2E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">101 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/F3567420-2F5C-4CFD-BAD8-94CF0A4EC83D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">102 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/F523932D-41AB-49C8-88F9-4E90D5CB7954.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">103 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/F6071A67-1799-460F-8287-C65D86EA779D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">104 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/FC86D2F5-59E3-4F86-A120-407726A7B2E1.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">105 / 105</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/Midweek Photos/Midweek photos 2/FEF10897-298F-4898-A290-4091420D7A50.jpg" style="width:100%">
+    </div>
+
+    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+    <a class="next" onclick="changeSlide(1)">&#10095;</a>
+  </div>
+</div>
+
+<!-- Copyright Footer -->
+<footer style="background: #750c83; color: #fff; text-align: center; padding: 30px 10px 20px 10px; margin-top: auto; width: 100%;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <p style="font-size: 1.2em; margin-bottom: 10px;">
+            &copy; 2025 Kharis Church. All rights reserved.
+        </p>
+        <p style="margin-bottom: 10px;">
+            <a href="/Index.html" style="color: #fff; text-decoration: underline;">Home</a> |
+            <a href="mailto:info@kharis.org" style="color: #fff; text-decoration: underline;">Contact</a> |
+            <a href="https://www.facebook.com/KharisMinistries" target="_blank" style="color: #fff; text-decoration: underline;">Facebook</a> |
+            <a href="https://www.instagram.com/kharischurch/" target="_blank" style="color: #fff; text-decoration: underline;">Instagram</a>
+        </p>
+        <p style="font-size: 0.95em; opacity: 0.8;">
+            Kharis Church, London, UK
+        </p>
+    </div>
+</footer>
+
+<script>
+// Open the Modal
+function openModal() {
+  document.getElementById("myModal").style.display = "block";
+}
+
+// Close the Modal
+function closeModal() {
+  document.getElementById("myModal").style.display = "none";
+}
+
+var slideIndex = 1;
+
+// Next/previous controls
+function changeSlide(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("demo");
+  var captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  if (captionText) {
+    captionText.innerHTML = dots[slideIndex-1].alt;
+  }
+}
+
+// Initialize slides on page load
+showSlides(slideIndex);
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    let modal = document.getElementById("myModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") {
+        closeModal();
+    }
+});
+
+// Navigate with arrow keys
+document.addEventListener('keydown', function(e) {
+    let modal = document.getElementById("myModal");
+    if (modal.style.display === "block") {
+        if (e.key === "ArrowLeft") {
+            changeSlide(-1);
+        } else if (e.key === "ArrowRight") {
+            changeSlide(1);
+        }
+    }
+});
+
+// Download all images as ZIP
+async function downloadAllImagesAsZip() {
+  const zip = new JSZip();
+  const images = document.querySelectorAll('.gallery-row .demo');
+  
+  for (let i = 0; i < images.length; i++) {
+    const img = images[i];
+    try {
+      const response = await fetch(img.src);
+      const blob = await response.blob();
+      zip.file(`kharis-church-photo-${i + 1}.jpg`, blob);
+    } catch (error) {
+      console.error(`Failed to fetch image ${i + 1}:`, error);
+    }
+  }
+  
+  const content = await zip.generateAsync({type: 'blob'});
+  saveAs(content, 'kp2-birmingham-photos.zip');
+}
+</script>
+
+</body>
+</html>

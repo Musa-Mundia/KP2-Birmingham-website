@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" type="text/css" href="External_demo.css">
+      <link rel="icon" href="https://kp2-website-pz.b-cdn.net/media/Logo_transparent_noText.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=person" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=person" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- JSZip and FileSaver libraries for downloading images as ZIP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <title>Baptism</title>  
+</head> 
+
+<body>     
+    <style>
+      /* Text styling of choice from Google fonts */
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      body {
+       font-family: "Oswald", serif;
+       display: flex;
+       flex-direction: column;
+     }
+
+     header {
+       background-color: purple;
+       width: 100%;
+       padding: 0;
+       margin: 0;
+       box-sizing: border-box;
+     }
+
+     .uicore.elementor-container {
+       display: flex;
+       align-items: center;
+       padding: 0;
+       margin: 0;
+       width: 100%;
+     }
+
+     .uicore-branding {
+       background-color: purple;
+       padding: 20px;
+       width: 100%;
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-branding a {
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-logo {
+       width: 8% !important;
+       height: auto;
+     }
+
+     @media screen and (max-width: 768px) {
+        .topnav {
+            padding-left: 0;
+        }
+        .uicore-logo {
+          width: 12% !important;
+        }
+     }
+
+     section.featured-gallery {
+       flex: 1;
+       display: flex;
+       flex-direction: column;
+     }
+
+    /* Gallery Grid */
+    .gallery-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    /* Row and Column Styles */
+    .row > .column {
+      padding: 0 8px;
+    }
+
+
+    /* Create four equal columns that floats next to eachother */
+    .column {
+      float: left;
+      padding: 0 8px;
+      display: flex;
+      flex-direction: column;
+      max-inline-size: 100%;
+    }
+
+    /* The Modal (background) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: black;
+    }
+
+    /* Modal Content */
+    .modal-content {
+      position: relative;
+      background-color: #000;
+      margin: auto;
+      padding: 0;
+      width: 90%;
+      max-width: 1200px;
+    }
+
+    /* The Close Button */
+    .close {
+      color: white;
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #999;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Hide the slides by default */
+    .mySlides {
+      display: none;
+    }
+
+    /* Next & previous buttons */
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      padding: 16px;
+      margin-top: -50px;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .prev {
+      left: 0;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Number text (1/3 etc) */
+    .numbertext {
+      color: #f2f2f2;
+      font-size: 12px;
+      padding: 8px 12px;
+      position: absolute;
+      top: 0;
+    }
+
+    /* Caption text */
+    .caption-container {
+      text-align: center;
+      background-color: black;
+      padding: 2px 16px;
+      color: white;
+    }
+
+    img.demo {
+      opacity: 0.6;
+      cursor: pointer;
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: 0.3s;
+      flex-grow: 1;
+    }
+
+    .active,
+    .demo:hover {
+      opacity: 1;
+    }
+
+    img.hover-shadow {
+      transition: 0.3s;
+    }
+
+    .hover-shadow:hover {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    /* Responsive columns for mobile */
+    @media screen and (max-width: 1200px) {
+      .gallery-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media screen and (max-width: 800px) {
+      .column {
+        width: 50%;
+      }
+      .gallery-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+      img.demo {
+        height: 200px;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .column {
+        width: 100%;
+      }
+      .gallery-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      img.demo {
+        height: 180px;
+      }
+    }
+
+    .btn {
+      background-color: rgb(115, 16, 118);
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 500;
+      padding: 10px 20px;
+      letter-spacing: 0.5px;
+      border-radius: 5000px;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .btn--download {
+      padding: 16px 32px 15px 20px;
+      font-size: 16px;
+      position: fixed;
+      bottom: 27px;
+      left: calc(46%);
+      z-index: 100;
+      text-align: center;
+      box-shadow: 0 6px 23px rgba(0,0,0,0.45);
+      animation: fade-up 0.5s 0.4s backwards;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn--download:hover {
+      text-decoration: none;
+      background-color: rgb(61, 37, 68);
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Darker background on mouse-over */
+    .btn:hover {
+      background-color: rgb(61, 37, 68);
+    }
+
+    .btn--back {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 18px;
+      margin-right: 20px;
+      margin-left: 20px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      transition: background 0.2s;
+      align-self: center;
+      white-space: nowrap;
+      order: -1;
+    }
+
+    .btn--back:hover {
+      background: rgba(255,255,255,0.25);
+      color: white;
+    }
+
+   </style>
+ <header>
+            <nav class="uicore elementor-container">
+                     <div class="uicore-branding">
+                
+            <a href="/Index.html" rel="home">
+                <img class="uicore uicore-logo uicore-main" src="https://kharis.org/wp-content/uploads/2022/08/Logo_transparent_noText.png" alt="Kharis Church">
+                    </a>
+
+                </div>
+                <a href="/Gallery-Selection/Events-selection.HTML" class="btn--back">&#8592; Back</a>
+      </nav>
+    </header>
+<section class="featured-gallery">
+    <div class="categories">
+      <div class="small-container">
+        <div class="row row-2">
+          <h2>Baptism</h2>
+      </div>
+
+      <div>
+      <button onclick="downloadAllImagesAsZip()" class="btn btn--download">
+           <i class="fa fa-download"></i> Download all <span class="u-bolder">photos</span>
+      </button>
+      </div>
+
+    <div class="gallery-row">
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/031F725F-682E-4F36-8312-EF335CE44F9D.jpg" onclick="openModal();currentSlide(1)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/04FFE5CD-8CC5-4E47-A703-8E053BE5F5B6.jpg" onclick="openModal();currentSlide(2)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/058BD4ED-4FA4-4648-9775-540AE39AE751.jpg" onclick="openModal();currentSlide(3)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/0B0B0DC6-9D29-4370-95D5-4C3DE2CF25E1.jpg" onclick="openModal();currentSlide(4)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/0C8EB1C7-B6C2-481D-89D7-94E303B3DFD0.jpg" onclick="openModal();currentSlide(5)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/0CE33B93-9E9C-43B6-A5BC-43CEFBE0F14E.jpg" onclick="openModal();currentSlide(6)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/0D29695E-D98E-4129-BFB3-3C62D7E57F11.jpg" onclick="openModal();currentSlide(7)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/104ABADA-329A-441B-B63B-19F3E6FDA5DC.jpg" onclick="openModal();currentSlide(8)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/111C4453-4D07-4361-80AA-D5F29943F35C.jpg" onclick="openModal();currentSlide(9)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/11D77B4C-10A8-4692-8A1C-ECE7D0F12B7C.jpg" onclick="openModal();currentSlide(10)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/12C6E21D-94C7-4F76-BE24-748719D87CFE.jpg" onclick="openModal();currentSlide(11)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/1458C017-11A8-424F-8355-3409545B93DF.jpg" onclick="openModal();currentSlide(12)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/1CBCE389-BF9E-4F98-A3ED-CDE54F2F9FF9.jpg" onclick="openModal();currentSlide(13)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/1D17B19F-0B28-46FC-B46C-6A65B113E6E6.jpg" onclick="openModal();currentSlide(14)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/1F78E483-66B9-4A2F-8616-3BA314E1536B.jpg" onclick="openModal();currentSlide(15)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/1FC46B58-E0AD-4B73-8313-76781B31D0EE.jpg" onclick="openModal();currentSlide(16)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/21F3C1AF-E4A6-4E81-9D2E-16E9DC184CAA.jpg" onclick="openModal();currentSlide(17)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/2229C28B-F1AF-45C1-AE2A-09FA4062883C.jpg" onclick="openModal();currentSlide(18)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/251DE7D3-5155-40F1-9BD7-4F30986165FC.jpg" onclick="openModal();currentSlide(19)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/26805EEE-2E65-4A96-8B4A-F9BB0A70D11F.jpg" onclick="openModal();currentSlide(20)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/27C48665-29B6-40C6-846E-EC2683782EA6.jpg" onclick="openModal();currentSlide(21)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/2DDE3568-755F-4194-9AC8-AE7257C9232E.jpg" onclick="openModal();currentSlide(22)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/2E09AD11-0A89-4487-AB28-1A1B620F05AE.jpg" onclick="openModal();currentSlide(23)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/31FB032F-EF1B-4CF6-96C7-2479717E47F9.jpg" onclick="openModal();currentSlide(24)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/403EDBA0-DF24-48AC-86DF-61E00E87DAB5.jpg" onclick="openModal();currentSlide(25)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/406C223E-CC34-4D1F-9B4E-593C75BCF48D.jpg" onclick="openModal();currentSlide(26)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/4496CA32-45E8-4244-8466-F43468E4F0FF.jpg" onclick="openModal();currentSlide(27)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/44D6CA5E-2F04-48AE-95CA-2CA4E037967E.jpg" onclick="openModal();currentSlide(28)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/4550B692-876D-4680-96DE-00C14E16AE29.jpg" onclick="openModal();currentSlide(29)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/457D7941-8147-4C64-80C4-72F9D1431CE6.jpg" onclick="openModal();currentSlide(30)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/45EBBB84-DE16-48BA-B482-BB67D7A95FA5.jpg" onclick="openModal();currentSlide(31)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/4874F9CB-F964-44E4-B46A-6EF23C0BC1FE.jpg" onclick="openModal();currentSlide(32)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/4DFAFC3E-9325-4C65-8A28-B2D565A61EAC.jpg" onclick="openModal();currentSlide(33)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/502B55C1-F7D9-42EE-91FD-8B239F211415.jpg" onclick="openModal();currentSlide(34)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/532993AF-8A70-45C1-BD8B-7D909A0E03BC.jpg" onclick="openModal();currentSlide(35)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/587FA7BD-B214-41C2-BD05-7690F1CBD40F.jpg" onclick="openModal();currentSlide(36)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/5C753DEE-01A3-4C48-9A5C-A33B256FD578.jpg" onclick="openModal();currentSlide(37)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/610F6877-2EE7-4171-A798-B946C3F2F453.jpg" onclick="openModal();currentSlide(38)" alt="Service Photo">
+      </div>
+ 
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/652DEA3B-8764-4D73-8C8D-C8F91FAFD343.jpg" onclick="openModal();currentSlide(40)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/66262EFA-E213-4E38-ABD0-725F4EF23142.jpg" onclick="openModal();currentSlide(41)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/678A8E80-AB97-4545-BE85-9385363A5789.jpg" onclick="openModal();currentSlide(42)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/68B9813C-0E89-4C99-9269-123692B80CEE.jpg" onclick="openModal();currentSlide(43)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/6A55D71A-F5D6-4D51-BD46-B6021CC027A8.jpg" onclick="openModal();currentSlide(44)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/6EE95F48-414B-46E1-8B9C-0050B0DE41C8.jpg" onclick="openModal();currentSlide(45)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/6FC156E6-7F89-4F59-882D-741D4F52DA37.jpg" onclick="openModal();currentSlide(46)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/710153AB-128C-4CD3-9990-96AB23AC43AD.jpg" onclick="openModal();currentSlide(47)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/71BF7F6B-845E-405C-BEF2-81E53B195580.jpg" onclick="openModal();currentSlide(48)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/72A3DA4E-C83E-4BD1-86AB-9086083617EA.jpg" onclick="openModal();currentSlide(49)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/72B19A9A-9A01-4F23-B1CC-DCD7277F3DDC.jpg" onclick="openModal();currentSlide(50)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/73A7FF71-6736-40BE-A300-FA45FCA90E11.jpg" onclick="openModal();currentSlide(51)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/746147F6-7DD7-4EB3-9C96-B1CA247CE48C.jpg" onclick="openModal();currentSlide(52)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/752A6411-E63D-4C85-AE12-EF684C7A5278.jpg" onclick="openModal();currentSlide(53)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/75B80A72-7CF4-4C62-AD60-A99E8CFBBA95.jpg" onclick="openModal();currentSlide(54)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/762C70BC-E83D-41D7-AE50-D4554B5121B5.jpg" onclick="openModal();currentSlide(55)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/794C30C1-A9B7-4D8D-9CE3-E2DB60B62D34.jpg" onclick="openModal();currentSlide(56)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/7955368E-D7AC-491E-A1EE-E712276586CD.jpg" onclick="openModal();currentSlide(57)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/82ECEEBA-FD7E-4130-BBF4-1ECA1A309135.jpg" onclick="openModal();currentSlide(58)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/89207059-F84B-4DAB-BEA5-1C3B72813E74.jpg" onclick="openModal();currentSlide(59)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/8997208D-C0B4-44A7-9246-BB7FBFA56E67.jpg" onclick="openModal();currentSlide(60)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/89A72B2D-A341-4630-95EB-3E29ACA2851D.jpg" onclick="openModal();currentSlide(61)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/8CC76ADE-1EC3-4F3A-99B9-829E6812FC60.jpg" onclick="openModal();currentSlide(62)" alt="Service Photo">
+      </div>
+       <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/8E926DA0-9A6E-4FED-AE37-A80C968C6736.jpg" onclick="openModal();currentSlide(63)" alt="Service Photo">
+      </div>
+       <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/95AE6A19-558D-4B44-9DF0-9EB33A581C3D.jpg" onclick="openModal();currentSlide(64)" alt="Service Photo">
+      </div>
+       <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/9891F444-18E7-4EB2-AC0C-CD21C7446635.jpg" onclick="openModal();currentSlide(65)" alt="Service Photo">
+      </div>
+       <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/99B87D4A-06F0-45D2-99C8-504077FE3EDD.jpg" onclick="openModal();currentSlide(66)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/9D073635-36C0-4CF4-9F8B-8F1FB989B57B.jpg" onclick="openModal();currentSlide(67)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/9D2904CC-3893-4423-97C5-EA4F9AC1485A.jpg" onclick="openModal();currentSlide(68)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/9EE12D80-4738-41AD-BDCC-07C331988C20.jpg" onclick="openModal();currentSlide(69)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/A4D4EC08-A252-4AA9-A30D-98B9E3E62813.jpg" onclick="openModal();currentSlide(70)" alt="Service Photo">
+      </div>
+         <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/A6A7CE12-4711-4D51-BA61-FCD049125855.jpg" onclick="openModal();currentSlide(71)" alt="Service Photo">
+      </div>
+          <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/A75A7605-85E0-4FC0-9DFD-078E1F33B6C9.jpg" onclick="openModal();currentSlide(72)" alt="Service Photo">
+      </div>
+        <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/A9DC8667-D437-45D1-A737-4A15C55B038F.jpg" onclick="openModal();currentSlide(73)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/AC7D6306-817E-4059-9925-1A640459988E.jpg" onclick="openModal();currentSlide(74)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/ADCCF22D-1178-45EA-8FA7-0BADE287F49A.jpg" onclick="openModal();currentSlide(75)" alt="Service Photo">
+      </div>
+         <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/AED98507-99AE-42E2-B653-DAF8C35D25B1.jpg" onclick="openModal();currentSlide(76)" alt="Service Photo">
+      </div>
+          <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/AEE70818-1E0D-4A55-B31E-CA7727B7513A.jpg" onclick="openModal();currentSlide(77)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/AEF45F85-0292-432B-9C0A-97A19DF3F6E6.jpg" onclick="openModal();currentSlide(78)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/AF8A293F-892D-4B4D-858E-7EF7A272AC1F.jpg" onclick="openModal();currentSlide(79)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/B6E8D4A8-A254-4DF2-B0DB-48653EB087B6.jpg" onclick="openModal();currentSlide(80)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/B89D9865-3CEF-4CDC-A170-E831E95CC57E.jpg" onclick="openModal();currentSlide(81)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/BA270DF4-22B5-4B50-8CA0-67D68E4982DD.jpg" onclick="openModal();currentSlide(82)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/C692D517-E25F-4F0F-9126-D5A9A9D71B15.jpg" onclick="openModal();currentSlide(83)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/C6F97E9B-4B7A-4125-80C0-89EB12A60B2C.jpg" onclick="openModal();currentSlide(84)" alt="Service Photo">
+      </div>
+       <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/C8945BFD-2EA5-4EC5-BD6D-492D81EDA582.jpg" onclick="openModal();currentSlide(85)" alt="Service Photo">
+      </div>
+       <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/CB0A5754-A445-4AA3-9BB4-5FE671B23FC8.jpg" onclick="openModal();currentSlide(86)" alt="Service Photo">
+      </div>
+       <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/D018C841-5084-4633-890C-1E0B88ED03FD.jpg" onclick="openModal();currentSlide(87)" alt="Service Photo">
+      </div>
+       <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/D28091D6-630B-45E3-A7FA-C084C5E7AA40.jpg" onclick="openModal();currentSlide(88)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/D4E40222-A548-4767-9C10-212F0477A2EE.jpg" onclick="openModal();currentSlide(89)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/D5DF8089-BF2F-4AF9-A627-E2DED321813C.jpg" onclick="openModal();currentSlide(90)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/D7AF73C5-8898-40A4-B8F1-056B3A4DE1C4.jpg" onclick="openModal();currentSlide(91)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/D95DC1AB-4A2B-4556-A0F3-89CD90E2A620.jpg" onclick="openModal();currentSlide(92)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/DD7F3CEB-F4F6-4F52-9356-2B9A567D8D75.jpg" onclick="openModal();currentSlide(93)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/E2A74C66-83BD-4FD3-95BD-0B73980F344B.jpg" onclick="openModal();currentSlide(94)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/E534ECF8-C748-4065-9943-3C680490D9C8.jpg" onclick="openModal();currentSlide(95)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/E7D58A9A-9858-4EB4-9E87-DACAE91BD37F.jpg" onclick="openModal();currentSlide(96)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/E897B6F6-BCF9-489C-95B7-C7D82DD64AE6.jpg" onclick="openModal();currentSlide(97)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/EB15320E-A41A-493E-BDC2-948D5A24FF00.jpg" onclick="openModal();currentSlide(98)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/EF02AF2A-4B82-464B-B4C3-27C0EE6A1463.jpg" onclick="openModal();currentSlide(99)" alt="Service Photo">
+      </div>
+        <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/F51AB032-8C73-4B6A-BC8B-0D36254A355D.jpg" onclick="openModal();currentSlide(100)" alt="Service Photo">
+      </div>
+        <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/F64594F8-9EE3-494C-9CAF-ED29FE423DC2.jpg" onclick="openModal();currentSlide(101)" alt="Service Photo">
+      </div>
+       <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/F9E128B5-4B5F-4373-8655-EE8E106ACE2D.jpg" onclick="openModal();currentSlide(102)" alt="Service Photo">
+      </div>
+       <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/FB8E9F2D-BFDB-41BE-9489-96B948A04416.jpg" onclick="openModal();currentSlide(103)" alt="Service Photo">
+      </div>
+       <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/FC2B5E8D-0433-4560-9BDB-D5F3E8AB5928.jpg" onclick="openModal();currentSlide(104)" alt="Service Photo">
+      </div>
+       <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/FDD09FC9-A0BB-491F-B300-FF5962D3E186.jpg" onclick="openModal();currentSlide(105)" alt="Service Photo">
+      </div>
+       <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/FE2CF4AE-B260-4D53-85CD-3A9B3AFC6089.jpg" onclick="openModal();currentSlide(106)" alt="Service Photo">
+      </div>
+       <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/FEFD47E4-014D-4CAE-9726-60A5C52936AC.jpg" onclick="openModal();currentSlide(107)" alt="Service Photo">
+      </div>
+       <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/FF645CDB-EC3D-406D-B65F-40F6F69180E1.jpg" onclick="openModal();currentSlide(108)" alt="Service Photo">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The Modal/Lightbox -->
+<div id="myModal" class="modal">
+  <span class="close cursor" onclick="closeModal()">&times;</span>
+  <div class="modal-content">
+
+    <div class="mySlides">
+      <div class="numbertext">1 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/031F725F-682E-4F36-8312-EF335CE44F9D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">2 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/04FFE5CD-8CC5-4E47-A703-8E053BE5F5B6.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">3 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/058BD4ED-4FA4-4648-9775-540AE39AE751.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">4 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/0B0B0DC6-9D29-4370-95D5-4C3DE2CF25E1.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">5 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/0C8EB1C7-B6C2-481D-89D7-94E303B3DFD0.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">6 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/0CE33B93-9E9C-43B6-A5BC-43CEFBE0F14E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">7 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/0D29695E-D98E-4129-BFB3-3C62D7E57F11.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">8 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/104ABADA-329A-441B-B63B-19F3E6FDA5DC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">9 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/111C4453-4D07-4361-80AA-D5F29943F35C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">10 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/11D77B4C-10A8-4692-8A1C-ECE7D0F12B7C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">11 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/12C6E21D-94C7-4F76-BE24-748719D87CFE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">12 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/1458C017-11A8-424F-8355-3409545B93DF.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">13 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/1CBCE389-BF9E-4F98-A3ED-CDE54F2F9FF9.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">14 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/1D17B19F-0B28-46FC-B46C-6A65B113E6E6.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">15 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/1F78E483-66B9-4A2F-8616-3BA314E1536B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">16 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/1FC46B58-E0AD-4B73-8313-76781B31D0EE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">17 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/21F3C1AF-E4A6-4E81-9D2E-16E9DC184CAA.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">18 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/2229C28B-F1AF-45C1-AE2A-09FA4062883C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">19 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/251DE7D3-5155-40F1-9BD7-4F30986165FC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">20 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/26805EEE-2E65-4A96-8B4A-F9BB0A70D11F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">21 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/27C48665-29B6-40C6-846E-EC2683782EA6.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">22 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/2DDE3568-755F-4194-9AC8-AE7257C9232E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">23 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/2E09AD11-0A89-4487-AB28-1A1B620F05AE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">24 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/31FB032F-EF1B-4CF6-96C7-2479717E47F9.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">25 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/403EDBA0-DF24-48AC-86DF-61E00E87DAB5.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">26 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/406C223E-CC34-4D1F-9B4E-593C75BCF48D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">27 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/4496CA32-45E8-4244-8466-F43468E4F0FF.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">28 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/44D6CA5E-2F04-48AE-95CA-2CA4E037967E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">29 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/4550B692-876D-4680-96DE-00C14E16AE29.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">30 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/457D7941-8147-4C64-80C4-72F9D1431CE6.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">31 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/45EBBB84-DE16-48BA-B482-BB67D7A95FA5.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">32 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/4874F9CB-F964-44E4-B46A-6EF23C0BC1FE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">33 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/4DFAFC3E-9325-4C65-8A28-B2D565A61EAC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">34 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/502B55C1-F7D9-42EE-91FD-8B239F211415.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">35 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/532993AF-8A70-45C1-BD8B-7D909A0E03BC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">36 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/587FA7BD-B214-41C2-BD05-7690F1CBD40F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">37 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/5C753DEE-01A3-4C48-9A5C-A33B256FD578.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">38 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/610F6877-2EE7-4171-A798-B946C3F2F453.jpg" style="width:100%">
+    </div>
+
+    
+
+    <div class="mySlides">
+      <div class="numbertext">40 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/652DEA3B-8764-4D73-8C8D-C8F91FAFD343.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">41 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/66262EFA-E213-4E38-ABD0-725F4EF23142.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">42 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/678A8E80-AB97-4545-BE85-9385363A5789.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">43 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/68B9813C-0E89-4C99-9269-123692B80CEE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">44 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/6A55D71A-F5D6-4D51-BD46-B6021CC027A8.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">45 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/6EE95F48-414B-46E1-8B9C-0050B0DE41C8.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">46 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/6FC156E6-7F89-4F59-882D-741D4F52DA37.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">47 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/710153AB-128C-4CD3-9990-96AB23AC43AD.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">48 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/71BF7F6B-845E-405C-BEF2-81E53B195580.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">49 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/72A3DA4E-C83E-4BD1-86AB-9086083617EA.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">50 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/72B19A9A-9A01-4F23-B1CC-DCD7277F3DDC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">51 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/73A7FF71-6736-40BE-A300-FA45FCA90E11.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">52 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/746147F6-7DD7-4EB3-9C96-B1CA247CE48C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">53 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/752A6411-E63D-4C85-AE12-EF684C7A5278.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">54 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/75B80A72-7CF4-4C62-AD60-A99E8CFBBA95.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">55 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/762C70BC-E83D-41D7-AE50-D4554B5121B5.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">56 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/794C30C1-A9B7-4D8D-9CE3-E2DB60B62D34.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">57 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/7955368E-D7AC-491E-A1EE-E712276586CD.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">58 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/82ECEEBA-FD7E-4130-BBF4-1ECA1A309135.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">59 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/89207059-F84B-4DAB-BEA5-1C3B72813E74.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">60 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/8997208D-C0B4-44A7-9246-BB7FBFA56E67.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">61 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/89A72B2D-A341-4630-95EB-3E29ACA2851D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">62 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/8CC76ADE-1EC3-4F3A-99B9-829E6812FC60.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">63 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/8E926DA0-9A6E-4FED-AE37-A80C968C6736.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">64 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/95AE6A19-558D-4B44-9DF0-9EB33A581C3D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">65 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/9891F444-18E7-4EB2-AC0C-CD21C7446635.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">66 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/99B87D4A-06F0-45D2-99C8-504077FE3EDD.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">67 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/9D073635-36C0-4CF4-9F8B-8F1FB989B57B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">68 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/9D2904CC-3893-4423-97C5-EA4F9AC1485A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">69 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/9EE12D80-4738-41AD-BDCC-07C331988C20.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">70 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/A4D4EC08-A252-4AA9-A30D-98B9E3E62813.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">71 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/A6A7CE12-4711-4D51-BA61-FCD049125855.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">72 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/A75A7605-85E0-4FC0-9DFD-078E1F33B6C9.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">73 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/A9DC8667-D437-45D1-A737-4A15C55B038F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">74 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/AC7D6306-817E-4059-9925-1A640459988E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">75 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/ADCCF22D-1178-45EA-8FA7-0BADE287F49A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">76 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/AED98507-99AE-42E2-B653-DAF8C35D25B1.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">77 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/AEE70818-1E0D-4A55-B31E-CA7727B7513A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">78 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/AEF45F85-0292-432B-9C0A-97A19DF3F6E6.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">79 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/AF8A293F-892D-4B4D-858E-7EF7A272AC1F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">80 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/B6E8D4A8-A254-4DF2-B0DB-48653EB087B6.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">81 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/B89D9865-3CEF-4CDC-A170-E831E95CC57E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">82 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/BA270DF4-22B5-4B50-8CA0-67D68E4982DD.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">83 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/C692D517-E25F-4F0F-9126-D5A9A9D71B15.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">84 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/C6F97E9B-4B7A-4125-80C0-89EB12A60B2C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">85 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/C8945BFD-2EA5-4EC5-BD6D-492D81EDA582.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">86 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/CB0A5754-A445-4AA3-9BB4-5FE671B23FC8.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">87 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/D018C841-5084-4633-890C-1E0B88ED03FD.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">88 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/D28091D6-630B-45E3-A7FA-C084C5E7AA40.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">89 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/D4E40222-A548-4767-9C10-212F0477A2EE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">90 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/D5DF8089-BF2F-4AF9-A627-E2DED321813C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">91 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/D7AF73C5-8898-40A4-B8F1-056B3A4DE1C4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">92 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/D95DC1AB-4A2B-4556-A0F3-89CD90E2A620.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">93 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/DD7F3CEB-F4F6-4F52-9356-2B9A567D8D75.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">94 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/E2A74C66-83BD-4FD3-95BD-0B73980F344B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">95 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/E534ECF8-C748-4065-9943-3C680490D9C8.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">96 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/E7D58A9A-9858-4EB4-9E87-DACAE91BD37F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">97 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/E897B6F6-BCF9-489C-95B7-C7D82DD64AE6.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">98 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/EB15320E-A41A-493E-BDC2-948D5A24FF00.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">99 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/EF02AF2A-4B82-464B-B4C3-27C0EE6A1463.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">100 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/F51AB032-8C73-4B6A-BC8B-0D36254A355D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">101 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/F64594F8-9EE3-494C-9CAF-ED29FE423DC2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">102 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/F9E128B5-4B5F-4373-8655-EE8E106ACE2D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">103 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/FB8E9F2D-BFDB-41BE-9489-96B948A04416.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">104 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/FC2B5E8D-0433-4560-9BDB-D5F3E8AB5928.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">105 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/FDD09FC9-A0BB-491F-B300-FF5962D3E186.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">106 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/FE2CF4AE-B260-4D53-85CD-3A9B3AFC6089.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">107 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/FEFD47E4-014D-4CAE-9726-60A5C52936AC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">108 / 108</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Baptism/FF645CDB-EC3D-406D-B65F-40F6F69180E1.jpg" style="width:100%">
+    </div>
+
+   
+
+    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+    <a class="next" onclick="changeSlide(1)">&#10095;</a>
+  </div>
+</div>
+
+<!-- Copyright Footer -->
+<footer style="background: #750c83; color: #fff; text-align: center; padding: 30px 10px 20px 10px; margin: 0; width: 100%; box-sizing: border-box; margin-top: auto;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <p style="font-size: 1.2em; margin-bottom: 10px;">
+            &copy; 2025 Kharis Church. All rights reserved.
+        </p>
+        <p style="margin-bottom: 10px;">
+            <a href="/Index.html" style="color: #fff; text-decoration: underline;">Home</a> |
+            <a href="mailto:info@kharis.org" style="color: #fff; text-decoration: underline;">Contact</a> |
+            <a href="https://www.facebook.com/KharisMinistries" target="_blank" style="color: #fff; text-decoration: underline;">Facebook</a> |
+            <a href="https://www.instagram.com/kharischurch/" target="_blank" style="color: #fff; text-decoration: underline;">Instagram</a>
+        </p>
+        <p style="font-size: 0.95em; opacity: 0.8;">
+            Kharis Church, London, UK
+        </p>
+    </div>
+</footer>
+
+<script>
+// Open the Modal
+function openModal() {
+  document.getElementById("myModal").style.display = "block";
+}
+
+// Close the Modal
+function closeModal() {
+  document.getElementById("myModal").style.display = "none";
+}
+
+var slideIndex = 1;
+
+// Next/previous controls
+function changeSlide(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("demo");
+  var captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  if (captionText) {
+    captionText.innerHTML = dots[slideIndex-1].alt;
+  }
+}
+
+// Initialize slides on page load
+showSlides(slideIndex);
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    let modal = document.getElementById("myModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") {
+        closeModal();
+    }
+});
+
+// Navigate with arrow keys
+document.addEventListener('keydown', function(e) {
+    let modal = document.getElementById("myModal");
+    if (modal.style.display === "block") {
+        if (e.key === "ArrowLeft") {
+            changeSlide(-1);
+        } else if (e.key === "ArrowRight") {
+            changeSlide(1);
+        }
+    }
+});
+
+// Download all images as ZIP
+async function downloadAllImagesAsZip() {
+  const zip = new JSZip();
+  const images = document.querySelectorAll('.gallery-row .demo');
+  
+  for (let i = 0; i < images.length; i++) {
+    const img = images[i];
+    try {
+      const response = await fetch(img.src);
+      const blob = await response.blob();
+      zip.file(`kharis-church-photo-${i + 1}.jpg`, blob);
+    } catch (error) {
+      console.error(`Failed to fetch image ${i + 1}:`, error);
+    }
+  }
+  
+  const content = await zip.generateAsync({type: 'blob'});
+  saveAs(content, 'kharis-church-photos.zip');
+}
+</script>
+
+</body>
+</html>

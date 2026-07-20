@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://kharis.org/wp-content/uploads/2022/08/Logo_transparent_noText.png">
+    <title>KP2 Birmingham Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f9fafb;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            flex: 1;
+            width: 100%;
+        }
+
+        .tabs-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid #d1d5db;
+            position: relative;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            color: #6b7280;
+            transition: color 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tab:hover {
+            color: #1f2937;
+        }
+
+        .tab-indicator {
+            position: absolute;
+            bottom: -1px;
+            left: -15px;
+            height: 1px;
+            background-color: #750c83;
+            transition: transform 0.3s ease, width 0.3s ease;
+            z-index: 1;
+            width: 9%;
+        }
+
+        .content-wrapper {
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            transform: translateX(0);
+            opacity: 1;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .grid.hidden {
+            transform: translateX(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* The actual timeline (the vertical ruler) */
+        .timeline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            transform: translateX(100%);
+            opacity: 0;
+            width: 100%;
+            pointer-events: none;
+            min-height: 100%;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #750c83;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            z-index: 0;
+        }
+
+        .timeline.visible {
+            transform: translateX(0);
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 3;
+        }
+
+        /* Container around content */
+        .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        /* The circles on the timeline */
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -17px;
+            background-color: white;
+            border: 4px solid #750c83;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        /* Place the container to the left */
+        .timeline-container.left {
+            left: 0;
+        }
+
+        /* Place the container to the right */
+        .timeline-container.right {
+            left: 50%;
+        }
+
+        /* Add arrows to the left container (pointing right) */
+        .timeline-container.left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            right: 30px;
+            border: medium solid white;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+
+        /* Add arrows to the right container (pointing left) */
+        .timeline-container.right::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            left: 30px;
+            border: medium solid white;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+        /* Fix the circle for containers on the right side */
+        .timeline-container.right::after {
+            left: -16px;
+        }
+
+        /* The actual content */
+        .content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2 {
+            color: #1f2937;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .content p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: relative;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 0;
+            padding: 30px;
+            border: 1px solid #888;
+            border-radius: 8px;
+            width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .modal-content h1 {
+            margin-bottom: 20px;
+            color: #1f2937;
+            font-size: 24px;
+        }
+
+        .modal-content p {
+            margin-bottom: 30px;
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .modal-btn {
+            padding: 12px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background-color: #750c83;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            background-color: #5a0a68;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: #750c83;
+            color: #fff;
+            text-align: center;
+            padding: 30px 10px 20px 10px;
+            margin-top: auto;
+            width: 110%;
+            margin-left: -24px;
+            margin-right: -24px;
+            margin-bottom: -24px;
+        }
+
+        footer div {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        footer p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        footer p:nth-of-type(2) {
+            margin-bottom: 10px;
+        }
+
+        footer p:last-child {
+            font-size: 0.95em;
+            opacity: 0.8;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 1200px) {
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .card-image {
+                height: 140px;
+            }
+            .card-content {
+                padding: 12px;
+            }
+            .card-title {
+                font-size: 12px;
+                min-height: 30px;
+            }
+            .card-items {
+                font-size: 11px;
+            }
+            .modal-content {
+                width: 90%;
+            }
+            .timeline::after {
+                left: 31px;
+            }
+            .timeline-container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-container::before {
+                left: 60px;
+                border: medium solid white;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent white transparent transparent;
+            }
+            .timeline-container.left::after, 
+            .timeline-container.right::after {
+                left: 15px;
+            }
+            .timeline-container.right {
+                left: 0%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 16px;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .card-image {
+                height: 160px;
+            }
+            .card-content {
+                padding: 12px;
+            }
+            .card-title {
+                font-size: 12px;
+                min-height: 28px;
+            }
+            .card-items {
+                font-size: 11px;
+            }
+            .modal-content {
+                width: 90%;
+            }
+        }
+
+        .card-button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            width: 100%;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-8px);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-content {
+            padding: 16px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            min-height: 36px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-items {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .back-strip {
+            margin-bottom: 16px;
+        }
+        .btn--back-home {
+            display: inline-flex;
+            align-items: center;
+            color: #750c83;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 18px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+        .btn--back-home:hover {
+            background: #f3e5f5;
+            border-color: #c084fc;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <div class="back-strip">
+        <a href="/Gallery-Navigation.html" class="btn--back-home">&#8592; Back to Home</a>
+    </div>
+    <div class="container">
+        <div class="tabs-wrapper">
+            <div class="tabs">
+                <button class="tab active" onclick="showAlbums()">Albums</button>
+                <!-- <button class="tab" onclick="showTimeline()">Timeline</button> -->
+                <div class="tab-indicator"></div>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <!-- Grid Section -->
+            <div id="AlbumsGrid" class="grid">
+                <!-- Album 1 -->
+                 <button class="card-button" onclick="openModal('modal1')">
+                    <div class="card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title" style="font-size: 16px;">Sunday Service</h3>
+                            <p class="card-title" style="font-style: italic;"> 04/01/2026</p>
+                            <p class="card-items">97 pics</p>
+                        </div>
+                    </div>
+                </button>
+                <div id="modal1" class="modal">
+                    <form class="modal-content">
+                        <span class="close" onclick="closeModal('modal1')">&times;</span>
+                        <h1>View Gallery?</h1>
+                        <p></p>
+                        <div class="modal-buttons">
+                            <!-- <a href="/Album-gallery.html?type=midweek" class="modal-btn">Midweek</a> -->
+                            <a href="/Album-gallery-SS/Album-gallerySS-1.HTML" class="modal-btn">Open</a>
+                        </div>
+                    </form>
+                </div> 
+
+
+                <!-- Album 2 -->
+                 <button class="card-button" onclick="openModal('modal4')">
+                    <div class="card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title">Sunday Service</h3>
+                            <p class="card-title" style="font-style: italic;">11/01/2026</p>
+                            <p class="card-items">112 pics</p>
+                        </div>
+                    </div>
+                </button>
+                <div id="modal4" class="modal">
+                    <form class="modal-content">
+                        <span class="close" onclick="closeModal('modal4')">&times;</span>
+                        <h1>View Sunday Photo?</h1>
+                        <p></p>
+                        <div class="modal-buttons">
+                            <a href= "/Album-gallery-SS/Album-gallerySS-2.HTML"class="modal-btn">open</a>
+                        </div>
+                    </form>
+                </div> 
+      
+
+                  <!-- Album 3 -->
+                 <button class="card-button" onclick="openModal('modal7')">
+                    <div class="card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title">Sunday Service</h3>
+                            <p class="card-title" style="font-style: italic;">18/01/2026</p>
+                            <p class="card-items">148 pics</p>
+                        </div>
+                    </div>
+                </button>
+                <div id="modal7" class="modal">
+                    <form class="modal-content">
+                        <span class="close" onclick="closeModal('modal7')">&times;</span>
+                        <h1>View Gallery?</h1>
+                        <p></p>
+                        <div class="modal-buttons">
+                            <!-- <a href="/Album-gallery.html?type=midweek" class="modal-btn">Midweek</a> -->
+                            <a href="\Album-gallery-SS\Album-gallerySS-4.HTML" class="modal-btn">Open</a>
+                        </div>
+                    </form>
+                </div>  
+
+                <!-- Album 4 -->
+                 <button class="card-button" onclick="openModal('modal8')">
+                    <div class="card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title">Sunday Service</h3>
+                            <p class="card-title" style="font-style: italic;">25/01/2026</p>
+                            <p class="card-items">133 pics</p>
+                        </div>
+                    </div>
+                </button>
+                <div id="modal8" class="modal">
+                    <form class="modal-content">
+                        <span class="close" onclick="closeModal('modal8')">&times;</span>
+                        <h1>View Service Photos?</h1>
+                        <div class="modal-buttons">
+                            <a href="/Album-gallery-SS/Album-gallerySS-3.HTML" class="modal-btn">open</a>
+                        </div>
+                    </form>
+                </div> 
+
+
+                <!-- Album 5 -->
+                 <button class="card-button" onclick="openModal('modal10')">
+                    <div class="card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title">Sunday Service</h3>
+                            <p class="card-title" style="font-style: italic;">01/02/2026</p>
+                            <p class="card-items">120 pics</p>
+                        </div>
+                    </div>
+                </button>
+                <div id="modal10" class="modal">
+                    <form class="modal-content">
+                        <span class="close" onclick="closeModal('modal10')">&times;</span>
+                        <h1>View Gallery?</h1>
+                        <p></p>
+                        <div class="modal-buttons">
+                            <!-- <a href="/Album-gallery.html?type=midweek" class="modal-btn">Midweek</a> -->
+                            <a href="/Album-gallery-SS/Album-gallerySS-5.HTML" class="modal-btn">Open</a>
+                        </div>
+                    </form>
+                </div> 
+
+                <!-- Album 6 -->
+                 <button class="card-button" onclick="openModal('modal11')">
+                    <div class="card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title">Sunday Service</h3>
+                            <p class="card-title" style="font-style: italic;">08/02/2026</p>
+                            <p class="card-items">64 pics</p>
+                        </div>
+                    </div>
+                </button>
+                <div id="modal11" class="modal">
+                    <form class="modal-content">
+                        <span class="close" onclick="closeModal('modal11')">&times;</span>
+                        <h1>View Gallery?</h1>
+                        <p></p>
+                        <div class="modal-buttons">
+                            <a href="/Album-gallery-SS/Album-gallerySS-6.html" class="modal-btn">Open</a>
+                        </div>
+                    </form>
+                </div> 
+
+                <!--- Album 7 -->
+               <button class="card-button" onclick="openModal('modal12')">
+                    <div class="card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title">Sunday Service</h3>
+                            <p class="card-title" style="font-style: italic;">22/02/2026</p>
+                            <p class="card-items">123 pics</p>
+                        </div>
+                    </div>
+                </button>
+                <div id="modal12" class="modal">
+                    <form class="modal-content">
+                        <span class="close" onclick="closeModal('modal12')">&times;</span>
+                        <h1>View Sunday Photos?</h1>
+                        <p></p>
+                        <div class="modal-buttons">
+                            <a href="/Album-gallery-SS/Album-gallerySS-7.HTML" class="modal-btn">Open</a>
+                        </div>
+                    </form>
+                </div>
+            
+            <!-- Album 8 -->
+            <button class="card-button" onclick="openModal('modal13')">
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Sunday Service</h3>
+                        <p class="card-title" style="font-style: italic;">01/03/2026</p>
+                        <p class="card-items">65 pics</p>
+                    </div>
+                </div>
+            </button>
+            <div id="modal13" class="modal">
+                <form class="modal-content">
+                    <span class="close" onclick="closeModal('modal13')">&times;</span>
+                    <h1>View Sunday Photos?</h1>
+                    <p></p>
+                    <div class="modal-buttons">
+                        <a href="/Album-gallery-SS/Album-gallerySS-8.HTML" class="modal-btn">Open</a>
+                    </div>
+                </form>
+            </div>
+
+             <!-- Album 9 -->
+            <button class="card-button" onclick="openModal('modal14')">
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Sunday Service</h3>
+                        <p class="card-title" style="font-style: italic;">08/03/2026</p>
+                        <p class="card-items">131 pics</p>
+                    </div>
+                </div>
+            </button>
+            <div id="modal14" class="modal">
+                <form class="modal-content">
+                    <span class="close" onclick="closeModal('modal14')">&times;</span>
+                    <h1>View Sunday Photos?</h1>
+                    <p></p>
+                    <div class="modal-buttons">
+                        <a href="/Album-gallery-SS/Album-gallerySS-9.HTML" class="modal-btn">Open</a>
+                    </div>
+                </form>
+            </div>
+
+                <!-- Album 10
+            <button class="card-button" onclick="openModal('modal15')">
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Sunday Service</h3>
+                        <p class="card-title" style="font-style: italic;">15/03/2026</p>
+                        <p class="card-items">84 pics</p>
+                    </div>
+                </div>
+            </button>
+            <div id="modal15" class="modal">
+                <form class="modal-content">
+                    <span class="close" onclick="closeModal('modal15')">&times;</span>
+                    <h1>View Sunday Photos?</h1>
+                    <p></p>
+                    <div class="modal-buttons">
+                        <a href="/Album-gallery-SS/Album-gallerySS-10.HTML" class="modal-btn">Open</a>
+                    </div>
+                </form>
+            </div>  -->
+            <!-- Album 11 -->
+            <button class="card-button" onclick="openModal('modal16')">
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Sunday Service</h3>
+                        <p class="card-title" style="font-style: italic;">22/03/2026</p>
+                        <p class="card-items">93 pics</p>
+                    </div>
+                </div>
+            </button>
+            <div id="modal16" class="modal">
+                <form class="modal-content">
+                    <span class="close" onclick="closeModal('modal16')">&times;</span>
+                    <h1>View Sunday Photos?</h1>
+                    <p></p>
+                    <div class="modal-buttons">
+                        <a href="/Album-gallery-SS/Album-gallerySS-11.HTML" class="modal-btn">Open</a>
+                    </div>
+                </form>
+            </div>
+
+              <!--  Album 12-->
+            <button class="card-button" onclick="openModal('modal17')">
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Sunday Service</h3>
+                        <p class="card-title" style="font-style: italic;">29/03/2026</p>
+                        <p class="card-items">44 pics</p>
+                    </div>
+                </div>
+            </button>
+            <div id="modal17" class="modal">
+                <form class="modal-content">
+                    <span class="close" onclick="closeModal('modal17')">&times;</span>
+                    <h1>View Sunday Photos?</h1>
+                    <p></p>
+                    <div class="modal-buttons">
+                        <a href="/Album-gallery-SS/Album-gallerySS-12.HTML" class="modal-btn">Open</a>
+                    </div>
+                </form>
+            </div>
+
+
+              <!--  Album 12-->
+             <button class="card-button" onclick="openModal('modal18')">
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Sunday Service</h3>
+                        <p class="card-title" style="font-style: italic;">12/04/2026</p>
+                        <p class="card-items">109 pics</p>
+                    </div>
+                </div>
+            </button>
+            <div id="modal18" class="modal">
+                <form class="modal-content">
+                    <span class="close" onclick="closeModal('modal18')">&times;</span>
+                    <h1>View Sunday Photos?</h1>
+                    <p></p>
+                    <div class="modal-buttons">
+                        <a href="/Album-gallery-SS/Album-gallerySS-13.HTML" class="modal-btn">Open</a>
+                    </div>
+                </form>
+            </div> 
+
+              <!--  Album 13-->
+            <button class="card-button" onclick="openModal('modal19')">
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Sunday Service</h3>
+                        <p class="card-title" style="font-style: italic;">19/04/2026</p>
+                        <p class="card-items">128 pics</p>
+                    </div>
+                </div>
+            </button>
+            <div id="modal19" class="modal">
+                <form class="modal-content">
+                    <span class="close" onclick="closeModal('modal19')">&times;</span>
+                    <h1>View Sunday Photos?</h1>
+                    <p></p>
+                    <div class="modal-buttons">
+                        <a href="/Album-gallery-SS/Album-gallerySS-14.HTML" class="modal-btn">Open</a>
+                    </div>
+                </form>
+            </div> 
+
+              <!--  Album 14 -->
+            <button class="card-button" onclick="openModal('modal20')">
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Sunday Service</h3>
+                        <p class="card-title" style="font-style: italic;">26/04/2026</p>
+                        <p class="card-items">128 pics</p>
+                    </div>
+                </div>
+            </button>
+            <div id="modal20" class="modal">
+                <form class="modal-content">
+                    <span class="close" onclick="closeModal('modal20')">&times;</span>
+                    <h1>View Sunday Photos?</h1>
+                    <p></p>
+                    <div class="modal-buttons">
+                        <a href="/Album-gallery-SS/Album-gallerySS-15.HTML" class="modal-btn">Open</a>
+                    </div>
+                </form>
+            </div> 
+
+              <!-- Album 15 -->
+            <button class="card-button" onclick="openModal('modal21')">
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Sunday Service</h3>
+                        <p class="card-title" style="font-style: italic;">03/05/2026</p>
+                        <p class="card-items">120 pics</p>
+                    </div>
+                </div>
+            </button>
+            <div id="modal21" class="modal">
+                <form class="modal-content">
+                    <span class="close" onclick="closeModal('modal21')">&times;</span>
+                    <h1>View Sunday Photos?</h1>
+                    <p></p>
+                    <div class="modal-buttons">
+                        <a href="/Album-gallery-SS/Album-gallerySS-16.HTML" class="modal-btn">Open</a>
+                    </div>
+                </form>
+            </div>
+
+              <!--  Album 16-->
+            <button class="card-button" onclick="openModal('modal22')">
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Sunday Service</h3>
+                        <p class="card-title" style="font-style: italic;">10/05/2026</p>
+                        <p class="card-items">89 pics</p>
+                    </div>
+                </div>
+            </button>
+            <div id="modal22" class="modal">
+                <form class="modal-content">
+                    <span class="close" onclick="closeModal('modal22')">&times;</span>
+                    <h1>View Sunday Photos?</h1>
+                    <p></p>
+                    <div class="modal-buttons">
+                        <a href="/Album-gallery-SS/Album-gallerySS-17.HTML" class="modal-btn">Open</a>
+                    </div>
+                </form>
+            </div> 
+
+        
+
+           
+        
+
+    <!-- Album 17 -->
+            <button class="card-button" onclick="openModal('modal23')">
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Sunday Service</h3>
+                        <p class="card-title" style="font-style: italic;">24/05/2026</p>
+                        <p class="card-items">64 pics</p>
+                    </div>
+                </div>
+            </button>
+            <div id="modal23" class="modal">
+                <form class="modal-content">
+                    <span class="close" onclick="closeModal('modal23')">&times;</span>
+                    <h1>View Sunday Photos?</h1>
+                    <p></p>
+                    <div class="modal-buttons">
+                        <a href="/Album-gallery-SS/Album-gallerySS-18.HTML" class="modal-btn">Open</a>
+                    </div>
+                </form>
+            </div>
+      
+
+
+    <!-- Album 19-->
+            <button class="card-button" onclick="openModal('modal24')">
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Sunday Service</h3>
+                        <p class="card-title" style="font-style: italic;">31/05/2026</p>
+                        <p class="card-items">109 pics</p>
+                    </div>
+                </div>
+            </button>
+            <div id="modal24" class="modal">
+                <form class="modal-content">
+                    <span class="close" onclick="closeModal('modal24')">&times;</span>
+                    <h1>View Sunday Photos?</h1>
+                    <p></p>
+                    <div class="modal-buttons">
+                        <a href="/Album-gallery-SS/Album-gallerySS-19.HTML" class="modal-btn">Open</a>
+                    </div>
+                </form>
+            </div>
+       
+  
+
+    <!--Album 20-->
+            <!-- <button class="card-button" onclick="openModal('modal25')">
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Sunday Service</h3>
+                        <p class="card-title" style="font-style: italic;">08/03/2026</p>
+                        <p class="card-items">131 pics</p>
+                    </div>
+                </div>
+            </button>
+            <div id="modal25" class="modal">
+                <form class="modal-content">
+                    <span class="close" onclick="closeModal('modal25')">&times;</span>
+                    <h1>View Sunday Photos?</h1>
+                    <p></p>
+                    <div class="modal-buttons">
+                        <a href="/Album-gallery-SS/Album-gallerySS-11.HTML" class="modal-btn">Open</a>
+                    </div>
+                </form>
+            </div> -->
+        
+    </div> 
+
+
+    <!-- 
+                Album 16
+            <button class="card-button" onclick="openModal('modal16')">
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEN6FvL5TAdiofReyiKOExxKc9Nj2TWsw7Bg&s" alt="Event" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Sunday Service</h3>
+                        <p class="card-title" style="font-style: italic;">08/03/2026</p>
+                        <p class="card-items">131 pics</p>
+                    </div>
+                </div>
+            </button>
+            <div id="modal16" class="modal">
+                <form class="modal-content">
+                    <span class="close" onclick="closeModal('modal16')">&times;</span>
+                    <h1>View Sunday Photos?</h1>
+                    <p></p>
+                    <div class="modal-buttons">
+                        <a href="/Album-gallery-SS/Album-gallerySS-11.HTML" class="modal-btn">Open</a>
+                    </div>
+                </form>
+            </div>
+        </div> 
+    </div> -->
+
+
+            
+    
+
+            <!-- Timeline Section -->
+            <div id="TimelineGrid" class="timeline">
+                <div class="timeline-container left">
+                    <div class="content">
+                        <h2>2017</h2>
+                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                    </div>
+                </div>
+                <div class="timeline-container right">
+                    <div class="content">
+                        <h2>2016</h2>
+                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                    </div>
+                </div>
+                <div class="timeline-container left">
+                    <div class="content">
+                        <h2>2015</h2>
+                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                    </div>
+                </div>
+                <div class="timeline-container right">
+                    <div class="content">
+                        <h2>2012</h2>
+                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                    </div>
+                </div>
+                <div class="timeline-container left">
+                    <div class="content">
+                        <h2>2011</h2>
+                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                    </div>
+                </div>
+                <div class="timeline-container right">
+                    <div class="content">
+                        <h2>2007</h2>
+                        <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <footer>
+        <div>
+            <p>&copy; 2025 Kharis Church. All rights reserved.</p>
+            <p>
+                <a href="/Index.html">Home</a> |
+                <a href="mailto:info@kharis.org">Contact</a> |
+                <a href="https://www.facebook.com/KharisMinistries" target="_blank">Facebook</a> |
+                <a href="https://www.instagram.com/kharischurch/" target="_blank">Instagram</a>
+            </p>
+            <p>Kharis Church, London, UK</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle functionality similar to login/register
+        function showAlbums() {
+            var AlbumsGrid = document.getElementById("AlbumsGrid");
+            var TimelineGrid = document.getElementById("TimelineGrid");
+            var Indicator = document.querySelector(".tab-indicator");
+            var tabs = document.querySelectorAll(".tab");
+
+            AlbumsGrid.style.transform = "translateX(0px)";
+            AlbumsGrid.style.opacity = "1";
+            TimelineGrid.style.transform = "translateX(100%)";
+            TimelineGrid.style.opacity = "0";
+            Indicator.style.transform = "translateX(0px)";
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            tabs[0].classList.add('active');
+        }
+
+        function showTimeline() {
+            var AlbumsGrid = document.getElementById("AlbumsGrid");
+            var TimelineGrid = document.getElementById("TimelineGrid");
+            var Indicator = document.querySelector(".tab-indicator");
+            var tabs = document.querySelectorAll(".tab");
+
+            AlbumsGrid.style.transform = "translateX(-100%)";
+            AlbumsGrid.style.opacity = "0";
+            TimelineGrid.style.transform = "translateX(0px)";
+            TimelineGrid.style.opacity = "1";
+            Indicator.style.transform = "translateX(100%)";
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            tabs[1].classList.add('active');
+        }
+
+        // Modal functionality
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "flex";
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

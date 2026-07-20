@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="External_demo.css">
+      <link rel="icon" type="image/png" href="https://kharis.org/wp-content/uploads/2022/08/Logo_transparent_noText.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=person" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=person" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- JSZip and FileSaver libraries for downloading images as ZIP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <title>Service Gallery</title>
+</head>
+
+<body>
+    <style>
+      /* Text styling of choice from Google fonts */
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      body {
+       font-family: "Oswald", serif;
+       display: flex;
+       flex-direction: column;
+     }
+
+     header {
+       background-color: purple;
+       width: 105%;
+       padding: 0;
+       margin: 0;
+     }
+
+     .uicore.elementor-container {
+       display: flex;
+       align-items: center;
+       padding: 0;
+       margin: 0;
+       width: 100%;
+     }
+
+     .uicore-branding {
+       background-color: purple;
+       padding: 20px;
+       width: 100%;
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-branding a {
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-logo {
+       width: 8% !important;
+       height: auto;
+     }
+
+     @media screen and (max-width: 768px) {
+        .topnav {
+            padding-left: 0;
+        }
+        .uicore-logo {
+          width: 12% !important;
+        }
+     }
+
+     section.featured-gallery {
+       flex: 1;
+       display: flex;
+       flex-direction: column;
+     }
+
+    /* Gallery Grid */
+    .gallery-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    /* Row and Column Styles */
+    .row > .column {
+      padding: 0 8px;
+    }
+
+
+    /* Create four equal columns that floats next to eachother */
+    .column {
+      float: left;
+      padding: 0 8px;
+      display: flex;
+      flex-direction: column;
+      max-inline-size: 100%;
+    }
+
+    /* The Modal (background) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: black;
+    }
+
+    /* Modal Content */
+    .modal-content {
+      position: relative;
+      background-color: #000;
+      margin: auto;
+      padding: 0;
+      width: 90%;
+      max-width: 1200px;
+    }
+
+    /* The Close Button */
+    .close {
+      color: white;
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #999;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Hide the slides by default */
+    .mySlides {
+      display: none;
+    }
+
+    /* Next & previous buttons */
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      padding: 16px;
+      margin-top: -50px;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .prev {
+      left: 0;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Number text (1/3 etc) */
+    .numbertext {
+      color: #f2f2f2;
+      font-size: 12px;
+      padding: 8px 12px;
+      position: absolute;
+      top: 0;
+    }
+
+    /* Caption text */
+    .caption-container {
+      text-align: center;
+      background-color: black;
+      padding: 2px 16px;
+      color: white;
+    }
+
+    img.demo {
+      opacity: 0.6;
+      cursor: pointer;
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: 0.3s;
+      flex-grow: 1;
+    }
+
+    .active,
+    .demo:hover {
+      opacity: 1;
+    }
+
+    img.hover-shadow {
+      transition: 0.3s;
+    }
+
+    .hover-shadow:hover {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    /* Responsive columns for mobile */
+    @media screen and (max-width: 1200px) {
+      .gallery-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media screen and (max-width: 800px) {
+      .column {
+        width: 50%;
+      }
+      .gallery-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+      img.demo {
+        height: 200px;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .column {
+        width: 100%;
+      }
+      .gallery-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      img.demo {
+        height: 180px;
+      }
+    }
+
+    .btn {
+      background-color: rgb(115, 16, 118);
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 500;
+      padding: 10px 20px;
+      letter-spacing: 0.5px;
+      border-radius: 5000px;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .btn--download {
+      padding: 16px 32px 15px 20px;
+      font-size: 16px;
+      position: fixed;
+      bottom: 27px;
+      left: calc(46%);
+      z-index: 100;
+      text-align: center;
+      box-shadow: 0 6px 23px rgba(0,0,0,0.45);
+      animation: fade-up 0.5s 0.4s backwards;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn--download:hover {
+      text-decoration: none;
+      background-color: rgb(61, 37, 68);
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Darker background on mouse-over */
+    .btn:hover {
+      background-color: rgb(61, 37, 68);
+    }
+
+    .btn--back {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 18px;
+      margin-right: 20px;
+      margin-left: 20px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      transition: background 0.2s;
+      align-self: center;
+      white-space: nowrap;
+      order: -1;
+    }
+
+    .btn--back:hover {
+      background: rgba(255,255,255,0.25);
+      color: white;
+    }
+
+   </style>
+ <header>
+            <nav class="uicore elementor-container">
+                     <div class="uicore-branding">
+
+            <a href="/Index.html" rel="home">
+                <img class="uicore uicore-logo uicore-main" src="https://kharis.org/wp-content/uploads/2022/08/Logo_transparent_noText.png" alt="Kharis Church">
+                    </a>
+
+                </div>
+                <a href="/Gallery-Selection/Sunday-Service-Album-Select.html" class="btn--back">&#8592; Back</a>
+      </nav>
+    </header>
+<section class="featured-gallery">
+    <div class="categories">
+      <div class="small-container">
+        <div class="row row-2">
+          <h2>Father's Day 2026</h2>
+      </div>
+
+      <div>
+      <button onclick="downloadAllImagesAsZip()" class="btn btn--download">
+           <i class="fa fa-download"></i> Download all <span class="u-bolder">photos</span>
+      </button>
+      </div>
+
+    <div class="gallery-row">
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/00AD071C-85FB-48DD-840C-08CECBCA30CA.jpeg" onclick="openModal();currentSlide(1)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/00E1B998-B17B-492A-A9EE-22E9F42AEA06.jpeg" onclick="openModal();currentSlide(2)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/05E33FCD-DEA0-4BEC-AC55-5EA298B5F1D6.jpeg" onclick="openModal();currentSlide(3)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/0B7DF835-9D48-447D-94F5-5CC524A6269B.jpeg" onclick="openModal();currentSlide(4)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/0BA0BD13-6564-4FF6-96C4-E08FC15A6BBF.jpeg" onclick="openModal();currentSlide(5)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/0BBBFC0B-2B64-4321-811C-121018D4EC4D.jpeg" onclick="openModal();currentSlide(6)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/0C8BFCB6-B3B0-4BC8-877D-5E2E1BFC4950.jpeg" onclick="openModal();currentSlide(7)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/0D821492-C6A4-4EA9-9B30-F51652C46517.jpeg" onclick="openModal();currentSlide(8)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/0F640B64-1610-478F-B421-44DC4C2C9E87.jpeg" onclick="openModal();currentSlide(9)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/14771DE4-9A92-4355-B3C2-7BAE36E5AB1C.jpeg" onclick="openModal();currentSlide(10)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/16454AAC-5590-46B6-8EFF-D9A9ECC7E20E.jpeg" onclick="openModal();currentSlide(11)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/1CA2C0DA-2854-4AEA-94E5-5C664BB56516.jpeg" onclick="openModal();currentSlide(12)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/1DC60D45-FFE4-4CB2-AD21-9801C62E8E7F.jpeg" onclick="openModal();currentSlide(13)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/1E62EE4A-13A3-4753-AE00-CE690BA50891.jpeg" onclick="openModal();currentSlide(14)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/1F7D0870-96A4-43DF-9756-AC10DCA11B9F.jpeg" onclick="openModal();currentSlide(15)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/20BC1DCA-D15C-468C-AB35-8183661DEAF4.jpeg" onclick="openModal();currentSlide(16)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/23BC1BCA-F1E4-4177-90FE-DC1D6E5A2E98.jpeg" onclick="openModal();currentSlide(17)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/2442826F-6E63-41ED-89CA-5082F0D70119.jpeg" onclick="openModal();currentSlide(18)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/244F7D3F-5BEB-40FE-AAC0-78994A74AA03.jpeg" onclick="openModal();currentSlide(19)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/268865EE-1EE5-49F1-8B27-9A280EBA03CA.jpeg" onclick="openModal();currentSlide(20)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/28FFD183-94C9-4F7B-AB12-6DE3260FAC39.jpeg" onclick="openModal();currentSlide(21)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/2AA988FD-7843-4A46-8DAC-2583C0380AAA.jpeg" onclick="openModal();currentSlide(22)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/2E781AEF-70C4-4182-9F92-CFC7EAF815D5.jpeg" onclick="openModal();currentSlide(23)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/2FA64232-5187-48DA-AB09-14475115962B.jpeg" onclick="openModal();currentSlide(24)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/30075CD0-05FC-4495-BDC7-61DFBD9BD801.jpeg" onclick="openModal();currentSlide(25)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/329C396B-7317-44E4-90C1-A06550D50591.jpeg" onclick="openModal();currentSlide(26)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3425F0C9-103C-4B24-A6B3-79ED4F392772.jpeg" onclick="openModal();currentSlide(27)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/34F2A972-AE9D-42F1-9873-CBF9463F15D8.jpeg" onclick="openModal();currentSlide(28)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3648E54D-A914-4B7B-8141-0DA49AF53C41.jpeg" onclick="openModal();currentSlide(29)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3759679B-D220-417D-B524-5ADABADB97FD.jpeg" onclick="openModal();currentSlide(30)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/38035BD7-DD23-4A9E-B3CF-121FCF5BEAF2.jpeg" onclick="openModal();currentSlide(31)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/38B461E2-0503-4E4B-B3F1-C9188C26A620.jpeg" onclick="openModal();currentSlide(32)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/399F0424-2B86-45B2-97E6-E6C99BC2847D.jpeg" onclick="openModal();currentSlide(33)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3A5F8BB1-0536-43F5-85B1-FE9ACB5890D4.jpeg" onclick="openModal();currentSlide(34)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3DBCB8BA-16E1-49CF-8BF2-73028DF3338F.jpeg" onclick="openModal();currentSlide(35)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3DF7EEA7-4FDB-472D-A312-02C0000266C8.jpeg" onclick="openModal();currentSlide(36)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3E049287-84B5-4A58-BE46-8894D85A16FB.jpeg" onclick="openModal();currentSlide(37)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3E0DDA35-77D9-476F-A05C-B474FD814789.jpeg" onclick="openModal();currentSlide(38)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3E3B6DD6-5D0A-4B08-94B3-8A1B32F5466F.jpeg" onclick="openModal();currentSlide(39)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3F3DAC33-DECF-4FDE-8101-6551CAB780BD.jpeg" onclick="openModal();currentSlide(40)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3F8476AC-2FFD-40CA-9FA2-990D5D1344B6.jpeg" onclick="openModal();currentSlide(41)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/41037B21-C1A7-4489-8001-7E4635DB8619.jpeg" onclick="openModal();currentSlide(42)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/420169C6-CBFF-48F0-ABE7-77C7FA80E62D.jpeg" onclick="openModal();currentSlide(43)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/43B286C4-4650-4064-BFDA-FB2D7133B2BA.jpeg" onclick="openModal();currentSlide(44)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/4402D18E-7A62-49C3-9E2B-F1BAAC97163D.jpeg" onclick="openModal();currentSlide(45)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/46EFCBC4-61C6-4520-977D-FE2824FBABDC.jpeg" onclick="openModal();currentSlide(46)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/4AAC3C82-9128-4E67-BD8F-AAF754414D80.jpeg" onclick="openModal();currentSlide(47)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/4AFF5C60-1796-41B5-807B-1A70CA877D6A.jpeg" onclick="openModal();currentSlide(48)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/4C41400A-B5BA-40B0-9B6F-DD6032EF604B.jpeg" onclick="openModal();currentSlide(49)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/4DD88608-217A-4760-AF58-CEFBC3F48D6E.jpeg" onclick="openModal();currentSlide(50)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/4E33218C-F377-45F5-BF66-CED0E5B4DAB2.jpeg" onclick="openModal();currentSlide(51)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/4EFF9727-9726-4F82-904C-57FA1300DFEC.jpeg" onclick="openModal();currentSlide(52)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/4FE6E37A-680C-49A4-A173-626A4F398232.jpeg" onclick="openModal();currentSlide(53)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/53450687-448D-491A-BB8F-2EC159BB22B1.jpeg" onclick="openModal();currentSlide(54)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/535A59D8-9429-43B5-B8F3-B04FD212EC1A.jpeg" onclick="openModal();currentSlide(55)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/54946F6F-A2C2-4569-8695-C0BFD3DC2C90.jpeg" onclick="openModal();currentSlide(56)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/57725ABC-EEA7-412E-8230-5024030C9004.jpeg" onclick="openModal();currentSlide(57)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/57C757EF-56C4-4644-9AA6-7899DB20975D.jpeg" onclick="openModal();currentSlide(58)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/5CFA4CB8-BA47-4600-8393-F4C3F8CB5B2A.jpeg" onclick="openModal();currentSlide(59)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/5D07BCEF-6E28-446B-920E-9726DD6F2737.jpeg" onclick="openModal();currentSlide(60)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/5E68C6F3-077B-45B1-AB73-D66A2EE7B171.jpeg" onclick="openModal();currentSlide(61)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/5F53A437-519C-4F0B-8399-9C45E8E56B35.jpeg" onclick="openModal();currentSlide(62)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/5F88B94F-D10E-4D7B-978D-5AABFB42B3FF.jpeg" onclick="openModal();currentSlide(63)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/606876E1-F02E-4E2F-BA65-351C11BD6F76.jpeg" onclick="openModal();currentSlide(64)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/60A738C4-7289-49C5-A038-7A2472D88EA5.jpeg" onclick="openModal();currentSlide(65)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/65226E77-CCAA-4EEF-970A-28D2F23EAC1A.jpeg" onclick="openModal();currentSlide(66)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/663549EB-BBC0-4792-B534-B43033754C0A.jpeg" onclick="openModal();currentSlide(67)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/66400087-9D6B-493A-BD50-CEFB5210EE8C.jpeg" onclick="openModal();currentSlide(68)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/6668DC17-BC95-4F9B-91E2-09C43468E0EA.jpeg" onclick="openModal();currentSlide(69)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/66F5ADB7-DEAA-4BEE-AF2D-E2A413582E9E.jpeg" onclick="openModal();currentSlide(70)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/67DC6347-B1C9-4F3E-A193-B1214F989A82.jpeg" onclick="openModal();currentSlide(71)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/68A0F455-ABD0-42B4-A311-98C1C3A088B3.jpeg" onclick="openModal();currentSlide(72)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/6B7A7C9F-7012-4673-8FFA-7B9034D2A345.jpeg" onclick="openModal();currentSlide(73)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/6F6D4D70-8640-408D-BF88-4D4D4AF3EA41.jpeg" onclick="openModal();currentSlide(74)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/70E3859B-9D19-47A6-9E94-52631E081E94.jpeg" onclick="openModal();currentSlide(75)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/741012F1-1C09-48C4-B4F2-14EB194368DD.jpeg" onclick="openModal();currentSlide(76)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/746CC223-0E17-4DB1-B057-21B30E5DE842.jpeg" onclick="openModal();currentSlide(77)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/749AB62E-0A77-4962-A9B2-F5BE80AF44C1.jpeg" onclick="openModal();currentSlide(78)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/763B5EC8-DE08-4CB6-A376-B6610A097934.jpeg" onclick="openModal();currentSlide(79)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/76CCB0E0-2B6E-4DB7-A8E6-20C9407CC0F9.jpeg" onclick="openModal();currentSlide(80)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/775346DE-3F64-4194-8554-8E12678369C4.jpeg" onclick="openModal();currentSlide(81)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/793C6B40-32FF-44B3-8F12-ABAC8959A057.jpeg" onclick="openModal();currentSlide(82)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/7BEAB136-1DF2-4316-A428-2817D76D69FC.jpeg" onclick="openModal();currentSlide(83)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/7F737A36-7C88-4120-A7F0-34FD97219970.jpeg" onclick="openModal();currentSlide(84)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/801F4F68-54B0-48C2-B693-60C25D015947.jpeg" onclick="openModal();currentSlide(85)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/811A64D0-7297-48FB-8288-7E30A4665479.jpeg" onclick="openModal();currentSlide(86)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/81EC6485-346F-4562-AC8E-739A31E4CADC.jpeg" onclick="openModal();currentSlide(87)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/826F4AC8-E900-4840-9AD5-A7367E0BEF96.jpeg" onclick="openModal();currentSlide(88)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/84A34A5E-4932-4BB2-94D2-37E4D0090298.jpeg" onclick="openModal();currentSlide(89)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/850E49A2-3CDF-4A19-A47D-AE2A599B4103.jpeg" onclick="openModal();currentSlide(90)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/85AB2B7D-FA7A-428A-AA0F-281EA52090BE.jpeg" onclick="openModal();currentSlide(91)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/865CEF69-A5A0-404E-9605-D9DDA1888FA6.jpeg" onclick="openModal();currentSlide(92)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/86A9AB4F-2E2D-4461-AA0A-C2BF68921475.jpeg" onclick="openModal();currentSlide(93)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/8B74A76C-E073-4FE7-A102-3B76ACD5C3C5.jpeg" onclick="openModal();currentSlide(94)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/8D0DD657-DC7C-457F-8DC2-FF3A2318CF4C.jpeg" onclick="openModal();currentSlide(95)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/8D50125A-6799-41BE-8BC1-13A1A08C42A0.jpeg" onclick="openModal();currentSlide(96)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/906C27F4-AE9B-466D-9265-3DA8A00C975C.jpeg" onclick="openModal();currentSlide(97)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/93397E2C-D248-4B3E-B909-40CD68EA9E9B.jpeg" onclick="openModal();currentSlide(98)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/97D00C36-E783-4034-8418-27458F3ADC65.jpeg" onclick="openModal();currentSlide(99)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/9866687C-1E6E-4776-87E9-C470FBC4C3AC.jpeg" onclick="openModal();currentSlide(100)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/99769947-828C-4DD2-9E60-FAA8A6EB4766.jpeg" onclick="openModal();currentSlide(101)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/9B2862A1-ACA6-46C5-82BE-5627FCFE3EC1.jpeg" onclick="openModal();currentSlide(102)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/9BA50FA7-5A86-47AE-B4C7-7CB696F0E54B.jpeg" onclick="openModal();currentSlide(103)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/9D9AC44C-3EAC-4CD5-BA96-79D43EEDC7F7.jpeg" onclick="openModal();currentSlide(104)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/9F4734B3-4FA8-42BE-BC45-ADF62B1150AA.jpeg" onclick="openModal();currentSlide(105)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/A01235B1-C145-4A23-86A9-0FFC05CF9374.jpeg" onclick="openModal();currentSlide(106)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/A0EFB36F-DA2D-4AA1-B414-6A51EAC7BD91.jpeg" onclick="openModal();currentSlide(107)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/A1492242-15C7-4FDD-A29C-3549A3DB3D1F.jpeg" onclick="openModal();currentSlide(108)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/A37E7AC8-6CDE-46B2-BEF1-9866256851CD.jpeg" onclick="openModal();currentSlide(109)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/A39BC008-66C0-410A-AFB6-E48FC411478D.jpeg" onclick="openModal();currentSlide(110)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/A5878911-1DAA-4142-88F8-4F9108409167.jpeg" onclick="openModal();currentSlide(111)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/A73E714E-E5D8-446A-881C-AD72B4E5FDB1.jpeg" onclick="openModal();currentSlide(112)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/AB252C07-EAE6-4924-A6F5-54E5D4F55E52.jpeg" onclick="openModal();currentSlide(113)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/ACAD4989-D08D-49D4-B3B3-622F2C745823.jpeg" onclick="openModal();currentSlide(114)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/ACB0D7FA-E0C6-495C-B3B1-4FCD90B71C17.jpeg" onclick="openModal();currentSlide(115)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/ACB67F04-2D3F-47B5-B9F4-B82457FD9654.jpeg" onclick="openModal();currentSlide(116)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/AEC91E86-5440-4E6C-8ECE-00D47A63CC4D.jpeg" onclick="openModal();currentSlide(117)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/B2D5F26B-B133-4ECC-9C02-36BC6FA1B3E3.jpeg" onclick="openModal();currentSlide(118)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/B3C557BB-D725-49EC-A12E-551702FD51B7.jpeg" onclick="openModal();currentSlide(119)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/B5C44154-8774-4027-8124-5D3C6701CE99.jpeg" onclick="openModal();currentSlide(120)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/B60AECDD-1B78-4899-8BB3-5594AF866F0B.jpeg" onclick="openModal();currentSlide(121)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/B6742711-B7A7-4248-BA3D-EEE644225AB2.jpeg" onclick="openModal();currentSlide(122)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/BAC97864-BAA5-4B52-83B8-13D0C60575B6.jpeg" onclick="openModal();currentSlide(123)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/BBF68F32-9B84-4250-BB37-D5A6D9AC18BB.jpeg" onclick="openModal();currentSlide(124)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/BCED8833-7CED-4C5B-B612-37C774E417B5.jpeg" onclick="openModal();currentSlide(125)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/BD63FE3B-A994-4813-8B0E-58833AFE80CB.jpeg" onclick="openModal();currentSlide(126)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/BF27C46D-3DC3-47DF-AAE0-427446B10DDD.jpeg" onclick="openModal();currentSlide(127)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/C26AFE4A-4E8C-48C5-A295-F8A3D6E9DC45.jpeg" onclick="openModal();currentSlide(128)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/C2C4E0AA-E511-4BD5-A7DD-D7C8C27D4AFE.jpeg" onclick="openModal();currentSlide(129)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/C5ACD6AE-BC83-45DE-8F1F-15FBC9819C4E.jpeg" onclick="openModal();currentSlide(130)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/C5C666DA-73CC-4E11-B548-D1FC1F69051D.jpeg" onclick="openModal();currentSlide(131)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/C791F23D-C882-4B92-B415-77F3C4A7B311.jpeg" onclick="openModal();currentSlide(132)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/C968F000-3DA5-4FE4-9225-75999F2FEDF0.jpeg" onclick="openModal();currentSlide(133)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/CADCCB41-8282-446E-BC33-7676AEB94BB0.jpeg" onclick="openModal();currentSlide(134)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/CEA3804B-51D2-490A-B33B-76016619001E.jpeg" onclick="openModal();currentSlide(135)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/CFE2A8CB-0037-4C42-AA5A-4D4655946760.jpeg" onclick="openModal();currentSlide(136)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/D12D7E1E-C69C-4DC7-B443-AB980111C39E.jpeg" onclick="openModal();currentSlide(137)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/D1542AC0-7609-4FFD-8124-27FA57DE9D12.jpeg" onclick="openModal();currentSlide(138)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/D17002AA-C776-45A6-9392-39417B8F937E.jpeg" onclick="openModal();currentSlide(139)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/D3C526B7-83ED-49CB-BB57-D8D549162C17.jpeg" onclick="openModal();currentSlide(140)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/D6A562A1-18C9-460B-B613-C08307BEB1D8.jpeg" onclick="openModal();currentSlide(141)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/D6BD90C2-5ADD-48C1-A3B7-BAF83E0F7503.jpeg" onclick="openModal();currentSlide(142)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/DBBC2BAF-5729-48AC-99C7-5F9E00645F07.jpeg" onclick="openModal();currentSlide(143)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/DBEF14B0-7976-44A1-8DF7-4912DBFC2B84.jpeg" onclick="openModal();currentSlide(144)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/DDB9A30E-769A-4929-9075-ED1AF79DA56B.jpeg" onclick="openModal();currentSlide(145)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E102A2A4-16FD-44BF-9C4B-3A3C0BDC81B9.jpeg" onclick="openModal();currentSlide(146)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E162E8C1-502B-43DD-9510-25AC67C6B8D7.jpeg" onclick="openModal();currentSlide(147)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E2F10F77-2131-4CFD-841A-D5CB822FC117.jpeg" onclick="openModal();currentSlide(148)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E595C3C0-E984-4FF2-BFCC-27B9C5539DB8.jpeg" onclick="openModal();currentSlide(149)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E602C6A2-D08E-4E1F-9CAD-B56761F8190F.jpeg" onclick="openModal();currentSlide(150)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E655B8F3-5453-4357-A76F-BB4AAB8763B5.jpeg" onclick="openModal();currentSlide(151)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E6FFBC75-8612-4525-9327-63F65D09AF6D.jpeg" onclick="openModal();currentSlide(152)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E87C42D4-2FEE-401D-AB49-6A1BB5FE0D6C.jpeg" onclick="openModal();currentSlide(153)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E92DD547-C8E0-4BAD-BB59-C5B143188E01.jpeg" onclick="openModal();currentSlide(154)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/EC169137-8C77-47D4-BDD4-3672B1CE0545.jpeg" onclick="openModal();currentSlide(155)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/EC2F632A-8DA2-44B8-BE73-5BA3FCB58F7C.jpeg" onclick="openModal();currentSlide(156)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/EE3BD94D-97D6-4C53-8BC1-C75711CFE737.jpeg" onclick="openModal();currentSlide(157)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/EE9D34E3-7A58-4526-AE68-BD259436A0A3.jpeg" onclick="openModal();currentSlide(158)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/F96F2BD8-1F30-4357-8096-AD54B251308E.jpeg" onclick="openModal();currentSlide(159)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/F98A1368-1172-4577-8B90-9644F060FC14.jpeg" onclick="openModal();currentSlide(160)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/FCA11FA1-55A3-49D3-86C2-DB9B9F40C59D.jpeg" onclick="openModal();currentSlide(161)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/FCF56A81-0DA5-4E45-90C3-9D562F2E6728.jpeg" onclick="openModal();currentSlide(162)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/FDAAECCD-887E-4831-8023-B29AC0F7B4DF.jpeg" onclick="openModal();currentSlide(163)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/FEC4F035-4E4C-4388-B087-6BF552C5A0BC.jpeg" onclick="openModal();currentSlide(164)" alt="Service Photo">
+      </div>
+    </div>
+</section>
+
+<!-- The Modal/Lightbox -->
+<div id="myModal" class="modal">
+  <span class="close cursor" onclick="closeModal()">&times;</span>
+  <div class="modal-content">
+
+    <div class="mySlides">
+      <div class="numbertext">1 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/00AD071C-85FB-48DD-840C-08CECBCA30CA.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">2 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/00E1B998-B17B-492A-A9EE-22E9F42AEA06.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">3 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/05E33FCD-DEA0-4BEC-AC55-5EA298B5F1D6.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">4 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/0B7DF835-9D48-447D-94F5-5CC524A6269B.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">5 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/0BA0BD13-6564-4FF6-96C4-E08FC15A6BBF.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">6 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/0BBBFC0B-2B64-4321-811C-121018D4EC4D.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">7 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/0C8BFCB6-B3B0-4BC8-877D-5E2E1BFC4950.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">8 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/0D821492-C6A4-4EA9-9B30-F51652C46517.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">9 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/0F640B64-1610-478F-B421-44DC4C2C9E87.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">10 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/14771DE4-9A92-4355-B3C2-7BAE36E5AB1C.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">11 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/16454AAC-5590-46B6-8EFF-D9A9ECC7E20E.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">12 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/1CA2C0DA-2854-4AEA-94E5-5C664BB56516.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">13 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/1DC60D45-FFE4-4CB2-AD21-9801C62E8E7F.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">14 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/1E62EE4A-13A3-4753-AE00-CE690BA50891.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">15 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/1F7D0870-96A4-43DF-9756-AC10DCA11B9F.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">16 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/20BC1DCA-D15C-468C-AB35-8183661DEAF4.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">17 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/23BC1BCA-F1E4-4177-90FE-DC1D6E5A2E98.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">18 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/2442826F-6E63-41ED-89CA-5082F0D70119.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">19 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/244F7D3F-5BEB-40FE-AAC0-78994A74AA03.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">20 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/268865EE-1EE5-49F1-8B27-9A280EBA03CA.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">21 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/28FFD183-94C9-4F7B-AB12-6DE3260FAC39.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">22 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/2AA988FD-7843-4A46-8DAC-2583C0380AAA.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">23 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/2E781AEF-70C4-4182-9F92-CFC7EAF815D5.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">24 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/2FA64232-5187-48DA-AB09-14475115962B.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">25 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/30075CD0-05FC-4495-BDC7-61DFBD9BD801.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">26 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/329C396B-7317-44E4-90C1-A06550D50591.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">27 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3425F0C9-103C-4B24-A6B3-79ED4F392772.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">28 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/34F2A972-AE9D-42F1-9873-CBF9463F15D8.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">29 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3648E54D-A914-4B7B-8141-0DA49AF53C41.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">30 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3759679B-D220-417D-B524-5ADABADB97FD.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">31 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/38035BD7-DD23-4A9E-B3CF-121FCF5BEAF2.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">32 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/38B461E2-0503-4E4B-B3F1-C9188C26A620.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">33 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/399F0424-2B86-45B2-97E6-E6C99BC2847D.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">34 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3A5F8BB1-0536-43F5-85B1-FE9ACB5890D4.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">35 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3DBCB8BA-16E1-49CF-8BF2-73028DF3338F.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">36 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3DF7EEA7-4FDB-472D-A312-02C0000266C8.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">37 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3E049287-84B5-4A58-BE46-8894D85A16FB.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">38 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3E0DDA35-77D9-476F-A05C-B474FD814789.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">39 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3E3B6DD6-5D0A-4B08-94B3-8A1B32F5466F.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">40 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3F3DAC33-DECF-4FDE-8101-6551CAB780BD.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">41 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/3F8476AC-2FFD-40CA-9FA2-990D5D1344B6.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">42 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/41037B21-C1A7-4489-8001-7E4635DB8619.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">43 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/420169C6-CBFF-48F0-ABE7-77C7FA80E62D.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">44 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/43B286C4-4650-4064-BFDA-FB2D7133B2BA.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">45 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/4402D18E-7A62-49C3-9E2B-F1BAAC97163D.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">46 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/46EFCBC4-61C6-4520-977D-FE2824FBABDC.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">47 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/4AAC3C82-9128-4E67-BD8F-AAF754414D80.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">48 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/4AFF5C60-1796-41B5-807B-1A70CA877D6A.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">49 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/4C41400A-B5BA-40B0-9B6F-DD6032EF604B.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">50 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/4DD88608-217A-4760-AF58-CEFBC3F48D6E.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">51 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/4E33218C-F377-45F5-BF66-CED0E5B4DAB2.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">52 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/4EFF9727-9726-4F82-904C-57FA1300DFEC.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">53 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/4FE6E37A-680C-49A4-A173-626A4F398232.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">54 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/53450687-448D-491A-BB8F-2EC159BB22B1.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">55 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/535A59D8-9429-43B5-B8F3-B04FD212EC1A.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">56 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/54946F6F-A2C2-4569-8695-C0BFD3DC2C90.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">57 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/57725ABC-EEA7-412E-8230-5024030C9004.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">58 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/57C757EF-56C4-4644-9AA6-7899DB20975D.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">59 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/5CFA4CB8-BA47-4600-8393-F4C3F8CB5B2A.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">60 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/5D07BCEF-6E28-446B-920E-9726DD6F2737.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">61 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/5E68C6F3-077B-45B1-AB73-D66A2EE7B171.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">62 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/5F53A437-519C-4F0B-8399-9C45E8E56B35.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">63 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/5F88B94F-D10E-4D7B-978D-5AABFB42B3FF.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">64 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/606876E1-F02E-4E2F-BA65-351C11BD6F76.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">65 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/60A738C4-7289-49C5-A038-7A2472D88EA5.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">66 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/65226E77-CCAA-4EEF-970A-28D2F23EAC1A.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">67 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/663549EB-BBC0-4792-B534-B43033754C0A.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">68 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/66400087-9D6B-493A-BD50-CEFB5210EE8C.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">69 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/6668DC17-BC95-4F9B-91E2-09C43468E0EA.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">70 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/66F5ADB7-DEAA-4BEE-AF2D-E2A413582E9E.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">71 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/67DC6347-B1C9-4F3E-A193-B1214F989A82.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">72 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/68A0F455-ABD0-42B4-A311-98C1C3A088B3.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">73 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/6B7A7C9F-7012-4673-8FFA-7B9034D2A345.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">74 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/6F6D4D70-8640-408D-BF88-4D4D4AF3EA41.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">75 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/70E3859B-9D19-47A6-9E94-52631E081E94.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">76 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/741012F1-1C09-48C4-B4F2-14EB194368DD.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">77 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/746CC223-0E17-4DB1-B057-21B30E5DE842.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">78 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/749AB62E-0A77-4962-A9B2-F5BE80AF44C1.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">79 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/763B5EC8-DE08-4CB6-A376-B6610A097934.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">80 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/76CCB0E0-2B6E-4DB7-A8E6-20C9407CC0F9.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">81 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/775346DE-3F64-4194-8554-8E12678369C4.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">82 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/793C6B40-32FF-44B3-8F12-ABAC8959A057.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">83 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/7BEAB136-1DF2-4316-A428-2817D76D69FC.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">84 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/7F737A36-7C88-4120-A7F0-34FD97219970.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">85 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/801F4F68-54B0-48C2-B693-60C25D015947.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">86 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/811A64D0-7297-48FB-8288-7E30A4665479.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">87 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/81EC6485-346F-4562-AC8E-739A31E4CADC.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">88 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/826F4AC8-E900-4840-9AD5-A7367E0BEF96.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">89 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/84A34A5E-4932-4BB2-94D2-37E4D0090298.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">90 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/850E49A2-3CDF-4A19-A47D-AE2A599B4103.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">91 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/85AB2B7D-FA7A-428A-AA0F-281EA52090BE.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">92 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/865CEF69-A5A0-404E-9605-D9DDA1888FA6.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">93 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/86A9AB4F-2E2D-4461-AA0A-C2BF68921475.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">94 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/8B74A76C-E073-4FE7-A102-3B76ACD5C3C5.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">95 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/8D0DD657-DC7C-457F-8DC2-FF3A2318CF4C.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">96 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/8D50125A-6799-41BE-8BC1-13A1A08C42A0.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">97 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/906C27F4-AE9B-466D-9265-3DA8A00C975C.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">98 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/93397E2C-D248-4B3E-B909-40CD68EA9E9B.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">99 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/97D00C36-E783-4034-8418-27458F3ADC65.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">100 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/9866687C-1E6E-4776-87E9-C470FBC4C3AC.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">101 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/99769947-828C-4DD2-9E60-FAA8A6EB4766.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">102 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/9B2862A1-ACA6-46C5-82BE-5627FCFE3EC1.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">103 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/9BA50FA7-5A86-47AE-B4C7-7CB696F0E54B.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">104 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/9D9AC44C-3EAC-4CD5-BA96-79D43EEDC7F7.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">105 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/9F4734B3-4FA8-42BE-BC45-ADF62B1150AA.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">106 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/A01235B1-C145-4A23-86A9-0FFC05CF9374.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">107 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/A0EFB36F-DA2D-4AA1-B414-6A51EAC7BD91.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">108 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/A1492242-15C7-4FDD-A29C-3549A3DB3D1F.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">109 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/A37E7AC8-6CDE-46B2-BEF1-9866256851CD.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">110 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/A39BC008-66C0-410A-AFB6-E48FC411478D.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">111 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/A5878911-1DAA-4142-88F8-4F9108409167.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">112 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/A73E714E-E5D8-446A-881C-AD72B4E5FDB1.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">113 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/AB252C07-EAE6-4924-A6F5-54E5D4F55E52.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">114 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/ACAD4989-D08D-49D4-B3B3-622F2C745823.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">115 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/ACB0D7FA-E0C6-495C-B3B1-4FCD90B71C17.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">116 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/ACB67F04-2D3F-47B5-B9F4-B82457FD9654.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">117 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/AEC91E86-5440-4E6C-8ECE-00D47A63CC4D.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">118 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/B2D5F26B-B133-4ECC-9C02-36BC6FA1B3E3.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">119 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/B3C557BB-D725-49EC-A12E-551702FD51B7.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">120 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/B5C44154-8774-4027-8124-5D3C6701CE99.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">121 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/B60AECDD-1B78-4899-8BB3-5594AF866F0B.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">122 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/B6742711-B7A7-4248-BA3D-EEE644225AB2.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">123 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/BAC97864-BAA5-4B52-83B8-13D0C60575B6.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">124 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/BBF68F32-9B84-4250-BB37-D5A6D9AC18BB.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">125 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/BCED8833-7CED-4C5B-B612-37C774E417B5.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">126 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/BD63FE3B-A994-4813-8B0E-58833AFE80CB.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">127 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/BF27C46D-3DC3-47DF-AAE0-427446B10DDD.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">128 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/C26AFE4A-4E8C-48C5-A295-F8A3D6E9DC45.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">129 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/C2C4E0AA-E511-4BD5-A7DD-D7C8C27D4AFE.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">130 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/C5ACD6AE-BC83-45DE-8F1F-15FBC9819C4E.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">131 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/C5C666DA-73CC-4E11-B548-D1FC1F69051D.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">132 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/C791F23D-C882-4B92-B415-77F3C4A7B311.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">133 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/C968F000-3DA5-4FE4-9225-75999F2FEDF0.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">134 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/CADCCB41-8282-446E-BC33-7676AEB94BB0.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">135 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/CEA3804B-51D2-490A-B33B-76016619001E.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">136 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/CFE2A8CB-0037-4C42-AA5A-4D4655946760.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">137 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/D12D7E1E-C69C-4DC7-B443-AB980111C39E.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">138 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/D1542AC0-7609-4FFD-8124-27FA57DE9D12.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">139 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/D17002AA-C776-45A6-9392-39417B8F937E.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">140 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/D3C526B7-83ED-49CB-BB57-D8D549162C17.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">141 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/D6A562A1-18C9-460B-B613-C08307BEB1D8.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">142 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/D6BD90C2-5ADD-48C1-A3B7-BAF83E0F7503.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">143 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/DBBC2BAF-5729-48AC-99C7-5F9E00645F07.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">144 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/DBEF14B0-7976-44A1-8DF7-4912DBFC2B84.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">145 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/DDB9A30E-769A-4929-9075-ED1AF79DA56B.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">146 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E102A2A4-16FD-44BF-9C4B-3A3C0BDC81B9.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">147 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E162E8C1-502B-43DD-9510-25AC67C6B8D7.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">148 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E2F10F77-2131-4CFD-841A-D5CB822FC117.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">149 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E595C3C0-E984-4FF2-BFCC-27B9C5539DB8.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">150 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E602C6A2-D08E-4E1F-9CAD-B56761F8190F.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">151 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E655B8F3-5453-4357-A76F-BB4AAB8763B5.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">152 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E6FFBC75-8612-4525-9327-63F65D09AF6D.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">153 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E87C42D4-2FEE-401D-AB49-6A1BB5FE0D6C.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">154 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/E92DD547-C8E0-4BAD-BB59-C5B143188E01.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">155 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/EC169137-8C77-47D4-BDD4-3672B1CE0545.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">156 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/EC2F632A-8DA2-44B8-BE73-5BA3FCB58F7C.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">157 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/EE3BD94D-97D6-4C53-8BC1-C75711CFE737.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">158 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/EE9D34E3-7A58-4526-AE68-BD259436A0A3.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">159 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/F96F2BD8-1F30-4357-8096-AD54B251308E.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">160 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/F98A1368-1172-4577-8B90-9644F060FC14.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">161 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/FCA11FA1-55A3-49D3-86C2-DB9B9F40C59D.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">162 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/FCF56A81-0DA5-4E45-90C3-9D562F2E6728.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">163 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/FDAAECCD-887E-4831-8023-B29AC0F7B4DF.jpeg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">164 / 164</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Event Services/Father's Day 2026/FEC4F035-4E4C-4388-B087-6BF552C5A0BC.jpeg" style="width:100%">
+    </div>
+
+    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+    <a class="next" onclick="changeSlide(1)">&#10095;</a>
+  </div>
+</div>
+
+<!-- Copyright Footer -->
+<footer style="background: #750c83; color: #fff; text-align: center; padding: 30px 10px 20px 10px; margin-top: auto; width: 100%;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <p style="font-size: 1.2em; margin-bottom: 10px;">
+            &copy; 2025 Kharis Church. All rights reserved.
+        </p>
+        <p style="margin-bottom: 10px;">
+            <a href="/Index.html" style="color: #fff; text-decoration: underline;">Home</a> |
+            <a href="mailto:info@kharis.org" style="color: #fff; text-decoration: underline;">Contact</a> |
+            <a href="https://www.facebook.com/KharisMinistries" target="_blank" style="color: #fff; text-decoration: underline;">Facebook</a> |
+            <a href="https://www.instagram.com/kharischurch/" target="_blank" style="color: #fff; text-decoration: underline;">Instagram</a>
+        </p>
+        <p style="font-size: 0.95em; opacity: 0.8;">
+            Kharis Church, London, UK
+        </p>
+    </div>
+</footer>
+
+<script>
+// Open the Modal
+function openModal() {
+  document.getElementById("myModal").style.display = "block";
+}
+
+// Close the Modal
+function closeModal() {
+  document.getElementById("myModal").style.display = "none";
+}
+
+var slideIndex = 1;
+
+// Next/previous controls
+function changeSlide(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("demo");
+  var captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  if (captionText) {
+    captionText.innerHTML = dots[slideIndex-1].alt;
+  }
+}
+
+// Initialize slides on page load
+showSlides(slideIndex);
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    let modal = document.getElementById("myModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") {
+        closeModal();
+    }
+});
+
+// Navigate with arrow keys
+document.addEventListener('keydown', function(e) {
+    let modal = document.getElementById("myModal");
+    if (modal.style.display === "block") {
+        if (e.key === "ArrowLeft") {
+            changeSlide(-1);
+        } else if (e.key === "ArrowRight") {
+            changeSlide(1);
+        }
+    }
+});
+
+// Download all images as ZIP
+async function downloadAllImagesAsZip() {
+  const zip = new JSZip();
+  const images = document.querySelectorAll('.gallery-row .demo');
+
+  for (let i = 0; i < images.length; i++) {
+    const img = images[i];
+    try {
+      const response = await fetch(img.src);
+      const blob = await response.blob();
+      zip.file(`kharis-church-photo-${i + 1}.jpg`, blob);
+    } catch (error) {
+      console.error(`Failed to fetch image ${i + 1}:`, error);
+    }
+  }
+
+  const content = await zip.generateAsync({type: 'blob'});
+  saveAs(content, 'fathers-day-2026-photos.zip');
+}
+</script>
+
+</body>
+</html>

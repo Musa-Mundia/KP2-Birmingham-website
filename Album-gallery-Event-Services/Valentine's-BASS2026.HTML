@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" type="text/css" href="External_demo.css">
+      <link rel="icon" href="https://kp2-website-pz.b-cdn.net/media/Logo_transparent_noText.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=person" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=person" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- JSZip and FileSaver libraries for downloading images as ZIP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <title>Valentine's BASS 2026</title>  
+</head> 
+
+<body>     
+    <style>
+      /* Text styling of choice from Google fonts */
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      body {
+       font-family: "Oswald", serif;
+       display: flex;
+       flex-direction: column;
+     }
+
+     header {
+       background-color: purple;
+       width: 100%;
+       padding: 0;
+       margin: 0;
+       box-sizing: border-box;
+     }
+
+     .uicore.elementor-container {
+       display: flex;
+       align-items: center;
+       padding: 0;
+       margin: 0;
+       width: 100%;
+     }
+
+     .uicore-branding {
+       background-color: purple;
+       padding: 20px;
+       width: 100%;
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-branding a {
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-logo {
+       width: 8% !important;
+       height: auto;
+     }
+
+     @media screen and (max-width: 768px) {
+        .topnav {
+            padding-left: 0;
+        }
+        .uicore-logo {
+          width: 12% !important;
+        }
+     }
+
+     section.featured-gallery {
+       flex: 1;
+       display: flex;
+       flex-direction: column;
+     }
+
+    /* Gallery Grid */
+    .gallery-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    /* Row and Column Styles */
+    .row > .column {
+      padding: 0 8px;
+    }
+
+
+    /* Create four equal columns that floats next to eachother */
+    .column {
+      float: left;
+      padding: 0 8px;
+      display: flex;
+      flex-direction: column;
+      max-inline-size: 100%;
+    }
+
+    /* The Modal (background) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: black;
+    }
+
+    /* Modal Content */
+    .modal-content {
+      position: relative;
+      background-color: #000;
+      margin: auto;
+      padding: 0;
+      width: 90%;
+      max-width: 1200px;
+    }
+
+    /* The Close Button */
+    .close {
+      color: white;
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #999;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Hide the slides by default */
+    .mySlides {
+      display: none;
+    }
+
+    /* Next & previous buttons */
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      padding: 16px;
+      margin-top: -50px;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .prev {
+      left: 0;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Number text (1/3 etc) */
+    .numbertext {
+      color: #f2f2f2;
+      font-size: 12px;
+      padding: 8px 12px;
+      position: absolute;
+      top: 0;
+    }
+
+    /* Caption text */
+    .caption-container {
+      text-align: center;
+      background-color: black;
+      padding: 2px 16px;
+      color: white;
+    }
+
+    img.demo {
+      opacity: 0.6;
+      cursor: pointer;
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: 0.3s;
+      flex-grow: 1;
+    }
+
+    .active,
+    .demo:hover {
+      opacity: 1;
+    }
+
+    img.hover-shadow {
+      transition: 0.3s;
+    }
+
+    .hover-shadow:hover {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    /* Responsive columns for mobile */
+    @media screen and (max-width: 1200px) {
+      .gallery-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media screen and (max-width: 800px) {
+      .column {
+        width: 50%;
+      }
+      .gallery-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+      img.demo {
+        height: 200px;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .column {
+        width: 100%;
+      }
+      .gallery-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      img.demo {
+        height: 180px;
+      }
+    }
+
+    .btn {
+      background-color: rgb(115, 16, 118);
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 500;
+      padding: 10px 20px;
+      letter-spacing: 0.5px;
+      border-radius: 5000px;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .btn--download {
+      padding: 16px 32px 15px 20px;
+      font-size: 16px;
+      position: fixed;
+      bottom: 27px;
+      left: calc(46%);
+      z-index: 100;
+      text-align: center;
+      box-shadow: 0 6px 23px rgba(0,0,0,0.45);
+      animation: fade-up 0.5s 0.4s backwards;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn--download:hover {
+      text-decoration: none;
+      background-color: rgb(61, 37, 68);
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Darker background on mouse-over */
+    .btn:hover {
+      background-color: rgb(61, 37, 68);
+    }
+
+    .btn--back {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 18px;
+      margin-right: 20px;
+      margin-left: 20px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      transition: background 0.2s;
+      align-self: center;
+      white-space: nowrap;
+      order: -1;
+    }
+
+    .btn--back:hover {
+      background: rgba(255,255,255,0.25);
+      color: white;
+    }
+
+   </style>
+ <header>
+            <nav class="uicore elementor-container">
+                     <div class="uicore-branding">
+                
+            <a href="/Index.html" rel="home">
+                <img class="uicore uicore-logo uicore-main" src="https://kharis.org/wp-content/uploads/2022/08/Logo_transparent_noText.png" alt="Kharis Church">
+                    </a>
+
+                </div>
+                <a href="/Gallery-Selection/Events-selection.HTML" class="btn--back">&#8592; Back</a>
+      </nav>
+    </header>
+<section class="featured-gallery">
+    <div class="categories">
+      <div class="small-container">
+        <div class="row row-2">
+          <h2>Valentine's BASS 2026</h2>
+      </div>
+
+      <div>
+      <button onclick="downloadAllImagesAsZip()" class="btn btn--download">
+           <i class="fa fa-download"></i> Download all <span class="u-bolder">photos</span>
+      </button>
+      </div>
+
+    <div class="gallery-row"></div>
+  </div>
+</section>
+
+<!-- The Modal/Lightbox -->
+<div id="myModal" class="modal">
+  <span class="close cursor" onclick="closeModal()">&times;</span>
+  <div class="modal-content">
+    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+    <a class="next" onclick="changeSlide(1)">&#10095;</a>
+  </div>
+</div>
+
+<!-- Copyright Footer -->
+<footer style="background: #750c83; color: #fff; text-align: center; padding: 30px 10px 20px 10px; margin: 0; width: 100%; box-sizing: border-box; margin-top: auto;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <p style="font-size: 1.2em; margin-bottom: 10px;">
+            &copy; 2025 Kharis Church. All rights reserved.
+        </p>
+        <p style="margin-bottom: 10px;">
+            <a href="/Index.html" style="color: #fff; text-decoration: underline;">Home</a> |
+            <a href="mailto:info@kharis.org" style="color: #fff; text-decoration: underline;">Contact</a> |
+            <a href="https://www.facebook.com/KharisMinistries" target="_blank" style="color: #fff; text-decoration: underline;">Facebook</a> |
+            <a href="https://www.instagram.com/kharischurch/" target="_blank" style="color: #fff; text-decoration: underline;">Instagram</a>
+        </p>
+        <p style="font-size: 0.95em; opacity: 0.8;">
+            Kharis Church, London, UK
+        </p>
+    </div>
+</footer>
+
+<script>
+// Open the Modal
+function openModal() {
+  document.getElementById("myModal").style.display = "block";
+}
+
+// Close the Modal
+function closeModal() {
+  document.getElementById("myModal").style.display = "none";
+}
+
+var slideIndex = 1;
+
+const imageBasePath = 'https://kp2-website-pz.b-cdn.net/media/Event Services/Valentines BASS 2026';
+const valentineImageFiles = [
+  '01219E6D-C964-4EA2-9326-8E5BDCE8F610.jpeg',
+  '0237D294-FB29-4A0E-B342-9B275A462CAD.jpeg',
+  '041805B3-0776-430E-84AC-39CFAD303FBD.jpeg',
+  '043A364C-2833-406B-B655-5B30C2EC7369.jpeg',
+  '044EDA61-D673-4077-B0D8-63778C21C52A.jpeg',
+  '04B93B3B-B930-424D-990A-B402489768CD.jpeg',
+  '052E2FE4-B9F4-48F5-96CD-54BCC8BDE9CC.jpeg',
+  '0A84B66B-EE82-4AF9-B2B0-C4FFFD9C4F2A.jpeg',
+  '0A86FB85-80F4-41FA-9591-C07A5105F6CA.jpeg',
+  '0B35271F-D12C-44E7-90A1-43FFA79B6BE3.jpeg',
+  '0B8F92D8-4399-4AA2-BB3F-B96E009C956B.jpeg',
+  '0D11A067-DEFF-40FF-9CBE-EE40F28F06DF.jpeg',
+  '0D853504-AEC0-414A-87D4-9FA2399866E7.jpeg',
+  '0E9715B6-9B38-48D7-B35B-077E168F8996.jpeg',
+  '0EEEF10B-BEC8-4FCD-B24E-3BBA6C47A9AD.jpeg',
+  '10AAAF1C-B0C4-447A-98F5-261C3C43CC98.jpeg',
+  '1372A63C-7137-4484-9195-137F9B4469B6.jpeg',
+  '14064D6E-E564-46A7-8BDE-0164001367DB.jpeg',
+  '1639188B-2A7E-4D37-8315-FB52A3D9E4BC.jpeg',
+  '16D5F33C-E5BC-450F-A268-AB8F6A6EF48D.jpeg',
+  '170E628B-C7F1-4947-AE9C-F1C154FE6480.jpeg',
+  '17996477-E6A0-4253-8781-C19856B889BF.jpeg',
+  '1AF8191D-A721-4CC4-88E0-0726D7B3242D.jpeg',
+  '1B7B1DD3-CF6B-409B-A5FE-CED002DC1CF4.jpeg',
+  '1BC28693-9B68-41AA-9D86-9C291379B03C.jpeg',
+  '1D53D2AC-E86A-4C98-96CC-1384BBB0E866.jpeg',
+  '1F12F0FE-1D9E-42CB-91A0-9CC1548028D0.jpeg',
+  '1FA341E5-1B25-4F88-8968-ECD89ACC3FA1.jpeg',
+  '210B90D8-3D03-4682-8837-260331261CEA.jpeg',
+  '21AFB4A5-5B46-4914-844C-F71CA281377C.jpeg',
+  '223DBC1A-C6C5-4276-8048-2D8229AC1F90.jpeg',
+  '23147665-1769-44ED-955D-57D584C6B4C0.jpeg',
+  '23565909-2794-4226-94BE-E20B50774B07.jpeg',
+  '23E980B4-350D-429F-A6EA-995140F584B3.jpeg',
+  '24AE3CB9-E5E1-49F3-9AD6-58AF779F1917.jpeg',
+  '255E5B22-14B0-417D-8535-84FE6866247C.jpeg',
+  '272BE243-351C-4BC5-8175-DCD20C363571.jpeg',
+  '27A95919-8BE5-4FDE-80B1-6C8C5A343E4F.jpeg',
+  '28941A9B-3414-469B-B853-E5A9E458B0F5.jpeg',
+  '296DA0BB-0247-4381-ADCB-BB6BD8275CF9.jpeg',
+  '2AA929C0-9445-49B0-BFCF-F14BC3A45F7F.jpeg',
+  '2BE8830D-DFB2-4D07-89BA-93A4A6FEFFB6.jpeg',
+  '2D536599-6491-46C0-A86A-59FD3B253A3F.jpeg',
+  '2DECDD42-7BE7-4CD5-AAB2-E703691436C8.jpeg',
+  '2EC8F5EF-7044-4180-9532-CD771F95C075.jpeg',
+  '309EC4B4-B997-492F-8FBE-24C3A5A27D48.jpeg',
+  '31845E52-A437-4FF2-82B4-FFBF54A142E5.jpeg',
+  '34F2F040-3779-407D-936E-C249062A9155.jpeg',
+  '3554CD82-DAF6-477B-939D-2F7195571192.jpeg',
+  '37A2417D-4B40-44C9-9D5C-F3262C752324.jpeg',
+  '394AC794-BB02-4819-8DDC-A7A7EFDE027F.jpeg',
+  '3A43603B-2D6F-4D6E-B0E3-6F91F9C1BED5.jpeg',
+  '3A576731-24AD-4E41-A2DB-8B94D8DB75E3.jpeg',
+  '3B374DE8-17AF-46CB-85A8-E22AF09F95DD.jpeg',
+  '3B9EE560-F2F4-429A-B257-26E072899111.jpeg',
+  '3CA73B18-3761-4B81-9513-33138D4BD126.jpeg',
+  '439ED327-0BBE-416F-AF36-08D7AE018F3A.jpeg',
+  '44AC1BD4-37E5-4435-A882-8D597AE0EE98.jpeg',
+  '45A3520D-AE64-47ED-990A-BDA4735F0B39.jpeg',
+  '46B69BBB-4530-45FB-960C-A84AD335A5BB.jpeg',
+  '46BEE79F-5488-4C1D-ACFF-E2110E6F14D1.jpeg',
+  '46D54318-8F2D-4D5C-BE23-D34D92511168.jpeg',
+  '47240EBB-6A81-48E8-9913-F62CE83E9965.jpeg',
+  '47A184C1-DDD1-4B0A-81F9-EFB773D5BAC9.jpeg',
+  '47E069F8-D2B9-4157-AC62-CEC18D5EF79B.jpeg',
+  '4AC2B8E8-B6CE-4C72-9386-2BDF8A1426B1.jpeg',
+  '4B86DF43-8B73-4B34-8E66-66D90CDD965D.jpeg',
+  '4D2357ED-5407-4B8E-9EEB-D72F086FFEC0.jpeg',
+  '4DDD86F7-DE5C-4F49-B36F-7258B05569FA.jpeg',
+  '4E51E2C2-4ACE-40E3-8BD9-7BF0D793CEED.jpeg',
+  '4E851FD7-AD2B-4D9C-8347-E91C6F2B115B.jpeg',
+  '537A01B9-CF6A-4FED-B572-31522276E28A.jpeg',
+  '5421D98D-CF79-4FCE-85C3-0C23222812BB.jpeg',
+  '5424D85F-578A-427E-90AB-68855A367FB4.jpeg',
+  '5663BBC8-3682-45CB-A0CB-869EB75A50AE.jpeg',
+  '57436F68-ED8A-467E-AA1A-DF4127E7064A.jpeg',
+  '57B89F2A-A980-4EB7-8BF1-BA831BBBF105.jpeg',
+  '57BD618E-D100-43EE-8FA7-CE3D279D7823.jpeg',
+  '582DADE0-45A3-4D68-B641-7108A65F4E6F.jpeg',
+  '59B9B4CB-585B-4A15-B063-DA8857C43315.jpeg',
+  '59DCF2E4-CDB1-4FE5-BA8A-6E0B197102CD.jpeg',
+  '5A149938-CCAE-4597-8CEF-FBDC230117D3.jpeg',
+  '5B57E3B6-9FE0-497B-B675-DEF49E996AE4.jpeg',
+  '5B8AA379-3DB6-46C8-9742-73E92F70C650.jpeg',
+  '5CFD5DA2-B5D6-4A9D-B113-C2CF6B7691E3.jpeg',
+  '5D7E313C-997D-4E06-8107-D35AB74CA6D0.jpeg',
+  '5E770D04-826D-4DE3-86C3-C7370178E4F6.jpeg',
+  '5F584168-7722-42C9-99A8-8F77D9FCFCFF.jpeg',
+  '6079BA66-0BFA-426A-9BCE-2539C9790724.jpeg',
+  '673C75DF-122E-4F91-94EE-A07297E4FE71.jpeg',
+  '67AC2E98-88E2-48C0-8D1F-40F2F14E42CD.jpeg',
+  '68C25042-B3EA-4474-BDB7-DF61269CB683.jpeg',
+  '68FDBEFE-FCDB-49EF-99F1-9E400CE3BCBB.jpeg',
+  '69BAA3DB-3373-4C22-8254-BDA66412B36A.jpeg',
+  '6CCEFB73-6B23-4D34-BD4B-F156C5C292E5.jpeg',
+  '6CEB027F-9FED-452C-BABB-839DFBF89BCA.jpeg',
+  '6D1468C3-2AD3-4400-81C5-A9C3A7EAAE15.jpeg',
+  '704A14E9-4CAB-4DFE-9C8F-F3EB720A2F9B.jpeg',
+  '70733B0F-E0B0-4611-B29D-8706ED06F6E1.jpeg',
+  '712ED884-2C72-4393-8A1E-EADC634558FE.jpeg',
+  '7180BACD-4D43-4973-A7CF-F50D67A6E995.jpeg',
+  '72499485-1865-4D25-A41B-74527CB83C2A.jpeg',
+  '7267FBC5-E6A6-4A5E-92E2-628EA89F481D.jpeg',
+  '727CD884-4A0C-4257-8B58-2FE6288A0AEB.jpeg',
+  '7387E6A8-B12B-4BF3-8EFD-7719B60D5A65.jpeg',
+  '74937096-FB45-4BB0-84DE-AADF8CEDC39D.jpeg',
+  '77E9D54B-8909-4D3F-8843-03A8F47C221B.jpeg',
+  '7A6B43E0-0DDA-41F2-B4FD-2F315E63871E.jpeg',
+  '7AF12479-FEC1-414F-A711-8F4DA9A8519C.jpeg',
+  '7B18FCC8-DA82-4701-B5F5-64FC9C7493BF.jpeg',
+  '7C92AFE3-3471-4BA6-88B0-CAF7B460CC6C.jpeg',
+  '7EAF56C8-E7BB-4344-8AC5-87680F0A9907.jpeg',
+  '7F46CA7B-CA3E-4426-ABAC-160CF93607E6.jpeg',
+  '7F9FA21C-CB21-436A-A6F4-86A9E27B48EE.jpeg',
+  '7FA7EDA3-0749-4FDB-B57E-E7EF5D45E401.jpeg',
+  '8066AC0A-E9CC-48AF-9EEA-5C259CDA55E4.jpeg',
+  '807A4845-45A7-47C8-A56F-9E4CCF2BC84F.jpeg',
+  '8125D07E-28C2-48C9-968C-8DC504D6E743.jpeg',
+  '8446F2D7-D211-4061-95FF-27AB7F0D73D6.jpeg',
+  '84D16032-9853-4D49-9DFB-8DB5855236B7.jpeg',
+  '86637B90-1398-4945-8680-9DD72D891ED9.jpeg',
+  '86F4871E-5CC5-426F-BBEC-11957CEF55EC.jpeg',
+  '8871D4D4-72E8-4B92-AA74-7A78931E8789.jpeg',
+  '88DDA233-32F3-462A-AEBD-3FDA422FD840.jpeg',
+  '8980298F-5470-438B-BF0B-32818D8151A1.jpeg',
+  '8989F69B-6093-405A-809A-A62C4A6ACD5A.jpeg',
+  '89E60829-F81F-4C36-AA53-774BCFB2F829.jpeg',
+  '8B1A3938-BBBF-408A-8D19-81FA43B5169E.jpeg',
+  '8D3859E1-978D-4F00-84E8-DFA7B2A4FA7D.jpeg',
+  '8ECDF88C-E4E1-4E5E-B4F4-0DC42ACE303E.jpeg',
+  '8F03ADAF-2541-4503-AEDD-5CE4837A585A.jpeg',
+  '8FDA364A-00C2-491A-8AFB-345A179D3577.jpeg',
+  '8FF51714-85D0-4FC4-80AE-473E1F5ABCD3.jpeg',
+  '9068C105-FDF6-49B1-B73F-C2336D90B257.jpeg',
+  '91A9E3B4-06CC-45F6-8CAD-7ACEE90A31CB.jpeg',
+  '92B9C5AA-CABB-4567-9A3F-9159561EA5D4.jpeg',
+  '940993C3-2DFB-42AC-86BE-64AA0D6BB530.jpeg',
+  '95822CDC-6857-49CA-9D22-C96088CDFEB2.jpeg',
+  '97F9E78F-6619-4DA7-B1D3-48B92A6235B7.jpeg',
+  '984258B9-ED5F-436F-A0CA-7543D476D93E.jpeg',
+  '9855BB84-6EA5-4362-999B-0F76B94D5120.jpeg',
+  '98DC11CA-F36F-48DA-B7BA-7314F52071FD.jpeg',
+  '9C0F3AE6-9DD6-4BDF-8A48-47F36EA03BCC.jpeg',
+  '9C2C8F90-B761-4019-80DD-001D9E4482A2.jpeg',
+  '9DC71636-3494-4BF8-8AD3-A6F44E7BCE78.jpeg',
+  '9F6FF294-015C-4382-8D6D-36CC03F5A0C2.jpeg',
+  'A06101B3-23C0-401C-A55B-66D7DA4612ED.jpeg',
+  'A0E2939A-34C3-46CE-BF98-677EE6E32BE8.jpeg',
+  'A0F861E0-F021-47BC-AE97-46DE247D7A83.jpeg',
+  'A2D844C4-6EDC-4CFF-818B-12A9EFBC90F0.jpeg',
+  'A4D6D99A-E1F2-47DE-8103-BB618E10B309.jpeg',
+  'A4EEFE0F-66C7-47CA-B47A-813263C3B5EF.jpeg',
+  'A68699FC-1DD8-48A0-B4EA-5954F8CC981B.jpeg',
+  'A915B5A4-336D-4247-A33C-CBC9F18DABC2.jpeg',
+  'AC4BFB95-0BEB-43F9-A029-89611B1AC8D7.jpeg',
+  'AD96B82E-9DEA-48EC-BCE8-D11AF7B9A643.jpeg',
+  'ADF5F4B5-2B32-4854-847E-4C74FF073770.jpeg',
+  'AE0F9895-DA44-485E-833D-445CEF0DE662.jpeg',
+  'AE7BC0B3-374A-44C8-8A61-C72A3C8C9754.jpeg',
+  'AE952A28-C0F8-42E6-B9C7-EBDDB4D604A7.jpeg',
+  'AEEB3E05-5D3D-4662-B87C-505F2A1816C1.jpeg',
+  'B2CB3589-250E-4048-BA5D-EE3217D6A710.jpeg',
+  'B516E5D7-2240-468F-9CA1-FBEF7085414A.jpeg',
+  'B6221470-E2EC-4BA8-A9D8-81372745CE37.jpeg',
+  'B69B8BE1-AD95-4E3F-9653-D4C219847535.jpeg',
+  'B77EBBB5-EB5F-4CCA-BD9B-D1DB33B97EB3.jpeg',
+  'B7AD7F06-A2B1-4C79-8172-6843D5DFE0CA.jpeg',
+  'B7B9E89A-024E-4783-A3CA-D4F6A7D78D4E.jpeg',
+  'B8DF7853-1013-4822-B93A-117B22F29161.jpeg',
+  'B9D4FE7B-CE65-49DD-88F5-49FD7E3EE49F.jpeg',
+  'BAC86AB7-1C6E-49B1-947E-8DBFC707EC72.jpeg',
+  'BAE65936-2237-4DB6-B843-7A6729C959CF.jpeg',
+  'BB88C5BC-86B5-4A73-AD7B-BBBA9A73144E.jpeg',
+  'BDDCBCE8-077B-4759-B6CF-C7AE5BD717D9.jpeg',
+  'BE0AF504-67C3-4176-BAE7-4BFD5519F55C.jpeg',
+  'BEC6C657-079B-438B-BBDB-D2247F5668CE.jpeg',
+  'BF8DE3BB-E810-43B7-BE27-695D904E19DD.jpeg',
+  'BFA334F1-C9C9-4DB1-9EED-9F43DD93D262.jpeg',
+  'BFF193DC-C4B8-436D-BDD5-233839D4CCCD.jpeg',
+  'C06A91DC-51A0-477E-998C-1609BC197558.jpeg',
+  'C13CB05C-3720-4204-8DCF-EEB6BC6B5267.jpeg',
+  'C1B44927-86F8-4B2C-8B53-CA151C195EE6.jpeg',
+  'C3B91E89-4E26-4F23-B3B6-6E3369C664D0.jpeg',
+  'C463CA0A-7F16-46A8-9EDA-BEFD5B69B05E.jpeg',
+  'C51D0FF9-3541-4678-8F3C-20700D39E2E0.jpeg',
+  'C58B1B50-61B8-4BA6-BD54-BB82DE5D9B67.jpeg',
+  'C9B2F3BB-5640-4796-8D56-A8A5D650E9EE.jpeg',
+  'C9FC35D7-1AA7-4ADF-A8A5-11CC591284F1.jpeg',
+  'CB7FDA7B-346F-47F6-BC8B-AFA28CBA2919.jpeg',
+  'CD6A64B3-CB56-4B26-B355-7996B403564B.jpeg',
+  'CE62BD22-42D6-44A0-8EF1-07BD1F5B78FA.jpeg',
+  'CE7AD7FF-5828-472A-A671-5EF3079F3732.jpeg',
+  'CFAABCB8-643F-4D60-B05D-22C730A2EDD5.jpeg',
+  'D10CDD08-5D49-4C30-91D2-7D4F18C8B1B7.jpeg',
+  'D11731A6-C4D6-443D-A5F0-78A2B50BB733.jpeg',
+  'D278A7A9-04C1-467A-874D-7365B9F0392F.jpeg',
+  'D3AE6918-6E6F-4961-8EBD-C476E8980D52.jpeg',
+  'D47A84F0-C7D2-467F-90E8-2A030B57C8DE.jpeg',
+  'D4827D6E-815B-4FE2-9119-1265FBA1E1D0.jpeg',
+  'D53CD69F-4195-42AD-90D4-338C456D6F19.jpeg',
+  'D9757AD4-CB92-4757-B57F-8311646AB665.jpeg',
+  'DA34B483-63EB-4BDE-AD4B-340261821FB2.jpeg',
+  'E22BE8C1-CF99-421C-A5EC-FDC0AE3FEEC7.jpeg',
+  'E2E38544-F723-42F6-A074-66CE4B794052.jpeg',
+  'E3309F3E-A0E9-4371-B5DA-1F23F0124BC9.jpeg',
+  'E3C1CD46-D5D2-4086-9063-64BE439357DF.jpeg',
+  'E412C846-F56F-44B5-98DA-CC58F08AA228.jpeg',
+  'E53ECC24-3579-4C66-85EB-27C325389C0D.jpeg',
+  'E5624711-314E-497A-8EA6-7E66A4F69618.jpeg',
+  'E83A0D98-66D4-4B23-9B01-72B45AD8AE4B.jpeg',
+  'EA4FB792-74CC-4A91-ABF6-7E0E8808DEAA.jpeg',
+  'EAB6FA1A-A656-4DF5-8FFE-1E717B16DF54.jpeg',
+  'EBA3E10F-7FB4-4707-913F-E850A436BA91.jpeg',
+  'EBF3ACAC-764E-415E-87B2-0D4DD7097E3A.jpeg',
+  'ED05ADC1-014D-4973-9047-5B3AC8DDDDE6.jpeg',
+  'ED661548-AF50-4D82-BC33-58B25733A0B6.jpeg',
+  'EE36B499-85F1-4E12-856B-9F93303AA034.jpeg',
+  'EE59FBF7-824A-42CA-9651-1D07779A54CD.jpeg',
+  'EF4F9FDE-1DF4-42E3-8796-25F701CE1B94.jpeg',
+  'EFC05826-3A89-4511-AE9F-12F4AB2D5D74.jpeg',
+  'F0EB9B5E-AFDF-4689-BE0A-960595895C8B.jpeg',
+  'F4BA98E9-96C6-49C8-9FFC-D92053EFCE45.jpeg',
+  'F4FDA45F-1699-4600-AF93-BA8FBBC92D33.jpeg',
+  'F52EE560-A0E2-4F46-BA63-2E13B93ABC51.jpeg',
+  'F5B62674-C477-4389-A3BD-097FC8027EA2.jpeg',
+  'F60D1938-751A-494A-BDC6-236FB3DDE580.jpeg',
+  'F704B6BD-0B16-4EFC-A920-A440DE2D304C.jpeg',
+  'F7E4FB8D-0FF1-4A6B-B51D-81773F30BB0C.jpeg',
+  'F90AD417-721F-438A-9219-8259FB1E2C05.jpeg',
+  'FA9FB581-3858-455F-B942-1248343D9135.jpeg',
+  'FDD06853-7C5D-419F-BC5C-FB2A750875CF.jpeg',
+  'FE62F711-8A65-4468-BC7D-22CE79D674B2.jpeg',
+  'FEC00541-9F29-4A7C-9ED1-686CBDEBED26.jpeg',
+  'FF406CDA-B85E-4CB8-A805-999F29519253.jpeg',
+  'FF6BE749-B3BC-493F-980D-C553155C9BD4.jpeg',
+  'FF865FEF-8723-4F1A-AD25-AEC9878692CB.jpeg'
+];
+
+function buildValentineGallery() {
+  const galleryRow = document.querySelector('.gallery-row');
+  const modalContent = document.querySelector('#myModal .modal-content');
+  const prevButton = modalContent.querySelector('.prev');
+
+  if (!galleryRow || !modalContent || !prevButton) {
+    return;
+  }
+
+  galleryRow.innerHTML = '';
+  modalContent.querySelectorAll('.mySlides').forEach((slide) => slide.remove());
+
+  valentineImageFiles.forEach((fileName, index) => {
+    const slideNumber = index + 1;
+    const imagePath = `${imageBasePath}/${fileName}`;
+
+    const column = document.createElement('div');
+    column.className = 'column';
+
+    const thumb = document.createElement('img');
+    thumb.className = 'demo';
+    thumb.src = imagePath;
+    thumb.alt = 'Service Photo';
+    thumb.addEventListener('click', () => {
+      openModal();
+      currentSlide(slideNumber);
+    });
+
+    column.appendChild(thumb);
+    galleryRow.appendChild(column);
+
+    const slide = document.createElement('div');
+    slide.className = 'mySlides';
+    slide.innerHTML = `
+      <div class="numbertext">${slideNumber} / ${valentineImageFiles.length}</div>
+      <img src="${imagePath}" style="width:100%">
+    `;
+
+    modalContent.insertBefore(slide, prevButton);
+  });
+}
+
+// Next/previous controls
+function changeSlide(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("demo");
+  var captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  if (captionText) {
+    captionText.innerHTML = dots[slideIndex-1].alt;
+  }
+}
+
+// Initialize slides on page load
+buildValentineGallery();
+showSlides(slideIndex);
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    let modal = document.getElementById("myModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") {
+        closeModal();
+    }
+});
+
+// Navigate with arrow keys
+document.addEventListener('keydown', function(e) {
+    let modal = document.getElementById("myModal");
+    if (modal.style.display === "block") {
+        if (e.key === "ArrowLeft") {
+            changeSlide(-1);
+        } else if (e.key === "ArrowRight") {
+            changeSlide(1);
+        }
+    }
+});
+
+// Download all images as ZIP
+async function downloadAllImagesAsZip() {
+  const zip = new JSZip();
+  const images = document.querySelectorAll('.gallery-row .demo');
+  
+  for (let i = 0; i < images.length; i++) {
+    const img = images[i];
+    try {
+      const response = await fetch(img.src);
+      const blob = await response.blob();
+      zip.file(`kharis-church-photo-${i + 1}.jpg`, blob);
+    } catch (error) {
+      console.error(`Failed to fetch image ${i + 1}:`, error);
+    }
+  }
+  
+  const content = await zip.generateAsync({type: 'blob'});
+  saveAs(content, 'kharis-church-photos.zip');
+}
+</script>
+
+</body>
+</html>

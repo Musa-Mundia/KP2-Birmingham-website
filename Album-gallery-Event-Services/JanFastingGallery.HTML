@@ -1,0 +1,2873 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" type="text/css" href="External_demo.css">
+      <link rel="icon" href="https://kp2-website-pz.b-cdn.net/media/Logo_transparent_noText.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=person" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=person" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- JSZip and FileSaver libraries for downloading images as ZIP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <title>January 2026 Fasting Services</title>  
+</head> 
+
+<body>     
+    <style>
+      /* Text styling of choice from Google fonts */
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      body {
+       font-family: "Oswald", serif;
+       display: flex;
+       flex-direction: column;
+     }
+
+     header {
+       background-color: purple;
+       width: 100%;
+       padding: 0;
+       margin: 0;
+       box-sizing: border-box;
+     }
+
+     .uicore.elementor-container {
+       display: flex;
+       align-items: center;
+       padding: 0;
+       margin: 0;
+       width: 100%;
+     }
+
+     .uicore-branding {
+       background-color: purple;
+       padding: 20px;
+       width: 100%;
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-branding a {
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-logo {
+       width: 8% !important;
+       height: auto;
+     }
+
+     @media screen and (max-width: 768px) {
+        .topnav {
+            padding-left: 0;
+        }
+        .uicore-logo {
+          width: 12% !important;
+        }
+     }
+
+     section.featured-gallery {
+       flex: 1;
+       display: flex;
+       flex-direction: column;
+     }
+
+    /* Gallery Grid */
+    .gallery-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    /* Row and Column Styles */
+    .row > .column {
+      padding: 0 8px;
+    }
+
+
+    /* Create four equal columns that floats next to eachother */
+    .column {
+      float: left;
+      padding: 0 8px;
+      display: flex;
+      flex-direction: column;
+      max-inline-size: 100%;
+    }
+
+    /* The Modal (background) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: black;
+    }
+
+    /* Modal Content */
+    .modal-content {
+      position: relative;
+      background-color: #000;
+      margin: auto;
+      padding: 0;
+      width: 90%;
+      max-width: 1200px;
+    }
+
+    /* The Close Button */
+    .close {
+      color: white;
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #999;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Hide the slides by default */
+    .mySlides {
+      display: none;
+    }
+
+    /* Next & previous buttons */
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      padding: 16px;
+      margin-top: -50px;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .prev {
+      left: 0;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Number text (1/3 etc) */
+    .numbertext {
+      color: #f2f2f2;
+      font-size: 12px;
+      padding: 8px 12px;
+      position: absolute;
+      top: 0;
+    }
+
+    /* Caption text */
+    .caption-container {
+      text-align: center;
+      background-color: black;
+      padding: 2px 16px;
+      color: white;
+    }
+
+    img.demo {
+      opacity: 0.6;
+      cursor: pointer;
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: 0.3s;
+      flex-grow: 1;
+    }
+
+    .active,
+    .demo:hover {
+      opacity: 1;
+    }
+
+    img.hover-shadow {
+      transition: 0.3s;
+    }
+
+    .hover-shadow:hover {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    /* Responsive columns for mobile */
+    @media screen and (max-width: 1200px) {
+      .gallery-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media screen and (max-width: 800px) {
+      .column {
+        width: 50%;
+      }
+      .gallery-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+      img.demo {
+        height: 200px;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .column {
+        width: 100%;
+      }
+      .gallery-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      img.demo {
+        height: 180px;
+      }
+    }
+
+    .btn {
+      background-color: rgb(115, 16, 118);
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 500;
+      padding: 10px 20px;
+      letter-spacing: 0.5px;
+      border-radius: 5000px;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .btn--download {
+      padding: 16px 32px 15px 20px;
+      font-size: 16px;
+      position: fixed;
+      bottom: 27px;
+      left: calc(46%);
+      z-index: 100;
+      text-align: center;
+      box-shadow: 0 6px 23px rgba(0,0,0,0.45);
+      animation: fade-up 0.5s 0.4s backwards;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn--download:hover {
+      text-decoration: none;
+      background-color: rgb(61, 37, 68);
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Darker background on mouse-over */
+    .btn:hover {
+      background-color: rgb(61, 37, 68);
+    }
+
+    .btn--back {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 18px;
+      margin-right: 20px;
+      margin-left: 20px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      transition: background 0.2s;
+      align-self: center;
+      white-space: nowrap;
+      order: -1;
+    }
+
+    .btn--back:hover {
+      background: rgba(255,255,255,0.25);
+      color: white;
+    }
+
+   </style>
+ <header>
+            <nav class="uicore elementor-container">
+                     <div class="uicore-branding">
+                
+            <a href="/Index.html" rel="home">
+                <img class="uicore uicore-logo uicore-main" src="https://kharis.org/wp-content/uploads/2022/08/Logo_transparent_noText.png" alt="Kharis Church">
+                    </a>
+
+                </div>
+                <a href="/Gallery-Selection/Events-selection.HTML" class="btn--back">&#8592; Back</a>
+      </nav>
+    </header>
+<section class="featured-gallery">
+    <div class="categories">
+      <div class="small-container">
+        <div class="row row-2">
+          <h2>Fasting Services January 2026</h2>
+      </div>
+
+      <div>
+      <button onclick="downloadAllImagesAsZip()" class="btn btn--download">
+           <i class="fa fa-download"></i> Download all <span class="u-bolder">photos</span>
+      </button>
+      </div>
+
+    <div class="gallery-row">
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/008E610C-FD9D-4F52-A5A7-F942E276CC98.jpg" onclick="openModal();currentSlide(1)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/01919F50-92EE-4A5B-8DBA-F9EC6E4A2B93.jpg" onclick="openModal();currentSlide(2)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/01ADBBC5-9BD8-49C7-BCF5-E23D03DE0461.jpg" onclick="openModal();currentSlide(3)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/02DE91A3-C3A7-4FCB-B5B1-099F7A7A59C3.jpg" onclick="openModal();currentSlide(4)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/039D0BAD-E380-4599-8F07-FC936D56EB1D (1).jpg" onclick="openModal();currentSlide(5)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/039D0BAD-E380-4599-8F07-FC936D56EB1D.jpg" onclick="openModal();currentSlide(6)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/03C007CB-D3B0-4DC8-BB0B-C63C44396A98.jpg" onclick="openModal();currentSlide(7)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/04FCAD30-0721-477D-900B-ECE7F3A58713.jpg" onclick="openModal();currentSlide(8)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/0538BD29-2D5D-4CE7-A9E8-47A0A6060476.jpg" onclick="openModal();currentSlide(9)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/058A3257-7F8B-4278-81D8-9A61C407876D.jpg" onclick="openModal();currentSlide(10)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/0651E0F6-A491-45EB-967D-35AAAA89698F.jpg" onclick="openModal();currentSlide(11)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/0908BB03-481F-466F-B1C1-53DBEA52F048.jpg" onclick="openModal();currentSlide(12)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/09395BDF-C342-4687-958B-57FD9A830637.jpg" onclick="openModal();currentSlide(13)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/09B9427A-5DFB-40DC-B2C7-9BB08E4E5385.jpg" onclick="openModal();currentSlide(14)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/0AB7A9D0-C020-4084-A106-D9026F91CEEA.jpg" onclick="openModal();currentSlide(15)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/0C788CE6-1BE3-467A-B0BC-E926E9EA0015.jpg" onclick="openModal();currentSlide(16)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/0FDB06EA-5286-4AB0-9E01-8C798060B8C2.jpg" onclick="openModal();currentSlide(17)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/0FDD6A4D-9A5E-479A-A63A-36F7AF9919DC.jpg" onclick="openModal();currentSlide(18)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1169E85B-0600-41B6-80FE-3688D0F121EF.jpg" onclick="openModal();currentSlide(19)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/11773B00-418B-407F-81E6-679889261734.jpg" onclick="openModal();currentSlide(20)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/11AC92DC-D3EC-46AD-AE21-317D36CA906A.jpg" onclick="openModal();currentSlide(21)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1227A1FE-F946-4F34-BCBF-92E8459CC535.jpg" onclick="openModal();currentSlide(22)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1232CF9C-4230-44EB-8C33-1AC6F56A77E3.jpg" onclick="openModal();currentSlide(23)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/123DBE6E-A40B-49A7-B0FC-8EB456EDD47A.jpg" onclick="openModal();currentSlide(24)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/151B5253-B3A3-409D-AA06-D97D32A691DA.jpg" onclick="openModal();currentSlide(25)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/15424896-C9F2-46D3-AB62-839353521958.jpg" onclick="openModal();currentSlide(26)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1551A443-3E83-4EA4-AD32-DB2907B130F0.jpg" onclick="openModal();currentSlide(27)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/161995FA-BDD9-4A4A-9D48-7A56E906CE2B.jpg" onclick="openModal();currentSlide(28)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/16F559A9-B394-4451-AE8C-B042A2F20669.jpg" onclick="openModal();currentSlide(29)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1755A93E-78B9-4739-909B-E7DB46FF4FBD.jpg" onclick="openModal();currentSlide(30)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1835B828-E699-4081-8387-8BA316530373.jpg" onclick="openModal();currentSlide(31)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/184B22BF-6FEF-4503-B2A9-04BCBDDD0B21.jpg" onclick="openModal();currentSlide(32)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/190C4417-4F50-4937-929E-B57BE66B89D5.jpg" onclick="openModal();currentSlide(33)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1A2BC1CE-B305-4E34-B6F5-3FEC28FF6E49.jpg" onclick="openModal();currentSlide(34)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1AE20CDB-FD62-4AE4-9F5C-D2F437291E5C.jpg" onclick="openModal();currentSlide(35)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1D8437B6-1813-49AC-8726-14025587FEBC.jpg" onclick="openModal();currentSlide(36)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1D862B1E-8DFF-4381-AC9F-83492E192C6C.jpg" onclick="openModal();currentSlide(37)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1ECAC645-CFB8-42D0-9340-5B9E77792241.jpg" onclick="openModal();currentSlide(38)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/20AD85DB-8A04-4577-B49D-8B96E659D86D.jpg" onclick="openModal();currentSlide(39)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/21407875-D91B-4AC8-A95A-52AAE0EB2B32.jpg" onclick="openModal();currentSlide(40)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/223EB338-7E5B-4A99-8E93-DF4349845C2A.jpg" onclick="openModal();currentSlide(41)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/228F22CE-21E7-4DE7-931A-D0ABBA8335A2.jpg" onclick="openModal();currentSlide(42)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/24842398-0D04-439D-BE07-ECFFDBC303A7.jpg" onclick="openModal();currentSlide(43)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/24874744-0E1E-411E-BD60-16C18495183B.jpg" onclick="openModal();currentSlide(44)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/26032868-A575-489F-A33D-9D03A124AE51.jpg" onclick="openModal();currentSlide(45)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/26E38B6C-5980-4A84-8816-A933739B9065.jpg" onclick="openModal();currentSlide(46)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/26FBA860-9AA5-4CF1-B69E-24040A4EF0C2.jpg" onclick="openModal();currentSlide(47)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/2827679F-8791-4228-BAD0-9854C3898240.jpg" onclick="openModal();currentSlide(48)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/28373851-DEF0-4868-AF56-A11952213A2C.jpg" onclick="openModal();currentSlide(49)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/288A9CE5-9D4C-48BE-9DB4-C973EDDBDBF2.jpg" onclick="openModal();currentSlide(50)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/2906091E-81DE-40FC-A3C4-A8347D58E39C.jpg" onclick="openModal();currentSlide(51)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/293824FF-3D80-412A-9376-698AA6FCE34B.jpg" onclick="openModal();currentSlide(52)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/29C4D672-5070-409C-B2CC-B8B0DCBA2EDD.jpg" onclick="openModal();currentSlide(53)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/29F8E38F-1E01-4555-ADA6-5CB9A9F7DC3C.jpg" onclick="openModal();currentSlide(54)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/2CA63D38-A382-439E-9588-2BCC3080A4BD.jpg" onclick="openModal();currentSlide(55)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/2D523E57-DE75-47EE-8B44-783EA43086BC.jpg" onclick="openModal();currentSlide(56)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/2E92E94F-9AC6-4892-BB80-314906368AB4.jpg" onclick="openModal();currentSlide(57)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/2EF1D22A-059B-45B6-A647-1574FB4975C0.jpg" onclick="openModal();currentSlide(58)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/2FA023E9-2B05-46A1-926B-016A2C2E9267.jpg" onclick="openModal();currentSlide(59)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/333F1EE6-2B22-4214-93B8-CBC5DF7A1153.jpg" onclick="openModal();currentSlide(60)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/33B69E64-B0F8-47B5-B779-F16873BE364B.jpg" onclick="openModal();currentSlide(61)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3406D0CF-FB3D-4D67-8F5D-951475A6A740.jpg" onclick="openModal();currentSlide(62)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/37D6F41C-5F0D-4935-AEE2-45ADFCD2CB3C.jpg" onclick="openModal();currentSlide(63)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/37D739F0-8D0D-4DB5-8F99-941C5B8EC9BE.jpg" onclick="openModal();currentSlide(64)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/38A376B9-E8A9-46D0-AA31-58D6D5BE3920.jpg" onclick="openModal();currentSlide(65)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/394E6464-5E20-42A2-8EB3-9E9648948B99.jpg" onclick="openModal();currentSlide(66)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/39A3017C-3E2B-4574-B8BF-9820E01A66A0.jpg" onclick="openModal();currentSlide(67)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3A187AC9-0874-450D-A295-4A5365018024.jpg" onclick="openModal();currentSlide(68)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3B390C37-7300-4FD6-8B94-DB3D4B962E3D.jpg" onclick="openModal();currentSlide(69)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3B982B8A-A7B3-4796-82CD-CFA57DF603B3.jpg" onclick="openModal();currentSlide(70)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3BC165EF-5FF4-4128-BEC4-0B7E9A256654.jpg" onclick="openModal();currentSlide(71)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3C3721DD-C146-4294-BD47-5B748BD8CEEF.jpg" onclick="openModal();currentSlide(72)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3C65A2BB-1CDC-4E2F-97FF-BE9077B8D1EF.jpg" onclick="openModal();currentSlide(73)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3D3478B1-8C9D-44DE-894F-8A99F326BEC2.jpg" onclick="openModal();currentSlide(74)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3D845B30-7BF8-4E5A-A6C1-7B25169F20F3.jpg" onclick="openModal();currentSlide(75)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3DCB33DE-E5DF-45E1-A90A-314C28318E3F.jpg" onclick="openModal();currentSlide(76)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3F8B1A1F-CBF8-4F56-8033-63255406A2EC.jpg" onclick="openModal();currentSlide(77)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4221199D-F980-4374-88E1-674CE4E92CA2.jpg" onclick="openModal();currentSlide(78)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/426766A5-65EB-47C6-8787-DE9311DC33D7.jpg" onclick="openModal();currentSlide(79)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4380608B-3F98-4D7E-AE77-E09193A4EC0C.jpg" onclick="openModal();currentSlide(80)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/44AC5222-A4E9-4D98-8F30-EF547C816656.jpg" onclick="openModal();currentSlide(81)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/450F68B4-0A54-4123-8B54-57142F392CAE.jpg" onclick="openModal();currentSlide(82)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4598AC98-6B3F-4620-85CA-2F713E76D288.jpg" onclick="openModal();currentSlide(83)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/45CF2DB5-4BCF-4AE7-B170-408F8D6EC47B.jpg" onclick="openModal();currentSlide(84)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/46C2C638-2407-4E80-8701-5F9AC9AEC03D.jpg" onclick="openModal();currentSlide(85)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/47D2ADC7-D2C6-40AD-8B6C-5B3CF9875BB5.jpg" onclick="openModal();currentSlide(86)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/47FF480C-4D08-4C87-AC8A-B45A51FB0D47.jpg" onclick="openModal();currentSlide(87)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4A379432-4AA4-4AFA-B0A4-44EE8DA1F43A.jpg" onclick="openModal();currentSlide(88)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4B060146-66BD-43EA-9B51-62845912FE41.jpg" onclick="openModal();currentSlide(89)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4B9E0A91-4946-43AD-BB35-E9654CB9CCD4.jpg" onclick="openModal();currentSlide(90)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4C4F8A7F-2412-4ABB-A61D-FC7348E891E4.jpg" onclick="openModal();currentSlide(91)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4C7D5900-FE6E-45BE-BB3D-6DB5DF897A8F.jpg" onclick="openModal();currentSlide(92)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4D29D3D7-AE9D-4AE4-A189-76E8986469D2.jpg" onclick="openModal();currentSlide(93)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4D882A20-65B3-489D-B1BD-3CBEB8B80001.jpg" onclick="openModal();currentSlide(94)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4DAF9C27-E521-45D7-88AD-06730FF8CAB6.jpg" onclick="openModal();currentSlide(95)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4E08A850-D465-46F7-8B11-1F2507EC74DE.jpg" onclick="openModal();currentSlide(96)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4E1C2FDB-814A-4FF8-B8B5-68BDB549EE2F.jpg" onclick="openModal();currentSlide(97)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4FB88A56-5700-457E-BF1F-701D9EA2ADE7.jpg" onclick="openModal();currentSlide(98)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/504F9918-5A70-4437-9548-83AA179C393C.jpg" onclick="openModal();currentSlide(99)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/50C60CB0-FE72-4201-A824-B8851AD04F48.jpg" onclick="openModal();currentSlide(100)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/51EDE505-9F42-4716-B151-691819AA0C2F.jpg" onclick="openModal();currentSlide(101)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/52754646-E4F3-48F5-A022-AC80BEFCBA65.jpg" onclick="openModal();currentSlide(102)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/52A31443-EDFF-4E36-B5F4-C4099811DB3F.jpg" onclick="openModal();currentSlide(103)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/554D1645-AAFC-4677-B240-0A409D5271B5.jpg" onclick="openModal();currentSlide(104)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/568799C3-7302-4FCA-9CBA-BF69944E58FF.jpg" onclick="openModal();currentSlide(105)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/56DFC878-89F4-4A0A-B58D-EFD8C525AF7D.jpg" onclick="openModal();currentSlide(106)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/56ECD8AF-389D-4705-89D8-1F9FD08F1BDD.jpg" onclick="openModal();currentSlide(107)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/592FC665-91C6-433D-9BE4-6D10EA36EDB7.jpg" onclick="openModal();currentSlide(108)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5930133C-50FD-40FF-B321-E039D3C41EC4.jpg" onclick="openModal();currentSlide(109)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5992F06A-A746-4A03-8428-0A9D74E59CB7.jpg" onclick="openModal();currentSlide(110)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5A048352-BF10-457B-9817-84B70663704C.jpg" onclick="openModal();currentSlide(111)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5A8C7E6B-A67C-443F-84A1-0765B0BC0A61.jpg" onclick="openModal();currentSlide(112)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5BD97550-5AB8-41B6-96CF-3556CB5F78B7.jpg" onclick="openModal();currentSlide(113)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5C06E29D-D220-4656-A190-BF55C115B4E4.jpg" onclick="openModal();currentSlide(114)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5DDCE77E-3AF6-4E44-B48D-B379FC21F4A2.jpg" onclick="openModal();currentSlide(115)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5DDF6F06-27B6-4C5C-9BB3-ABBFA3025E0E.jpg" onclick="openModal();currentSlide(116)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5E2D23D8-424A-4D46-A3C7-CC64AEC234C5.jpg" onclick="openModal();currentSlide(117)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5E8593E5-EEEB-43F9-845D-66E97D71879E.jpg" onclick="openModal();currentSlide(118)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5F59D5E9-65BF-4356-B41D-30DEE8EDD18E.jpg" onclick="openModal();currentSlide(119)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/60C1FD72-794C-4492-842B-B6BD6266FD8D.jpg" onclick="openModal();currentSlide(120)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6231D164-0B49-4910-B525-D376210C6EE7.jpg" onclick="openModal();currentSlide(121)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/62C478B6-885E-4D21-B156-E2AAD58876C1.jpg" onclick="openModal();currentSlide(122)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/659EC092-625C-44E1-BD38-606A845FAE58.jpg" onclick="openModal();currentSlide(123)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/664E68A6-8633-46FF-946C-B1838FB22C67.jpg" onclick="openModal();currentSlide(124)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/66D5951D-2CE4-4417-B072-58BFB2A11E0C.jpg" onclick="openModal();currentSlide(125)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/68A8AA1D-70DA-4BFB-97F1-40A8C5653B33.jpg" onclick="openModal();currentSlide(126)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6A50A278-942E-4BAC-BB49-4D57A3B1F3E3.jpg" onclick="openModal();currentSlide(127)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6AA5B869-5E60-40B9-B217-8AAA7A14840F.jpg" onclick="openModal();currentSlide(128)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6B88B0FB-DA41-4820-BD2C-0C86D573E840.jpg" onclick="openModal();currentSlide(129)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6C170B15-3F0E-4047-B2DF-F65A446DE503.jpg" onclick="openModal();currentSlide(130)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6CE69862-173D-4D41-ADAE-9C07551878E3.jpg" onclick="openModal();currentSlide(131)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6DF7DCAA-EE46-409E-8CF5-F8268681AA3D.jpg" onclick="openModal();currentSlide(132)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6E4902E3-2520-44A6-8167-22A2FE87D8F9.jpg" onclick="openModal();currentSlide(133)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6EB2E245-D5A7-4457-9611-54EE1303B28F.jpg" onclick="openModal();currentSlide(134)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7337A911-A1DB-4E24-8E4C-D91AF405DD53.jpg" onclick="openModal();currentSlide(135)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/73678A0B-BA7E-4C32-9CB4-0DB18192C0B8.jpg" onclick="openModal();currentSlide(136)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/75CF04C6-CB13-4C0D-8E92-93DAF49E978A.jpg" onclick="openModal();currentSlide(137)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/760F4E4E-E023-4D97-974B-5AEA4C93F8F0.jpg" onclick="openModal();currentSlide(138)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/78203A1F-5E45-4E5A-AC15-0E126CD624CA.jpg" onclick="openModal();currentSlide(139)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7AA63A45-77B0-4EE4-9CAB-20DAB60650BC.jpg" onclick="openModal();currentSlide(140)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7ABA9E1D-D6E0-4937-BDD9-B6214D4AEEC6.jpg" onclick="openModal();currentSlide(141)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7AE429C8-30C7-4E5B-B028-E36309E3833E.jpg" onclick="openModal();currentSlide(142)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7B136F8C-11C8-49BE-8436-5E2BC7E4CAA2.jpg" onclick="openModal();currentSlide(143)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7B481390-B2C1-4640-9FA7-818BCAD658DE.jpg" onclick="openModal();currentSlide(144)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7C891BFC-1CE9-431C-B4B7-C3A9FF519C43.jpg" onclick="openModal();currentSlide(145)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7CDB9530-2219-4DC8-A443-F452F3D6A672.jpg" onclick="openModal();currentSlide(146)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7D14C297-B9B5-4906-AC96-2DF24E3A0002.jpg" onclick="openModal();currentSlide(147)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7D9490B1-8A39-4052-B374-A33902F71B5F.jpg" onclick="openModal();currentSlide(148)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7DC1EAF9-760B-4F5B-91E6-011EA6095695.jpg" onclick="openModal();currentSlide(149)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7E4017E5-7FBA-4713-BAEF-1EAE13EDED55.jpg" onclick="openModal();currentSlide(150)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7E4E5F13-A16F-4F4E-A26E-2C730E6CCC06.jpg" onclick="openModal();currentSlide(151)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7F2A0A16-4CA8-4ADB-A46B-74E43D4FAAAE.jpg" onclick="openModal();currentSlide(152)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7F9A852B-8F81-4C6F-9C46-1C20B82FF5AF.jpg" onclick="openModal();currentSlide(153)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/80607BE9-DA3D-4DF6-8AE2-2DAF2B2F9FB2.jpg" onclick="openModal();currentSlide(154)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8086E247-9CCC-42C8-93EB-DCE12F617923.jpg" onclick="openModal();currentSlide(155)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/808D1190-2A92-4AD8-A4F4-8ABD3072F56B.jpg" onclick="openModal();currentSlide(156)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8126A8AB-7660-4246-AC37-86E07C802E0B.jpg" onclick="openModal();currentSlide(157)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/81634A1B-10E5-474A-8C23-41D79A4A713C.jpg" onclick="openModal();currentSlide(158)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/81A8C152-6F61-4D18-8B2F-5BA6C586784C.jpg" onclick="openModal();currentSlide(159)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/81A8C937-CE0E-4B52-9FA0-9B967928C00C.jpg" onclick="openModal();currentSlide(160)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/81D67F93-95D2-4E03-B2C5-9B978D373F26.jpg" onclick="openModal();currentSlide(161)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8204689E-AC70-4E48-A749-3A640EAF24A9.jpg" onclick="openModal();currentSlide(162)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/82439DDD-77C9-4A7A-A449-926A25B6DDDE.jpg" onclick="openModal();currentSlide(163)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8252CEF0-CBD0-454D-B368-BCA37C675BA7.jpg" onclick="openModal();currentSlide(164)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/83968A03-7A0E-4533-8F93-813F08D6E590.jpg" onclick="openModal();currentSlide(165)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/84ACD459-49E3-42DB-ACAB-F21203675502.jpg" onclick="openModal();currentSlide(166)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/86F14004-984F-43E4-8398-5E5562DF5CCE.jpg" onclick="openModal();currentSlide(167)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/88AD1889-F51E-413E-AEC8-158A1A74F8F2.jpg" onclick="openModal();currentSlide(168)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8A113C43-C827-41F5-8C2B-848ECA560CCD.jpg" onclick="openModal();currentSlide(169)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8B5A61B4-45B1-4562-9992-FF23B6C694CF.jpg" onclick="openModal();currentSlide(170)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8BC9B7F6-E348-4262-AADB-A31801E11DAE.jpg" onclick="openModal();currentSlide(171)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8C029ECD-6B5E-4F6F-AB98-85494919739E.jpg" onclick="openModal();currentSlide(172)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8C507974-8203-4F39-87AD-0C19AC21E856.jpg" onclick="openModal();currentSlide(173)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8C874189-219D-4D42-820C-D370AC63E96D.jpg" onclick="openModal();currentSlide(174)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8C934A95-3177-497B-88EF-73D1522331E4.jpg" onclick="openModal();currentSlide(175)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8CFEC692-21FA-48AE-941E-0663FF8DD6AE.jpg" onclick="openModal();currentSlide(176)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8D34FB62-F636-4A65-B466-F0ADC09E4AFA.jpg" onclick="openModal();currentSlide(177)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8D7C7DDF-F10F-4A84-80FF-C605727C68F8.jpg" onclick="openModal();currentSlide(178)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8D97839B-8438-4A73-A8D1-45D5FC8C7935.jpg" onclick="openModal();currentSlide(179)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8E4BB7A6-4BA2-44F9-9084-E63DC3B33CAC.jpg" onclick="openModal();currentSlide(180)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8F56CD84-5F0B-470E-BFA5-220E0E7338A0.jpg" onclick="openModal();currentSlide(181)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8FAF9079-AEAF-45F7-B907-5E3ACAA8802E.jpg" onclick="openModal();currentSlide(182)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/91974B8C-0016-4EF4-B041-222AF0B1E56F.jpg" onclick="openModal();currentSlide(183)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/91A5B276-3E96-4F1C-A973-C16E36320D12.jpg" onclick="openModal();currentSlide(184)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/92094BFB-5312-4BE5-B3C0-F20498F523E2.jpg" onclick="openModal();currentSlide(185)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/9267265B-DC99-4626-A697-C38AEB3ED095.jpg" onclick="openModal();currentSlide(186)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/934A6151-4042-4252-8C9C-B058AD4CDBE5.jpg" onclick="openModal();currentSlide(187)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/93658698-9DFC-464C-B56A-CFD877B1189E.jpg" onclick="openModal();currentSlide(188)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/940EA962-9255-4D30-AE22-8191421903CF.jpg" onclick="openModal();currentSlide(189)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/95052969-FD1C-4C5D-B5A8-38AF60B6AABD.jpg" onclick="openModal();currentSlide(190)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/985CDD70-760B-4F5C-BA7F-98F31D6C23F0.jpg" onclick="openModal();currentSlide(191)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/9A9C0106-31F0-4E6A-A4E2-DF9AECE25EBE.jpg" onclick="openModal();currentSlide(192)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/9AEBE1BB-328D-4CB8-9BA9-69AB41014EAC.jpg" onclick="openModal();currentSlide(193)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/9B9D8256-B44A-4F45-9CD4-B35BD2560560.jpg" onclick="openModal();currentSlide(194)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/9C3887F9-ABBB-43FD-BC51-27DF8E5BF79B.jpg" onclick="openModal();currentSlide(195)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/9D57AF30-9376-4F08-8799-B2B8C38F486C.jpg" onclick="openModal();currentSlide(196)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/9DD42806-0389-4548-AB9D-EA395A3B26B8.jpg" onclick="openModal();currentSlide(197)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/9E7EFE26-98D4-4F70-BEDD-AEAADAC4F79C.jpg" onclick="openModal();currentSlide(198)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A07D50A8-0F57-406D-8EE0-8B9E7BCDAD56.jpg" onclick="openModal();currentSlide(199)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A1AA145B-F52B-450D-9A83-2CC92D48497A.jpg" onclick="openModal();currentSlide(200)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A23270FA-E999-4028-AFC6-F3E0BB130FE3.jpg" onclick="openModal();currentSlide(201)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A240CFAA-935F-4AAC-99DE-4C70CCCE8A0E.jpg" onclick="openModal();currentSlide(202)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A4E1544A-09B4-4FEB-BD80-8A9C87BAC491.jpg" onclick="openModal();currentSlide(203)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A5F1A31D-17B0-4BC6-8D24-8B312953362E.jpg" onclick="openModal();currentSlide(204)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A71C4A9A-1595-4178-8034-81E63C2E0F39.jpg" onclick="openModal();currentSlide(205)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A90595F4-05C7-4324-80A8-B4BE0F8007EE.jpg" onclick="openModal();currentSlide(206)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A9E876A1-19C1-4E8A-BD6F-8C6801389E30.jpg" onclick="openModal();currentSlide(207)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/AB52543C-D9F0-4679-AFB3-A54AD7274643.jpg" onclick="openModal();currentSlide(208)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/AE51F56E-8FCD-45DE-8920-32D1353F3E78.jpg" onclick="openModal();currentSlide(209)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B0EAEB15-415E-4C68-9E09-F7D7C152EECE.jpg" onclick="openModal();currentSlide(210)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B0EF362B-6CF5-4B90-BAC7-33DB073EF486.jpg" onclick="openModal();currentSlide(211)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B18CCD4E-5679-4E07-86C4-EFEB77F4FDFC.jpg" onclick="openModal();currentSlide(212)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B28B4310-BC23-4BA7-A331-2B116C2550FB.jpg" onclick="openModal();currentSlide(213)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B3609827-F7B0-4E73-8016-FF0EC9684AC2.jpg" onclick="openModal();currentSlide(214)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B388BBF3-5C10-4E0B-9F68-A1D9815FE943.jpg" onclick="openModal();currentSlide(215)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B388C1CD-9D7D-4B5E-9F52-C606998AA820.jpg" onclick="openModal();currentSlide(216)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B42D8BAB-E1A9-4323-96D4-BDED6E378386.jpg" onclick="openModal();currentSlide(217)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B52F10D9-CFFB-4F63-81D2-37A8554D7A37.jpg" onclick="openModal();currentSlide(218)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B5648BD2-A638-4BDD-AD2F-1A2C8E557067.jpg" onclick="openModal();currentSlide(219)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B61E4883-E5CA-4D9B-A90D-11BE7A17085C.jpg" onclick="openModal();currentSlide(220)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B62FADDB-F2A1-4904-BA50-349165ECAFE4.jpg" onclick="openModal();currentSlide(221)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B6BF6B76-197D-4FDE-9BB3-9D0AAE86AAC4.jpg" onclick="openModal();currentSlide(222)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B6E6918B-CA72-403E-9DC4-EDBD3B3F9B42.jpg" onclick="openModal();currentSlide(223)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B7643262-6CAE-48C3-A8B1-03DE857902CE.jpg" onclick="openModal();currentSlide(224)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B861B2D2-B3B7-4121-BE7A-C7BE51BB5B00.jpg" onclick="openModal();currentSlide(225)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B9FB64C7-6513-446E-B2BC-02BE44079B61.jpg" onclick="openModal();currentSlide(226)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/BBEB1514-5FE0-40DA-8DCE-557BE08128A8.jpg" onclick="openModal();currentSlide(227)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/BC6FC8EA-FC4B-4BB3-BF11-66414612C955.jpg" onclick="openModal();currentSlide(228)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/BCA107F1-5BBE-4303-9CFF-B8347B6E5F18.jpg" onclick="openModal();currentSlide(229)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/BE2F6EAD-D5F4-4566-B269-43775C8E22AE.jpg" onclick="openModal();currentSlide(230)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/BEED084D-10C6-4E43-BD4E-1746E83C52EB.jpg" onclick="openModal();currentSlide(231)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C15651F7-9D3B-439C-9F36-41A6CB89A26B.jpg" onclick="openModal();currentSlide(232)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C15A2FDD-41C7-4547-A003-2E344DBE2276.jpg" onclick="openModal();currentSlide(233)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C3DD8CFB-90EF-47D1-ADAC-238C9E98DBD4.jpg" onclick="openModal();currentSlide(234)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C45B76CF-A71B-4B1E-9D3F-CE542E2E3697.jpg" onclick="openModal();currentSlide(235)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C5981DBE-B00F-4CF5-9C20-3F1538F1DDE8.jpg" onclick="openModal();currentSlide(236)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C5A4AAEF-94B6-4A64-99E6-A6F015C06A29.jpg" onclick="openModal();currentSlide(237)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C5EDE8A8-3206-45FF-967B-86713B834A1E.jpg" onclick="openModal();currentSlide(238)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C713A89C-B532-40FF-A758-B6931A36C398.jpg" onclick="openModal();currentSlide(239)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C7C93B61-10A0-45B8-B0FB-9710C01E873B.jpg" onclick="openModal();currentSlide(240)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C892D58F-148B-42F6-92AC-DF861A4744B9.jpg" onclick="openModal();currentSlide(241)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CA2116AD-6200-4BBE-A61A-3EDEBB295146.jpg" onclick="openModal();currentSlide(242)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CA32545D-7078-4C13-9088-DECF322202AB.jpg" onclick="openModal();currentSlide(243)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CA9BCC33-B3C9-4819-AC87-D63C1B548B98.jpg" onclick="openModal();currentSlide(244)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CB74AA83-2297-4661-AAFF-7E3BEEFCC074.jpg" onclick="openModal();currentSlide(245)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CC7B674A-DE9F-4E15-BC33-624B0CEB679E.jpg" onclick="openModal();currentSlide(246)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CCE9073D-7FC9-4D55-AD08-FFB5B71A94F4.jpg" onclick="openModal();currentSlide(247)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CD53AF55-81EE-47B9-B18C-982AA27F5765.jpg" onclick="openModal();currentSlide(248)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CE7AB5F1-18E4-458F-BAC1-BD7641725814.jpg" onclick="openModal();currentSlide(249)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CED42797-27CA-4BA9-87DE-F746CFEB601D.jpg" onclick="openModal();currentSlide(250)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/D132E6A8-9402-4EE3-80E8-9BBACCA111EE.jpg" onclick="openModal();currentSlide(251)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/D30093E9-69B2-43BD-BC8C-5FD4C5A87196.jpg" onclick="openModal();currentSlide(252)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/D4248E96-3F25-463E-999D-694D2310B67D.jpg" onclick="openModal();currentSlide(253)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/D5C4C5B5-3E16-4E6E-AB0A-78C26D72A6D9.jpg" onclick="openModal();currentSlide(254)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/D726D2A8-526F-4057-8D64-2223996E721A.jpg" onclick="openModal();currentSlide(255)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/D7E2EEA5-28D7-4F37-8A91-70A6AD6595CA.jpg" onclick="openModal();currentSlide(256)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/D96A27C0-A87E-449F-AEE6-A2E90705FA59.jpg" onclick="openModal();currentSlide(257)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/DCC16E85-ADA8-4B28-A948-E2612F741160.jpg" onclick="openModal();currentSlide(258)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/DDFE78B2-8FB9-4506-A4B6-6BC023EC710B.jpg" onclick="openModal();currentSlide(259)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/DE30D155-6AE5-40D6-9AC2-9E31D76BB484.jpg" onclick="openModal();currentSlide(260)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/DE935800-EE32-4FA5-9B43-78C0C82DCB36.jpg" onclick="openModal();currentSlide(261)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/DF23730F-2088-4F8C-B0AF-704B12650D2B.jpg" onclick="openModal();currentSlide(262)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E09CB1AB-3C41-4DD5-91A4-82CF0642AE84.jpg" onclick="openModal();currentSlide(263)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E1A99924-64D1-45BE-BD8E-1FBC24B7FEEC.jpg" onclick="openModal();currentSlide(264)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E1E6FB85-2B6A-4DE0-887A-B3009207750C.jpg" onclick="openModal();currentSlide(265)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E23D6E41-8D2B-40BB-B100-F0190AAED9E4.jpg" onclick="openModal();currentSlide(266)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E2B1C3A3-74E7-4357-872F-ABED1D593188.jpg" onclick="openModal();currentSlide(267)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E2CF8DCC-4677-4D62-8492-C7B899796C63.jpg" onclick="openModal();currentSlide(268)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E436D068-0E9B-4745-A4E0-F11ABDC6C7AE.jpg" onclick="openModal();currentSlide(269)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E51EC08F-7216-4080-B09D-FBF3D0710182.jpg" onclick="openModal();currentSlide(270)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E5ED2737-CDE2-4D44-BB20-62490434EEC0.jpg" onclick="openModal();currentSlide(271)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E7758FBE-237C-495A-BCF8-6169A0919118.jpg" onclick="openModal();currentSlide(272)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E93A636F-F6AC-4608-8572-71C069CF9AF3.jpg" onclick="openModal();currentSlide(273)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E941E7FC-20D3-402D-80B0-C3EEA9534358.jpg" onclick="openModal();currentSlide(274)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E9597BF5-B96B-48D8-81D0-C6BEA82DD5FD.jpg" onclick="openModal();currentSlide(275)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E9E072BF-4E5B-4517-95BD-E35FD892E710.jpg" onclick="openModal();currentSlide(276)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/EA171B3D-2D02-4653-8013-8582B68C8E08.jpg" onclick="openModal();currentSlide(277)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/EBEC0A2D-C73C-4412-9D9B-03EE2EAF0E62.jpg" onclick="openModal();currentSlide(278)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/ECA089FA-23FD-4746-AC4C-7B1F389980C1.jpg" onclick="openModal();currentSlide(279)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/EDE2108E-1E2E-47CB-915C-FE71A419271B.jpg" onclick="openModal();currentSlide(280)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/EFC53FB0-4BB9-4173-9D7E-3FCEE567C982.jpg" onclick="openModal();currentSlide(281)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F0BC9661-3B12-422B-921F-8532073FCFD1.jpg" onclick="openModal();currentSlide(282)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F11633A2-E597-41D2-BE44-B7A725C787E8.jpg" onclick="openModal();currentSlide(283)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F28B5922-35A3-49E8-9073-F9489DB9C4C7.jpg" onclick="openModal();currentSlide(284)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F2A66588-12C5-40E2-978F-1971772CA110.jpg" onclick="openModal();currentSlide(285)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F64F6968-6B49-4DD3-8682-B9F46324AA18.jpg" onclick="openModal();currentSlide(286)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F80518FD-9B86-42E2-A95C-009BF21FD6B5.jpg" onclick="openModal();currentSlide(287)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F813A421-A797-406C-A19E-7DF56F794E19.jpg" onclick="openModal();currentSlide(288)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F84A32E7-213B-4F9F-B921-4060140FD63B.jpg" onclick="openModal();currentSlide(289)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F8CF5760-E2C9-408B-A51B-3D4C8AA8D6C0.jpg" onclick="openModal();currentSlide(290)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F9A505BC-CEF4-42CF-B940-47E365D42DD5.jpg" onclick="openModal();currentSlide(291)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F9C54DF0-C646-4DB0-B023-1150A4134851.jpg" onclick="openModal();currentSlide(292)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/FBE4ACC0-D7C2-4B1E-942C-4BE7B3A861E3.jpg" onclick="openModal();currentSlide(293)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/FDB47988-0890-46E8-B4AA-404BFB7F1B6A.jpg" onclick="openModal();currentSlide(294)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/FDC85382-B7A1-4DFB-AA98-9EEF5AE81E8C.jpg" onclick="openModal();currentSlide(295)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/FDD34E61-F2C5-41B1-805C-5C6B106FBE08.jpg" onclick="openModal();currentSlide(296)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/FEDF2A93-D8A5-4E2C-8957-59BB9512A7F7.jpg" onclick="openModal();currentSlide(297)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/FF376426-2634-45F7-8BB1-7511CB66B7DD.jpg" onclick="openModal();currentSlide(298)" alt="Service Photo">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The Modal/Lightbox -->
+<div id="myModal" class="modal">
+  <span class="close cursor" onclick="closeModal()">&times;</span>
+  <div class="modal-content">
+
+    <div class="mySlides">
+      <div class="numbertext">1 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/008E610C-FD9D-4F52-A5A7-F942E276CC98.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">2 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/01919F50-92EE-4A5B-8DBA-F9EC6E4A2B93.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">3 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/01ADBBC5-9BD8-49C7-BCF5-E23D03DE0461.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">4 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/02DE91A3-C3A7-4FCB-B5B1-099F7A7A59C3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">5 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/039D0BAD-E380-4599-8F07-FC936D56EB1D (1).jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">6 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/039D0BAD-E380-4599-8F07-FC936D56EB1D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">7 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/03C007CB-D3B0-4DC8-BB0B-C63C44396A98.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">8 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/04FCAD30-0721-477D-900B-ECE7F3A58713.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">9 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/0538BD29-2D5D-4CE7-A9E8-47A0A6060476.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">10 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/058A3257-7F8B-4278-81D8-9A61C407876D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">11 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/0651E0F6-A491-45EB-967D-35AAAA89698F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">12 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/0908BB03-481F-466F-B1C1-53DBEA52F048.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">13 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/09395BDF-C342-4687-958B-57FD9A830637.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">14 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/09B9427A-5DFB-40DC-B2C7-9BB08E4E5385.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">15 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/0AB7A9D0-C020-4084-A106-D9026F91CEEA.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">16 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/0C788CE6-1BE3-467A-B0BC-E926E9EA0015.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">17 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/0FDB06EA-5286-4AB0-9E01-8C798060B8C2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">18 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/0FDD6A4D-9A5E-479A-A63A-36F7AF9919DC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">19 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1169E85B-0600-41B6-80FE-3688D0F121EF.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">20 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/11773B00-418B-407F-81E6-679889261734.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">21 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/11AC92DC-D3EC-46AD-AE21-317D36CA906A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">22 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1227A1FE-F946-4F34-BCBF-92E8459CC535.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">23 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1232CF9C-4230-44EB-8C33-1AC6F56A77E3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">24 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/123DBE6E-A40B-49A7-B0FC-8EB456EDD47A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">25 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/151B5253-B3A3-409D-AA06-D97D32A691DA.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">26 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/15424896-C9F2-46D3-AB62-839353521958.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">27 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1551A443-3E83-4EA4-AD32-DB2907B130F0.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">28 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/161995FA-BDD9-4A4A-9D48-7A56E906CE2B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">29 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/16F559A9-B394-4451-AE8C-B042A2F20669.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">30 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1755A93E-78B9-4739-909B-E7DB46FF4FBD.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">31 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1835B828-E699-4081-8387-8BA316530373.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">32 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/184B22BF-6FEF-4503-B2A9-04BCBDDD0B21.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">33 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/190C4417-4F50-4937-929E-B57BE66B89D5.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">34 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1A2BC1CE-B305-4E34-B6F5-3FEC28FF6E49.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">35 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1AE20CDB-FD62-4AE4-9F5C-D2F437291E5C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">36 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1D8437B6-1813-49AC-8726-14025587FEBC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">37 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1D862B1E-8DFF-4381-AC9F-83492E192C6C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">38 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/1ECAC645-CFB8-42D0-9340-5B9E77792241.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">39 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/20AD85DB-8A04-4577-B49D-8B96E659D86D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">40 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/21407875-D91B-4AC8-A95A-52AAE0EB2B32.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">41 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/223EB338-7E5B-4A99-8E93-DF4349845C2A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">42 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/228F22CE-21E7-4DE7-931A-D0ABBA8335A2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">43 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/24842398-0D04-439D-BE07-ECFFDBC303A7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">44 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/24874744-0E1E-411E-BD60-16C18495183B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">45 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/26032868-A575-489F-A33D-9D03A124AE51.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">46 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/26E38B6C-5980-4A84-8816-A933739B9065.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">47 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/26FBA860-9AA5-4CF1-B69E-24040A4EF0C2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">48 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/2827679F-8791-4228-BAD0-9854C3898240.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">49 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/28373851-DEF0-4868-AF56-A11952213A2C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">50 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/288A9CE5-9D4C-48BE-9DB4-C973EDDBDBF2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">51 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/2906091E-81DE-40FC-A3C4-A8347D58E39C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">52 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/293824FF-3D80-412A-9376-698AA6FCE34B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">53 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/29C4D672-5070-409C-B2CC-B8B0DCBA2EDD.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">54 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/29F8E38F-1E01-4555-ADA6-5CB9A9F7DC3C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">55 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/2CA63D38-A382-439E-9588-2BCC3080A4BD.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">56 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/2D523E57-DE75-47EE-8B44-783EA43086BC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">57 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/2E92E94F-9AC6-4892-BB80-314906368AB4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">58 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/2EF1D22A-059B-45B6-A647-1574FB4975C0.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">59 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/2FA023E9-2B05-46A1-926B-016A2C2E9267.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">60 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/333F1EE6-2B22-4214-93B8-CBC5DF7A1153.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">61 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/33B69E64-B0F8-47B5-B779-F16873BE364B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">62 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3406D0CF-FB3D-4D67-8F5D-951475A6A740.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">63 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/37D6F41C-5F0D-4935-AEE2-45ADFCD2CB3C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">64 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/37D739F0-8D0D-4DB5-8F99-941C5B8EC9BE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">65 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/38A376B9-E8A9-46D0-AA31-58D6D5BE3920.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">66 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/394E6464-5E20-42A2-8EB3-9E9648948B99.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">67 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/39A3017C-3E2B-4574-B8BF-9820E01A66A0.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">68 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3A187AC9-0874-450D-A295-4A5365018024.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">69 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3B390C37-7300-4FD6-8B94-DB3D4B962E3D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">70 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3B982B8A-A7B3-4796-82CD-CFA57DF603B3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">71 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3BC165EF-5FF4-4128-BEC4-0B7E9A256654.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">72 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3C3721DD-C146-4294-BD47-5B748BD8CEEF.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">73 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3C65A2BB-1CDC-4E2F-97FF-BE9077B8D1EF.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">74 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3D3478B1-8C9D-44DE-894F-8A99F326BEC2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">75 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3D845B30-7BF8-4E5A-A6C1-7B25169F20F3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">76 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3DCB33DE-E5DF-45E1-A90A-314C28318E3F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">77 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/3F8B1A1F-CBF8-4F56-8033-63255406A2EC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">78 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4221199D-F980-4374-88E1-674CE4E92CA2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">79 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/426766A5-65EB-47C6-8787-DE9311DC33D7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">80 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4380608B-3F98-4D7E-AE77-E09193A4EC0C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">81 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/44AC5222-A4E9-4D98-8F30-EF547C816656.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">82 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/450F68B4-0A54-4123-8B54-57142F392CAE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">83 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4598AC98-6B3F-4620-85CA-2F713E76D288.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">84 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/45CF2DB5-4BCF-4AE7-B170-408F8D6EC47B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">85 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/46C2C638-2407-4E80-8701-5F9AC9AEC03D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">86 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/47D2ADC7-D2C6-40AD-8B6C-5B3CF9875BB5.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">87 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/47FF480C-4D08-4C87-AC8A-B45A51FB0D47.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">88 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4A379432-4AA4-4AFA-B0A4-44EE8DA1F43A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">89 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4B060146-66BD-43EA-9B51-62845912FE41.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">90 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4B9E0A91-4946-43AD-BB35-E9654CB9CCD4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">91 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4C4F8A7F-2412-4ABB-A61D-FC7348E891E4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">92 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4C7D5900-FE6E-45BE-BB3D-6DB5DF897A8F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">93 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4D29D3D7-AE9D-4AE4-A189-76E8986469D2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">94 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4D882A20-65B3-489D-B1BD-3CBEB8B80001.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">95 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4DAF9C27-E521-45D7-88AD-06730FF8CAB6.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">96 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4E08A850-D465-46F7-8B11-1F2507EC74DE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">97 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4E1C2FDB-814A-4FF8-B8B5-68BDB549EE2F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">98 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/4FB88A56-5700-457E-BF1F-701D9EA2ADE7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">99 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/504F9918-5A70-4437-9548-83AA179C393C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">100 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/50C60CB0-FE72-4201-A824-B8851AD04F48.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">101 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/51EDE505-9F42-4716-B151-691819AA0C2F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">102 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/52754646-E4F3-48F5-A022-AC80BEFCBA65.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">103 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/52A31443-EDFF-4E36-B5F4-C4099811DB3F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">104 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/554D1645-AAFC-4677-B240-0A409D5271B5.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">105 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/568799C3-7302-4FCA-9CBA-BF69944E58FF.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">106 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/56DFC878-89F4-4A0A-B58D-EFD8C525AF7D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">107 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/56ECD8AF-389D-4705-89D8-1F9FD08F1BDD.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">108 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/592FC665-91C6-433D-9BE4-6D10EA36EDB7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">109 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5930133C-50FD-40FF-B321-E039D3C41EC4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">110 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5992F06A-A746-4A03-8428-0A9D74E59CB7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">111 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5A048352-BF10-457B-9817-84B70663704C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">112 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5A8C7E6B-A67C-443F-84A1-0765B0BC0A61.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">113 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5BD97550-5AB8-41B6-96CF-3556CB5F78B7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">114 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5C06E29D-D220-4656-A190-BF55C115B4E4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">115 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5DDCE77E-3AF6-4E44-B48D-B379FC21F4A2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">116 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5DDF6F06-27B6-4C5C-9BB3-ABBFA3025E0E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">117 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5E2D23D8-424A-4D46-A3C7-CC64AEC234C5.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">118 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5E8593E5-EEEB-43F9-845D-66E97D71879E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">119 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/5F59D5E9-65BF-4356-B41D-30DEE8EDD18E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">120 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/60C1FD72-794C-4492-842B-B6BD6266FD8D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">121 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6231D164-0B49-4910-B525-D376210C6EE7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">122 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/62C478B6-885E-4D21-B156-E2AAD58876C1.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">123 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/659EC092-625C-44E1-BD38-606A845FAE58.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">124 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/664E68A6-8633-46FF-946C-B1838FB22C67.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">125 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/66D5951D-2CE4-4417-B072-58BFB2A11E0C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">126 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/68A8AA1D-70DA-4BFB-97F1-40A8C5653B33.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">127 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6A50A278-942E-4BAC-BB49-4D57A3B1F3E3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">128 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6AA5B869-5E60-40B9-B217-8AAA7A14840F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">129 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6B88B0FB-DA41-4820-BD2C-0C86D573E840.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">130 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6C170B15-3F0E-4047-B2DF-F65A446DE503.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">131 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6CE69862-173D-4D41-ADAE-9C07551878E3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">132 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6DF7DCAA-EE46-409E-8CF5-F8268681AA3D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">133 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6E4902E3-2520-44A6-8167-22A2FE87D8F9.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">134 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/6EB2E245-D5A7-4457-9611-54EE1303B28F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">135 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7337A911-A1DB-4E24-8E4C-D91AF405DD53.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">136 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/73678A0B-BA7E-4C32-9CB4-0DB18192C0B8.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">137 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/75CF04C6-CB13-4C0D-8E92-93DAF49E978A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">138 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/760F4E4E-E023-4D97-974B-5AEA4C93F8F0.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">139 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/78203A1F-5E45-4E5A-AC15-0E126CD624CA.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">140 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7AA63A45-77B0-4EE4-9CAB-20DAB60650BC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">141 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7ABA9E1D-D6E0-4937-BDD9-B6214D4AEEC6.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">142 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7AE429C8-30C7-4E5B-B028-E36309E3833E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">143 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7B136F8C-11C8-49BE-8436-5E2BC7E4CAA2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">144 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7B481390-B2C1-4640-9FA7-818BCAD658DE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">145 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7C891BFC-1CE9-431C-B4B7-C3A9FF519C43.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">146 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7CDB9530-2219-4DC8-A443-F452F3D6A672.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">147 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7D14C297-B9B5-4906-AC96-2DF24E3A0002.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">148 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7D9490B1-8A39-4052-B374-A33902F71B5F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">149 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7DC1EAF9-760B-4F5B-91E6-011EA6095695.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">150 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7E4017E5-7FBA-4713-BAEF-1EAE13EDED55.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">151 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7E4E5F13-A16F-4F4E-A26E-2C730E6CCC06.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">152 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7F2A0A16-4CA8-4ADB-A46B-74E43D4FAAAE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">153 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/7F9A852B-8F81-4C6F-9C46-1C20B82FF5AF.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">154 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/80607BE9-DA3D-4DF6-8AE2-2DAF2B2F9FB2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">155 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8086E247-9CCC-42C8-93EB-DCE12F617923.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">156 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/808D1190-2A92-4AD8-A4F4-8ABD3072F56B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">157 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8126A8AB-7660-4246-AC37-86E07C802E0B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">158 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/81634A1B-10E5-474A-8C23-41D79A4A713C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">159 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/81A8C152-6F61-4D18-8B2F-5BA6C586784C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">160 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/81A8C937-CE0E-4B52-9FA0-9B967928C00C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">161 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/81D67F93-95D2-4E03-B2C5-9B978D373F26.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">162 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8204689E-AC70-4E48-A749-3A640EAF24A9.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">163 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/82439DDD-77C9-4A7A-A449-926A25B6DDDE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">164 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8252CEF0-CBD0-454D-B368-BCA37C675BA7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">165 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/83968A03-7A0E-4533-8F93-813F08D6E590.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">166 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/84ACD459-49E3-42DB-ACAB-F21203675502.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">167 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/86F14004-984F-43E4-8398-5E5562DF5CCE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">168 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/88AD1889-F51E-413E-AEC8-158A1A74F8F2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">169 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8A113C43-C827-41F5-8C2B-848ECA560CCD.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">170 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8B5A61B4-45B1-4562-9992-FF23B6C694CF.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">171 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8BC9B7F6-E348-4262-AADB-A31801E11DAE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">172 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8C029ECD-6B5E-4F6F-AB98-85494919739E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">173 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8C507974-8203-4F39-87AD-0C19AC21E856.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">174 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8C874189-219D-4D42-820C-D370AC63E96D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">175 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8C934A95-3177-497B-88EF-73D1522331E4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">176 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8CFEC692-21FA-48AE-941E-0663FF8DD6AE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">177 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8D34FB62-F636-4A65-B466-F0ADC09E4AFA.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">178 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8D7C7DDF-F10F-4A84-80FF-C605727C68F8.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">179 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8D97839B-8438-4A73-A8D1-45D5FC8C7935.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">180 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8E4BB7A6-4BA2-44F9-9084-E63DC3B33CAC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">181 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8F56CD84-5F0B-470E-BFA5-220E0E7338A0.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">182 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/8FAF9079-AEAF-45F7-B907-5E3ACAA8802E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">183 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/91974B8C-0016-4EF4-B041-222AF0B1E56F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">184 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/91A5B276-3E96-4F1C-A973-C16E36320D12.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">185 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/92094BFB-5312-4BE5-B3C0-F20498F523E2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">186 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/9267265B-DC99-4626-A697-C38AEB3ED095.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">187 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/934A6151-4042-4252-8C9C-B058AD4CDBE5.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">188 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/93658698-9DFC-464C-B56A-CFD877B1189E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">189 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/940EA962-9255-4D30-AE22-8191421903CF.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">190 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/95052969-FD1C-4C5D-B5A8-38AF60B6AABD.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">191 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/985CDD70-760B-4F5C-BA7F-98F31D6C23F0.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">192 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/9A9C0106-31F0-4E6A-A4E2-DF9AECE25EBE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">193 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/9AEBE1BB-328D-4CB8-9BA9-69AB41014EAC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">194 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/9B9D8256-B44A-4F45-9CD4-B35BD2560560.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">195 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/9C3887F9-ABBB-43FD-BC51-27DF8E5BF79B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">196 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/9D57AF30-9376-4F08-8799-B2B8C38F486C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">197 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/9DD42806-0389-4548-AB9D-EA395A3B26B8.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">198 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/9E7EFE26-98D4-4F70-BEDD-AEAADAC4F79C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">199 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A07D50A8-0F57-406D-8EE0-8B9E7BCDAD56.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">200 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A1AA145B-F52B-450D-9A83-2CC92D48497A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">201 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A23270FA-E999-4028-AFC6-F3E0BB130FE3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">202 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A240CFAA-935F-4AAC-99DE-4C70CCCE8A0E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">203 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A4E1544A-09B4-4FEB-BD80-8A9C87BAC491.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">204 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A5F1A31D-17B0-4BC6-8D24-8B312953362E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">205 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A71C4A9A-1595-4178-8034-81E63C2E0F39.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">206 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A90595F4-05C7-4324-80A8-B4BE0F8007EE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">207 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/A9E876A1-19C1-4E8A-BD6F-8C6801389E30.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">208 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/AB52543C-D9F0-4679-AFB3-A54AD7274643.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">209 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/AE51F56E-8FCD-45DE-8920-32D1353F3E78.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">210 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B0EAEB15-415E-4C68-9E09-F7D7C152EECE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">211 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B0EF362B-6CF5-4B90-BAC7-33DB073EF486.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">212 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B18CCD4E-5679-4E07-86C4-EFEB77F4FDFC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">213 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B28B4310-BC23-4BA7-A331-2B116C2550FB.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">214 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B3609827-F7B0-4E73-8016-FF0EC9684AC2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">215 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B388BBF3-5C10-4E0B-9F68-A1D9815FE943.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">216 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B388C1CD-9D7D-4B5E-9F52-C606998AA820.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">217 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B42D8BAB-E1A9-4323-96D4-BDED6E378386.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">218 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B52F10D9-CFFB-4F63-81D2-37A8554D7A37.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">219 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B5648BD2-A638-4BDD-AD2F-1A2C8E557067.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">220 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B61E4883-E5CA-4D9B-A90D-11BE7A17085C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">221 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B62FADDB-F2A1-4904-BA50-349165ECAFE4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">222 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B6BF6B76-197D-4FDE-9BB3-9D0AAE86AAC4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">223 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B6E6918B-CA72-403E-9DC4-EDBD3B3F9B42.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">224 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B7643262-6CAE-48C3-A8B1-03DE857902CE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">225 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B861B2D2-B3B7-4121-BE7A-C7BE51BB5B00.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">226 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/B9FB64C7-6513-446E-B2BC-02BE44079B61.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">227 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/BBEB1514-5FE0-40DA-8DCE-557BE08128A8.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">228 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/BC6FC8EA-FC4B-4BB3-BF11-66414612C955.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">229 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/BCA107F1-5BBE-4303-9CFF-B8347B6E5F18.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">230 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/BE2F6EAD-D5F4-4566-B269-43775C8E22AE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">231 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/BEED084D-10C6-4E43-BD4E-1746E83C52EB.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">232 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C15651F7-9D3B-439C-9F36-41A6CB89A26B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">233 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C15A2FDD-41C7-4547-A003-2E344DBE2276.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">234 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C3DD8CFB-90EF-47D1-ADAC-238C9E98DBD4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">235 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C45B76CF-A71B-4B1E-9D3F-CE542E2E3697.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">236 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C5981DBE-B00F-4CF5-9C20-3F1538F1DDE8.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">237 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C5A4AAEF-94B6-4A64-99E6-A6F015C06A29.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">238 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C5EDE8A8-3206-45FF-967B-86713B834A1E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">239 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C713A89C-B532-40FF-A758-B6931A36C398.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">240 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C7C93B61-10A0-45B8-B0FB-9710C01E873B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">241 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/C892D58F-148B-42F6-92AC-DF861A4744B9.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">242 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CA2116AD-6200-4BBE-A61A-3EDEBB295146.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">243 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CA32545D-7078-4C13-9088-DECF322202AB.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">244 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CA9BCC33-B3C9-4819-AC87-D63C1B548B98.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">245 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CB74AA83-2297-4661-AAFF-7E3BEEFCC074.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">246 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CC7B674A-DE9F-4E15-BC33-624B0CEB679E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">247 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CCE9073D-7FC9-4D55-AD08-FFB5B71A94F4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">248 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CD53AF55-81EE-47B9-B18C-982AA27F5765.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">249 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CE7AB5F1-18E4-458F-BAC1-BD7641725814.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">250 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/CED42797-27CA-4BA9-87DE-F746CFEB601D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">251 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/D132E6A8-9402-4EE3-80E8-9BBACCA111EE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">252 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/D30093E9-69B2-43BD-BC8C-5FD4C5A87196.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">253 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/D4248E96-3F25-463E-999D-694D2310B67D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">254 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/D5C4C5B5-3E16-4E6E-AB0A-78C26D72A6D9.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">255 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/D726D2A8-526F-4057-8D64-2223996E721A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">256 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/D7E2EEA5-28D7-4F37-8A91-70A6AD6595CA.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">257 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/D96A27C0-A87E-449F-AEE6-A2E90705FA59.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">258 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/DCC16E85-ADA8-4B28-A948-E2612F741160.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">259 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/DDFE78B2-8FB9-4506-A4B6-6BC023EC710B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">260 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/DE30D155-6AE5-40D6-9AC2-9E31D76BB484.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">261 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/DE935800-EE32-4FA5-9B43-78C0C82DCB36.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">262 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/DF23730F-2088-4F8C-B0AF-704B12650D2B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">263 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E09CB1AB-3C41-4DD5-91A4-82CF0642AE84.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">264 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E1A99924-64D1-45BE-BD8E-1FBC24B7FEEC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">265 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E1E6FB85-2B6A-4DE0-887A-B3009207750C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">266 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E23D6E41-8D2B-40BB-B100-F0190AAED9E4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">267 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E2B1C3A3-74E7-4357-872F-ABED1D593188.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">268 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E2CF8DCC-4677-4D62-8492-C7B899796C63.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">269 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E436D068-0E9B-4745-A4E0-F11ABDC6C7AE.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">270 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E51EC08F-7216-4080-B09D-FBF3D0710182.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">271 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E5ED2737-CDE2-4D44-BB20-62490434EEC0.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">272 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E7758FBE-237C-495A-BCF8-6169A0919118.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">273 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E93A636F-F6AC-4608-8572-71C069CF9AF3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">274 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E941E7FC-20D3-402D-80B0-C3EEA9534358.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">275 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E9597BF5-B96B-48D8-81D0-C6BEA82DD5FD.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">276 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/E9E072BF-4E5B-4517-95BD-E35FD892E710.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">277 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/EA171B3D-2D02-4653-8013-8582B68C8E08.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">278 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/EBEC0A2D-C73C-4412-9D9B-03EE2EAF0E62.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">279 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/ECA089FA-23FD-4746-AC4C-7B1F389980C1.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">280 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/EDE2108E-1E2E-47CB-915C-FE71A419271B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">281 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/EFC53FB0-4BB9-4173-9D7E-3FCEE567C982.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">282 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F0BC9661-3B12-422B-921F-8532073FCFD1.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">283 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F11633A2-E597-41D2-BE44-B7A725C787E8.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">284 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F28B5922-35A3-49E8-9073-F9489DB9C4C7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">285 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F2A66588-12C5-40E2-978F-1971772CA110.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">286 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F64F6968-6B49-4DD3-8682-B9F46324AA18.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">287 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F80518FD-9B86-42E2-A95C-009BF21FD6B5.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">288 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F813A421-A797-406C-A19E-7DF56F794E19.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">289 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F84A32E7-213B-4F9F-B921-4060140FD63B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">290 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F8CF5760-E2C9-408B-A51B-3D4C8AA8D6C0.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">291 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F9A505BC-CEF4-42CF-B940-47E365D42DD5.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">292 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/F9C54DF0-C646-4DB0-B023-1150A4134851.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">293 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/FBE4ACC0-D7C2-4B1E-942C-4BE7B3A861E3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">294 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/FDB47988-0890-46E8-B4AA-404BFB7F1B6A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">295 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/FDC85382-B7A1-4DFB-AA98-9EEF5AE81E8C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">296 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/FDD34E61-F2C5-41B1-805C-5C6B106FBE08.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">297 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/FEDF2A93-D8A5-4E2C-8957-59BB9512A7F7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">298 / 298</div>
+      <img src="https://kp2-website-pz.b-cdn.net/media/Service photos/January 2026 Fasting Services/FF376426-2634-45F7-8BB1-7511CB66B7DD.jpg" style="width:100%">
+    </div>
+
+   
+
+    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+    <a class="next" onclick="changeSlide(1)">&#10095;</a>
+  </div>
+</div>
+
+<!-- Copyright Footer -->
+<footer style="background: #750c83; color: #fff; text-align: center; padding: 30px 10px 20px 10px; margin: 0; width: 100%; box-sizing: border-box; margin-top: auto;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <p style="font-size: 1.2em; margin-bottom: 10px;">
+            &copy; 2025 Kharis Church. All rights reserved.
+        </p>
+        <p style="margin-bottom: 10px;">
+            <a href="/Index.html" style="color: #fff; text-decoration: underline;">Home</a> |
+            <a href="mailto:info@kharis.org" style="color: #fff; text-decoration: underline;">Contact</a> |
+            <a href="https://www.facebook.com/KharisMinistries" target="_blank" style="color: #fff; text-decoration: underline;">Facebook</a> |
+            <a href="https://www.instagram.com/kharischurch/" target="_blank" style="color: #fff; text-decoration: underline;">Instagram</a>
+        </p>
+        <p style="font-size: 0.95em; opacity: 0.8;">
+            Kharis Church, London, UK
+        </p>
+    </div>
+</footer>
+
+<script>
+// Open the Modal
+function openModal() {
+  document.getElementById("myModal").style.display = "block";
+}
+
+// Close the Modal
+function closeModal() {
+  document.getElementById("myModal").style.display = "none";
+}
+
+var slideIndex = 1;
+
+// Next/previous controls
+function changeSlide(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("demo");
+  var captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  if (captionText) {
+    captionText.innerHTML = dots[slideIndex-1].alt;
+  }
+}
+
+// Initialize slides on page load
+showSlides(slideIndex);
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    let modal = document.getElementById("myModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") {
+        closeModal();
+    }
+});
+
+// Navigate with arrow keys
+document.addEventListener('keydown', function(e) {
+    let modal = document.getElementById("myModal");
+    if (modal.style.display === "block") {
+        if (e.key === "ArrowLeft") {
+            changeSlide(-1);
+        } else if (e.key === "ArrowRight") {
+            changeSlide(1);
+        }
+    }
+});
+
+// Download all images as ZIP
+async function downloadAllImagesAsZip() {
+  const zip = new JSZip();
+  const images = document.querySelectorAll('.gallery-row .demo');
+  
+  for (let i = 0; i < images.length; i++) {
+    const img = images[i];
+    try {
+      const response = await fetch(img.src);
+      const blob = await response.blob();
+      zip.file(`kharis-church-photo-${i + 1}.jpg`, blob);
+    } catch (error) {
+      console.error(`Failed to fetch image ${i + 1}:`, error);
+    }
+  }
+  
+  const content = await zip.generateAsync({type: 'blob'});
+  saveAs(content, 'kharis-church-photos.zip');
+}
+</script>
+
+</body>
+</html>

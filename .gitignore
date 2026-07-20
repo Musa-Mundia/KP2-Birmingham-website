@@ -1,0 +1,6 @@
+# Media archive lives on bunny.net CDN (https://kp2-website-pz.b-cdn.net/media/), not in git
+Kharis Church*/
+
+# Editor/tool local files
+*.~tmp
+.claude/settings.local.json
