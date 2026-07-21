@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" type="text/css" href="External_demo.css">
+      <link rel="icon" type="image" href="Images/Favicon_and_Logo.ico">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=person" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=person" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- JSZip and FileSaver libraries for downloading images as ZIP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <title>NYE Service</title>  
+</head> 
+
+<body>     
+    <style>
+      /* Text styling of choice from Google fonts */
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      body {
+       font-family: "Oswald", serif;
+       display: flex;
+       flex-direction: column;
+     }
+
+     header {
+       background-color: purple;
+       width: 100%;
+       padding: 0;
+       margin: 0;
+       box-sizing: border-box;
+     }
+
+     .uicore.elementor-container {
+       display: flex;
+       align-items: center;
+       padding: 0;
+       margin: 0;
+       width: 100%;
+     }
+
+     .uicore-branding {
+       background-color: purple;
+       padding: 20px;
+       width: 100%;
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-branding a {
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-logo {
+       width: 8% !important;
+       height: auto;
+     }
+
+     @media screen and (max-width: 768px) {
+        .topnav {
+            padding-left: 0;
+        }
+        .uicore-logo {
+          width: 12% !important;
+        }
+     }
+
+     section.featured-gallery {
+       flex: 1;
+       display: flex;
+       flex-direction: column;
+     }
+
+    /* Gallery Grid */
+    .gallery-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    /* Row and Column Styles */
+    .row > .column {
+      padding: 0 8px;
+    }
+
+
+    /* Create four equal columns that floats next to eachother */
+    .column {
+      float: left;
+      padding: 0 8px;
+      display: flex;
+      flex-direction: column;
+      max-inline-size: 100%;
+    }
+
+    /* The Modal (background) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: black;
+    }
+
+    /* Modal Content */
+    .modal-content {
+      position: relative;
+      background-color: #000;
+      margin: auto;
+      padding: 0;
+      width: 90%;
+      max-width: 1200px;
+    }
+
+    /* The Close Button */
+    .close {
+      color: white;
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #999;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Hide the slides by default */
+    .mySlides {
+      display: none;
+    }
+
+    /* Next & previous buttons */
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      padding: 16px;
+      margin-top: -50px;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .prev {
+      left: 0;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Number text (1/3 etc) */
+    .numbertext {
+      color: #f2f2f2;
+      font-size: 12px;
+      padding: 8px 12px;
+      position: absolute;
+      top: 0;
+    }
+
+    .slide-counter {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background-color: rgba(0, 0, 0, 0.55);
+      padding: 6px 10px;
+      border-radius: 999px;
+      z-index: 1002;
+    }
+
+    /* Caption text */
+    .caption-container {
+      text-align: center;
+      background-color: black;
+      padding: 2px 16px;
+      color: white;
+    }
+
+    img.demo {
+      opacity: 0.6;
+      cursor: pointer;
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: 0.3s;
+      flex-grow: 1;
+    }
+
+    .active,
+    .demo:hover {
+      opacity: 1;
+    }
+
+    img.hover-shadow {
+      transition: 0.3s;
+    }
+
+    .hover-shadow:hover {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    /* Responsive columns for mobile */
+    @media screen and (max-width: 1200px) {
+      .gallery-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media screen and (max-width: 800px) {
+      .column {
+        width: 50%;
+      }
+      .gallery-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+      img.demo {
+        height: 200px;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .column {
+        width: 100%;
+      }
+      .gallery-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      img.demo {
+        height: 180px;
+      }
+    }
+
+    .btn {
+      background-color: rgb(115, 16, 118);
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 500;
+      padding: 10px 20px;
+      letter-spacing: 0.5px;
+      border-radius: 5000px;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .btn--download {
+      padding: 16px 32px 15px 20px;
+      font-size: 16px;
+      position: fixed;
+      bottom: 27px;
+      left: calc(46%);
+      z-index: 100;
+      text-align: center;
+      box-shadow: 0 6px 23px rgba(0,0,0,0.45);
+      animation: fade-up 0.5s 0.4s backwards;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn--download:hover {
+      text-decoration: none;
+      background-color: rgb(61, 37, 68);
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Darker background on mouse-over */
+    .btn:hover {
+      background-color: rgb(61, 37, 68);
+    }
+
+    .btn--back {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 18px;
+      margin-right: 20px;
+      margin-left: 20px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      transition: background 0.2s;
+      align-self: center;
+      white-space: nowrap;
+      order: -1;
+    }
+
+    .btn--back:hover {
+      background: rgba(255,255,255,0.25);
+      color: white;
+    }
+
+   </style>
+ <header>
+            <nav class="uicore elementor-container">
+                     <div class="uicore-branding">
+                
+            <a href="/Index.html" rel="home">
+                <img class="uicore uicore-logo uicore-main" src="https://kharis.org/wp-content/uploads/2022/08/Logo_transparent_noText.png" alt="Kharis Church">
+                    </a>
+
+                </div>
+                <a href="/Gallery-Selection/Events-selection.HTML" class="btn--back">&#8592; Back</a>
+      </nav>
+    </header>
+<section class="featured-gallery">
+    <div class="categories">
+      <div class="small-container">
+        <div class="row row-2">
+          <h2>June 2026 Fasting Services</h2>
+      </div>
+
+      <div>
+      <button onclick="downloadAllImagesAsZip()" class="btn btn--download">
+           <i class="fa fa-download"></i> Download all <span class="u-bolder">photos</span>
+      </button>
+      </div>
+
+    <div class="gallery-row">
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%202/Midweek%20Services/03878A37-1B13-43C0-BF91-7EBF74909A1A.jpg" onclick="openModal();currentSlide(1)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2748.jpeg" onclick="openModal();currentSlide(2)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2749.jpeg" onclick="openModal();currentSlide(3)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2750.jpeg" onclick="openModal();currentSlide(4)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2751.jpeg" onclick="openModal();currentSlide(5)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2753.jpeg" onclick="openModal();currentSlide(6)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2754.jpeg" onclick="openModal();currentSlide(7)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2755.jpeg" onclick="openModal();currentSlide(8)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2756.jpeg" onclick="openModal();currentSlide(9)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2757.jpeg" onclick="openModal();currentSlide(10)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2758.jpeg" onclick="openModal();currentSlide(11)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2759.jpeg" onclick="openModal();currentSlide(12)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2760.jpeg" onclick="openModal();currentSlide(13)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2761.jpeg" onclick="openModal();currentSlide(14)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2762.jpeg" onclick="openModal();currentSlide(15)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2764.jpeg" onclick="openModal();currentSlide(16)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2765.jpeg" onclick="openModal();currentSlide(17)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2766.jpeg" onclick="openModal();currentSlide(18)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2767.jpeg" onclick="openModal();currentSlide(19)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2768.jpeg" onclick="openModal();currentSlide(20)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2769.jpeg" onclick="openModal();currentSlide(21)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2770.jpeg" onclick="openModal();currentSlide(22)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2771.jpeg" onclick="openModal();currentSlide(23)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2772.jpeg" onclick="openModal();currentSlide(24)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2773.jpeg" onclick="openModal();currentSlide(25)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2775.jpeg" onclick="openModal();currentSlide(26)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2776.jpeg" onclick="openModal();currentSlide(27)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2777.jpeg" onclick="openModal();currentSlide(28)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2778.jpeg" onclick="openModal();currentSlide(29)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2779.jpeg" onclick="openModal();currentSlide(30)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2780.jpeg" onclick="openModal();currentSlide(31)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2781.jpeg" onclick="openModal();currentSlide(32)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2782.jpeg" onclick="openModal();currentSlide(33)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2783.jpeg" onclick="openModal();currentSlide(34)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2784.jpeg" onclick="openModal();currentSlide(35)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2786.jpeg" onclick="openModal();currentSlide(36)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2787.jpeg" onclick="openModal();currentSlide(37)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2788.jpeg" onclick="openModal();currentSlide(38)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2789.jpeg" onclick="openModal();currentSlide(39)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2790.jpeg" onclick="openModal();currentSlide(40)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2791.jpeg" onclick="openModal();currentSlide(41)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2792.jpeg" onclick="openModal();currentSlide(42)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2793.jpeg" onclick="openModal();currentSlide(43)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2794.jpeg" onclick="openModal();currentSlide(44)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2795.jpeg" onclick="openModal();currentSlide(45)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2797.jpeg" onclick="openModal();currentSlide(46)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2798.jpeg" onclick="openModal();currentSlide(47)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2799.jpeg" onclick="openModal();currentSlide(48)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2800.jpeg" onclick="openModal();currentSlide(49)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2801.jpeg" onclick="openModal();currentSlide(50)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2802.jpeg" onclick="openModal();currentSlide(51)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2803.jpeg" onclick="openModal();currentSlide(52)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2804.jpeg" onclick="openModal();currentSlide(53)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2805.jpeg" onclick="openModal();currentSlide(54)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2806.jpeg" onclick="openModal();currentSlide(55)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2807.jpeg" onclick="openModal();currentSlide(56)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2808.jpeg" onclick="openModal();currentSlide(57)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2809.jpeg" onclick="openModal();currentSlide(58)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2810.jpeg" onclick="openModal();currentSlide(59)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2811.jpeg" onclick="openModal();currentSlide(60)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2812.jpeg" onclick="openModal();currentSlide(61)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2813.jpeg" onclick="openModal();currentSlide(62)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2814.jpeg" onclick="openModal();currentSlide(63)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2815.jpeg" onclick="openModal();currentSlide(64)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2816.jpeg" onclick="openModal();currentSlide(65)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2817.jpeg" onclick="openModal();currentSlide(66)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2818.jpeg" onclick="openModal();currentSlide(67)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2819.jpeg" onclick="openModal();currentSlide(68)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2820.jpeg" onclick="openModal();currentSlide(69)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2821.jpeg" onclick="openModal();currentSlide(70)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2822.jpeg" onclick="openModal();currentSlide(71)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2823.jpeg" onclick="openModal();currentSlide(72)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2824.jpeg" onclick="openModal();currentSlide(73)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2825.jpeg" onclick="openModal();currentSlide(74)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2826.jpeg" onclick="openModal();currentSlide(75)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2827.jpeg" onclick="openModal();currentSlide(76)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2828.jpeg" onclick="openModal();currentSlide(77)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2829.jpeg" onclick="openModal();currentSlide(78)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2830.jpeg" onclick="openModal();currentSlide(79)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2831.jpeg" onclick="openModal();currentSlide(80)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2832.jpeg" onclick="openModal();currentSlide(81)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2833.jpeg" onclick="openModal();currentSlide(82)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2834.jpeg" onclick="openModal();currentSlide(83)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2835.jpeg" onclick="openModal();currentSlide(84)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2836.jpeg" onclick="openModal();currentSlide(85)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2837.jpeg" onclick="openModal();currentSlide(86)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2838.jpeg" onclick="openModal();currentSlide(87)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2839.jpeg" onclick="openModal();currentSlide(88)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2840.jpeg" onclick="openModal();currentSlide(89)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2841.jpeg" onclick="openModal();currentSlide(90)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2842.jpeg" onclick="openModal();currentSlide(91)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2843.jpeg" onclick="openModal();currentSlide(92)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2844.jpeg" onclick="openModal();currentSlide(93)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2845.jpeg" onclick="openModal();currentSlide(94)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2846.jpeg" onclick="openModal();currentSlide(95)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2847.jpeg" onclick="openModal();currentSlide(96)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2848.jpeg" onclick="openModal();currentSlide(97)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2849.jpeg" onclick="openModal();currentSlide(98)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2850.jpeg" onclick="openModal();currentSlide(99)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2851.jpeg" onclick="openModal();currentSlide(100)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2852.jpeg" onclick="openModal();currentSlide(101)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2853.jpeg" onclick="openModal();currentSlide(102)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2854.jpeg" onclick="openModal();currentSlide(103)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2855.jpeg" onclick="openModal();currentSlide(104)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2856.jpeg" onclick="openModal();currentSlide(105)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2857.jpeg" onclick="openModal();currentSlide(106)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2858.jpeg" onclick="openModal();currentSlide(107)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2859.jpeg" onclick="openModal();currentSlide(108)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2860.jpeg" onclick="openModal();currentSlide(109)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2861.jpeg" onclick="openModal();currentSlide(110)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2862.jpeg" onclick="openModal();currentSlide(111)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2863.jpeg" onclick="openModal();currentSlide(112)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2864.jpeg" onclick="openModal();currentSlide(113)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2865.jpeg" onclick="openModal();currentSlide(114)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2866.jpeg" onclick="openModal();currentSlide(115)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2867.jpeg" onclick="openModal();currentSlide(116)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2868.jpeg" onclick="openModal();currentSlide(117)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2869.jpeg" onclick="openModal();currentSlide(118)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2870.jpeg" onclick="openModal();currentSlide(119)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2871.jpeg" onclick="openModal();currentSlide(120)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2872.jpeg" onclick="openModal();currentSlide(121)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2873.jpeg" onclick="openModal();currentSlide(122)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2874.jpeg" onclick="openModal();currentSlide(123)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2875.jpeg" onclick="openModal();currentSlide(124)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2876.jpeg" onclick="openModal();currentSlide(125)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2877.jpeg" onclick="openModal();currentSlide(126)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2878.jpeg" onclick="openModal();currentSlide(127)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2879.jpeg" onclick="openModal();currentSlide(128)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2880.jpeg" onclick="openModal();currentSlide(129)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2881.jpeg" onclick="openModal();currentSlide(130)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2882.jpeg" onclick="openModal();currentSlide(131)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2883.jpeg" onclick="openModal();currentSlide(132)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2884.jpeg" onclick="openModal();currentSlide(133)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2885.jpeg" onclick="openModal();currentSlide(134)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2886.jpeg" onclick="openModal();currentSlide(135)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2887.jpeg" onclick="openModal();currentSlide(136)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2888.jpeg" onclick="openModal();currentSlide(137)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2889.jpeg" onclick="openModal();currentSlide(138)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2890.jpeg" onclick="openModal();currentSlide(139)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2891.jpeg" onclick="openModal();currentSlide(140)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2892.jpeg" onclick="openModal();currentSlide(141)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2893.jpeg" onclick="openModal();currentSlide(142)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2894.jpeg" onclick="openModal();currentSlide(143)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2895.jpeg" onclick="openModal();currentSlide(144)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2896.jpeg" onclick="openModal();currentSlide(145)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2897.jpeg" onclick="openModal();currentSlide(146)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://kp2-website-pz.b-cdn.net/media/Service photos/June Fasting 2026/June 2026 Fasting 1/Midweek Service/IMG_2898.jpeg" onclick="openModal();currentSlide(147)" alt="Service Photo">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The Modal/Lightbox -->
+<div id="myModal" class="modal">
+  <span class="close cursor" onclick="closeModal()">&times;</span>
+  <div class="modal-content">
+    <!-- Slides are generated from gallery thumbnails to keep paths synchronized -->
+    <div id="slideCounter" class="slide-counter">1 / 1</div>
+
+    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+    <a class="next" onclick="changeSlide(1)">&#10095;</a>
+  </div>
+</div>
+
+<!-- Copyright Footer -->
+<footer style="background: #750c83; color: #fff; text-align: center; padding: 30px 10px 20px 10px; margin: 0; width: 100%; box-sizing: border-box; margin-top: auto;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <p style="font-size: 1.2em; margin-bottom: 10px;">
+            &copy; 2025 Kharis Church. All rights reserved.
+        </p>
+        <p style="margin-bottom: 10px;">
+            <a href="/Index.html" style="color: #fff; text-decoration: underline;">Home</a> |
+            <a href="mailto:info@kharis.org" style="color: #fff; text-decoration: underline;">Contact</a> |
+            <a href="https://www.facebook.com/KharisMinistries" target="_blank" style="color: #fff; text-decoration: underline;">Facebook</a> |
+            <a href="https://www.instagram.com/kharischurch/" target="_blank" style="color: #fff; text-decoration: underline;">Instagram</a>
+        </p>
+        <p style="font-size: 0.95em; opacity: 0.8;">
+            Kharis Church, London, UK
+        </p>
+    </div>
+</footer>
+
+<script>
+// Open the Modal
+function openModal() {
+  document.getElementById("myModal").style.display = "block";
+}
+
+// Close the Modal
+function closeModal() {
+  document.getElementById("myModal").style.display = "none";
+}
+
+var slideIndex = 1;
+
+// Next/previous controls
+function changeSlide(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function buildModalSlidesFromGallery() {
+  var modalContent = document.querySelector('#myModal .modal-content');
+  var thumbnails = document.querySelectorAll('.gallery-row .demo');
+  var controls = modalContent.querySelectorAll('.prev, .next');
+
+  modalContent.querySelectorAll('.mySlides').forEach(function(slide) {
+    slide.remove();
+  });
+
+  thumbnails.forEach(function(thumb, index) {
+    var slide = document.createElement('div');
+    slide.className = 'mySlides';
+
+    var numberText = document.createElement('div');
+    numberText.className = 'numbertext';
+    numberText.textContent = (index + 1) + ' / ' + thumbnails.length;
+
+    var image = document.createElement('img');
+    image.src = thumb.src;
+    image.style.width = '100%';
+
+    slide.appendChild(numberText);
+    slide.appendChild(image);
+    modalContent.insertBefore(slide, controls[0]);
+  });
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("demo");
+  var captionText = document.getElementById("caption");
+  var slideCounter = document.getElementById("slideCounter");
+  if (slides.length === 0 || dots.length === 0) { return; }
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  if (captionText) {
+    captionText.innerHTML = dots[slideIndex-1].alt;
+  }
+  if (slideCounter) {
+    slideCounter.textContent = slideIndex + " / " + slides.length;
+  }
+}
+
+// Initialize slides on page load
+buildModalSlidesFromGallery();
+showSlides(slideIndex);
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    let modal = document.getElementById("myModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") {
+        closeModal();
+    }
+});
+
+// Navigate with arrow keys
+document.addEventListener('keydown', function(e) {
+    let modal = document.getElementById("myModal");
+    if (modal.style.display === "block") {
+        if (e.key === "ArrowLeft") {
+            changeSlide(-1);
+        } else if (e.key === "ArrowRight") {
+            changeSlide(1);
+        }
+    }
+});
+
+// Download all images as ZIP
+async function downloadAllImagesAsZip() {
+  const zip = new JSZip();
+  const images = document.querySelectorAll('.gallery-row .demo');
+  
+  for (let i = 0; i < images.length; i++) {
+    const img = images[i];
+    try {
+      const response = await fetch(img.src);
+      const blob = await response.blob();
+      zip.file(`kharis-church-photo-${i + 1}.jpg`, blob);
+    } catch (error) {
+      console.error(`Failed to fetch image ${i + 1}:`, error);
+    }
+  }
+  
+  const content = await zip.generateAsync({type: 'blob'});
+  saveAs(content, 'kharis-church-photos.zip');
+}
+</script>
+
+</body>
+</html>
