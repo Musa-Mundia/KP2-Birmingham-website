@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" type="text/css" href="External_demo.css">
+      <link rel="icon" type="image" href="Images/Favicon_and_Logo.ico">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=person" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=person" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- JSZip and FileSaver libraries for downloading images as ZIP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <title>NYE Service</title>  
+</head> 
+
+<body>     
+    <style>
+      /* Text styling of choice from Google fonts */
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      body {
+       font-family: "Oswald", serif;
+       display: flex;
+       flex-direction: column;
+     }
+
+     header {
+       background-color: purple;
+       width: 100%;
+       padding: 0;
+       margin: 0;
+       box-sizing: border-box;
+     }
+
+     .uicore.elementor-container {
+       display: flex;
+       align-items: center;
+       padding: 0;
+       margin: 0;
+       width: 100%;
+     }
+
+     .uicore-branding {
+       background-color: purple;
+       padding: 20px;
+       width: 100%;
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-branding a {
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-logo {
+       width: 8% !important;
+       height: auto;
+     }
+
+     @media screen and (max-width: 768px) {
+        .topnav {
+            padding-left: 0;
+        }
+        .uicore-logo {
+          width: 12% !important;
+        }
+     }
+
+     section.featured-gallery {
+       flex: 1;
+       display: flex;
+       flex-direction: column;
+     }
+
+    /* Gallery Grid */
+    .gallery-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    /* Row and Column Styles */
+    .row > .column {
+      padding: 0 8px;
+    }
+
+
+    /* Create four equal columns that floats next to eachother */
+    .column {
+      float: left;
+      padding: 0 8px;
+      display: flex;
+      flex-direction: column;
+      max-inline-size: 100%;
+    }
+
+    /* The Modal (background) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: black;
+    }
+
+    /* Modal Content */
+    .modal-content {
+      position: relative;
+      background-color: #000;
+      margin: auto;
+      padding: 0;
+      width: 90%;
+      max-width: 1200px;
+    }
+
+    /* The Close Button */
+    .close {
+      color: white;
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #999;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Hide the slides by default */
+    .mySlides {
+      display: none;
+    }
+
+    /* Next & previous buttons */
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      padding: 16px;
+      margin-top: -50px;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .prev {
+      left: 0;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Number text (1/3 etc) */
+    .numbertext {
+      color: #f2f2f2;
+      font-size: 12px;
+      padding: 8px 12px;
+      position: absolute;
+      top: 0;
+    }
+
+    .slide-counter {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background-color: rgba(0, 0, 0, 0.55);
+      padding: 6px 10px;
+      border-radius: 999px;
+      z-index: 1002;
+    }
+
+    /* Caption text */
+    .caption-container {
+      text-align: center;
+      background-color: black;
+      padding: 2px 16px;
+      color: white;
+    }
+
+    img.demo {
+      opacity: 0.6;
+      cursor: pointer;
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: 0.3s;
+      flex-grow: 1;
+    }
+
+    .active,
+    .demo:hover {
+      opacity: 1;
+    }
+
+    img.hover-shadow {
+      transition: 0.3s;
+    }
+
+    .hover-shadow:hover {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    /* Responsive columns for mobile */
+    @media screen and (max-width: 1200px) {
+      .gallery-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media screen and (max-width: 800px) {
+      .column {
+        width: 50%;
+      }
+      .gallery-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+      img.demo {
+        height: 200px;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .column {
+        width: 100%;
+      }
+      .gallery-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      img.demo {
+        height: 180px;
+      }
+    }
+
+    .btn {
+      background-color: rgb(115, 16, 118);
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 500;
+      padding: 10px 20px;
+      letter-spacing: 0.5px;
+      border-radius: 5000px;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .btn--download {
+      padding: 16px 32px 15px 20px;
+      font-size: 16px;
+      position: fixed;
+      bottom: 27px;
+      left: calc(46%);
+      z-index: 100;
+      text-align: center;
+      box-shadow: 0 6px 23px rgba(0,0,0,0.45);
+      animation: fade-up 0.5s 0.4s backwards;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn--download:hover {
+      text-decoration: none;
+      background-color: rgb(61, 37, 68);
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Darker background on mouse-over */
+    .btn:hover {
+      background-color: rgb(61, 37, 68);
+    }
+
+    .btn--back {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 18px;
+      margin-right: 20px;
+      margin-left: 20px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      transition: background 0.2s;
+      align-self: center;
+      white-space: nowrap;
+      order: -1;
+    }
+
+    .btn--back:hover {
+      background: rgba(255,255,255,0.25);
+      color: white;
+    }
+
+   </style>
+ <header>
+            <nav class="uicore elementor-container">
+                     <div class="uicore-branding">
+                
+            <a href="/Index.html" rel="home">
+                <img class="uicore uicore-logo uicore-main" src="https://kharis.org/wp-content/uploads/2022/08/Logo_transparent_noText.png" alt="Kharis Church">
+                    </a>
+
+                </div>
+                <a href="/Gallery-Selection/Events-selection.HTML" class="btn--back">&#8592; Back</a>
+      </nav>
+    </header>
+<section class="featured-gallery">
+    <div class="categories">
+      <div class="small-container">
+        <div class="row row-2">
+          <h2>June 2026 Fasting Services</h2>
+      </div>
+
+      <div>
+      <button onclick="downloadAllImagesAsZip()" class="btn btn--download">
+           <i class="fa fa-download"></i> Download all <span class="u-bolder">photos</span>
+      </button>
+      </div>
+
+    <div class="gallery-row">
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/020C9564-4BAF-42AF-A711-3018B28B52A8.jpg" onclick="openModal();currentSlide(1)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/0261A112-31D9-464C-B906-344352479072.jpg" onclick="openModal();currentSlide(2)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/0337EF78-F36C-4748-BA0E-F54B7CBD75E1.jpg" onclick="openModal();currentSlide(3)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/04393D34-4DD5-44C4-9897-16CB4C7B688D.jpg" onclick="openModal();currentSlide(4)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/04691F2A-7B9E-4328-8C88-2440176388C7.jpg" onclick="openModal();currentSlide(5)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/04C989B1-1954-4807-9403-8D9736ECF820.jpg" onclick="openModal();currentSlide(6)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/04E39200-B409-46AC-960B-7AA211C6DE11.jpg" onclick="openModal();currentSlide(7)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/0572FAE7-B523-4FEF-96F0-FA6AADD2B742.jpg" onclick="openModal();currentSlide(8)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/0663BB18-5C1B-45D9-BB17-1B111F1187E0.jpg" onclick="openModal();currentSlide(9)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/07232E7A-CC41-4E28-B049-B844AE3AC0ED.jpg" onclick="openModal();currentSlide(10)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/0830B675-3A5D-44B2-AE67-3258D9C9C79F.jpg" onclick="openModal();currentSlide(11)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/0A68CC25-D4DD-47D9-8D0B-E57D674D49E3.jpg" onclick="openModal();currentSlide(12)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/0E177FEA-0AD6-4008-B98D-959E4E0D4A9A.jpg" onclick="openModal();currentSlide(13)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/0E2A0108-2B51-4E6B-88D4-019EC82095C6.jpg" onclick="openModal();currentSlide(14)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/0E8A8359-3050-4E17-89F8-4B190C72E6A2.jpg" onclick="openModal();currentSlide(15)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/0F476ABA-D077-4502-AF6D-2710C7C4D718.jpg" onclick="openModal();currentSlide(16)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/115DE9DB-A243-4667-8181-D83D71ADAE63.jpg" onclick="openModal();currentSlide(17)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/12C601AB-7586-4F5E-B24D-49A8258B4177.jpg" onclick="openModal();currentSlide(18)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/130AD01C-BAE5-49BF-99C0-FF5DCC45F93C.jpg" onclick="openModal();currentSlide(19)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/151F6D55-FEF3-40A3-BEEA-31567E80BA41.jpg" onclick="openModal();currentSlide(20)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/1563AE98-ED43-4772-8185-4C193ABE3B9C.jpg" onclick="openModal();currentSlide(21)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/159D596C-AB48-4E81-B899-247FB38373FC.jpg" onclick="openModal();currentSlide(22)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/15E1297F-7F14-4910-897A-7C45B1F4BF77.jpg" onclick="openModal();currentSlide(23)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/15E76129-DD9C-4C55-B436-FD543FBD08FE.jpg" onclick="openModal();currentSlide(24)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/16516A48-0DC7-45D8-BC62-EBB6937BA597.jpg" onclick="openModal();currentSlide(25)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/16B03DAE-A4A2-4D92-B0F6-02B5EBC17543.jpg" onclick="openModal();currentSlide(26)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/185F9FBB-9F67-4B41-B7B3-CCC8FEBCE991.jpg" onclick="openModal();currentSlide(27)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/1BFA23FC-CAC5-4ECA-88E2-0D0D3CC2C7D0.jpg" onclick="openModal();currentSlide(28)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/1CADC573-9AE9-411A-AA93-A554CF0566CF.jpg" onclick="openModal();currentSlide(29)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/1EFF3C2B-1945-4BF2-AD8D-CC1EFC6DB097.jpg" onclick="openModal();currentSlide(30)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/1F3A5E9A-283F-4D38-A899-C14D6B93B12C.jpg" onclick="openModal();currentSlide(31)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/1F4F5C72-2DFC-4E6F-9D59-6B91FDC275A5.jpg" onclick="openModal();currentSlide(32)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/20693CFE-100F-480C-9D76-557D1B61A6EC.jpg" onclick="openModal();currentSlide(33)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/21009276-F244-49BB-AFAD-EA2EB8DF0403.jpg" onclick="openModal();currentSlide(34)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/2252DCA8-956F-4217-855B-31B7DD70E9E6.jpg" onclick="openModal();currentSlide(35)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/2281784F-8AD6-4BD5-9827-94955CC1FBA5.jpg" onclick="openModal();currentSlide(36)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/23DFF821-C0BE-45EF-84FA-11C268A58AC2.jpg" onclick="openModal();currentSlide(37)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/259EE39D-B49D-4956-BDA2-3F177E858EB8.jpg" onclick="openModal();currentSlide(38)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/25E2A0B0-BFD5-4F3D-A70B-D04AD0B6A80A.jpg" onclick="openModal();currentSlide(39)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/261BEBBF-0070-418E-BD43-1E259047FFD9.jpg" onclick="openModal();currentSlide(40)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/26C37750-AF55-4C9C-AB68-FA3DF2DDAC58.jpg" onclick="openModal();currentSlide(41)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/28436923-9CF7-4F60-BF44-1C281798EBDA.jpg" onclick="openModal();currentSlide(42)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/28A7001B-50D0-40B0-B9A5-923FC39FF8BD.jpg" onclick="openModal();currentSlide(43)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/2924E1B2-29E2-492A-AC51-ECBBAFDC4EAB.jpg" onclick="openModal();currentSlide(44)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/2CAA0711-8305-475D-A198-DED518274F4C.jpg" onclick="openModal();currentSlide(45)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/2D859100-B465-45AB-8805-8DC71E3BAFB0.jpg" onclick="openModal();currentSlide(46)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/2E23FC4F-B08C-474B-ACE5-6472776DF5FE.jpg" onclick="openModal();currentSlide(47)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/2F6EF241-DAE7-4962-BE35-4E4AE9CB7B8A.jpg" onclick="openModal();currentSlide(48)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/2F83907C-63F8-4311-AACD-8245EF3AC382.jpg" onclick="openModal();currentSlide(49)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/3067E02A-A151-4C52-9EC1-4B341518FE69.jpg" onclick="openModal();currentSlide(50)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/3296F99D-DA2C-4D33-8C8F-AB6508099417.jpg" onclick="openModal();currentSlide(51)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/336E2CA1-98D3-4A67-B445-698E16442F95.jpg" onclick="openModal();currentSlide(52)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/341607CB-D7A0-41B3-AA55-E125CD5D3B88.jpg" onclick="openModal();currentSlide(53)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/343005CE-F1D3-45BF-B9D1-B7AF21603777.jpg" onclick="openModal();currentSlide(54)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/34936F18-D11E-4BA9-918C-1E5360745C6E.jpg" onclick="openModal();currentSlide(55)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/352EF25E-F919-4DC6-B366-36013896DB13.jpg" onclick="openModal();currentSlide(56)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/3A3A4869-5D14-4E50-AD8D-88ABE86254C6.jpg" onclick="openModal();currentSlide(57)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/3AE8E55D-1E1D-42CE-9646-5A8BFE7F3F8C.jpg" onclick="openModal();currentSlide(58)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/3B7C68E4-5EB8-47CC-AF9A-89C3B7E4D30C.jpg" onclick="openModal();currentSlide(59)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/3DD792D4-FFE1-4250-AE77-6C98E8E67A19.jpg" onclick="openModal();currentSlide(60)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/3E9AF9C4-DD39-4524-8485-3CB0B65ACF3B.jpg" onclick="openModal();currentSlide(61)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/406379AE-CB4E-427B-B8C5-5BDA2C674E77.jpg" onclick="openModal();currentSlide(62)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/422EBB7F-DA64-4C4B-AC08-E4DBE765D861.jpg" onclick="openModal();currentSlide(63)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/43510E08-38F9-4CEB-AE57-02E7C51E393A.jpg" onclick="openModal();currentSlide(64)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/452089DD-0ABE-415D-96E2-4DCE51B2E0A6.jpg" onclick="openModal();currentSlide(65)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/45512AC2-8597-4D94-A8A6-258DB28EEE8C.jpg" onclick="openModal();currentSlide(66)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/45AAA829-900F-4C62-B0AC-90D787098BA9.jpg" onclick="openModal();currentSlide(67)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/468E27C7-B884-4C14-B7EB-7A461CC9B450.jpg" onclick="openModal();currentSlide(68)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/486EEC41-3FB1-4C26-AB6D-B1B4D30AA9D1.jpg" onclick="openModal();currentSlide(69)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/49A74CAC-672D-4E1E-818B-EBBDCC764CE0.jpg" onclick="openModal();currentSlide(70)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/49D9BB4C-4B18-4222-8D24-28AA78934682.jpg" onclick="openModal();currentSlide(71)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/4B26639A-1A1D-40AB-8EE1-863A8161D1C9.jpg" onclick="openModal();currentSlide(72)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/4C112EC6-670C-40C7-9E7F-9DE1486F5DD6.jpg" onclick="openModal();currentSlide(73)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/4C27ED93-2802-4599-9381-8FA634C537A8.jpg" onclick="openModal();currentSlide(74)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/4C538C3B-B332-4BA8-962A-32A82997DFBE.jpg" onclick="openModal();currentSlide(75)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/4D63600D-0492-40BE-AF53-B0257AB3A017.jpg" onclick="openModal();currentSlide(76)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/4DBADF5F-3595-429D-8652-10FF1BA6E9FD.jpg" onclick="openModal();currentSlide(77)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/4ED45BC8-078C-450D-9A22-F29057481972.jpg" onclick="openModal();currentSlide(78)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/4F258F28-EBA5-44AA-9F22-95D3665827C4.jpg" onclick="openModal();currentSlide(79)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/5034036A-86B7-4EA1-AD33-A811F4E04B9D.jpg" onclick="openModal();currentSlide(80)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/52F155B0-A2DD-4058-A3B7-9452766A46A3.jpg" onclick="openModal();currentSlide(81)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/53E3EF1E-D84B-4DC6-BAC9-E8F10617DE82.jpg" onclick="openModal();currentSlide(82)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/54C424DC-5FCA-4620-882E-B71C8C05BC27.jpg" onclick="openModal();currentSlide(83)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/5574671B-1650-4DFE-B925-15AAD9384C7D.jpg" onclick="openModal();currentSlide(84)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/56D661C6-D239-4FCF-A2DE-E04FBD198D0A.jpg" onclick="openModal();currentSlide(85)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/57966EE1-6635-4173-92D2-29AA8A2284A8.jpg" onclick="openModal();currentSlide(86)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/57A50BC1-3A5C-4005-81E9-9515FED7AD09.jpg" onclick="openModal();currentSlide(87)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/57CC45DD-ED14-4FAB-8B59-6929A8D38C20.jpg" onclick="openModal();currentSlide(88)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/5AAEA8F4-86E4-43BC-962C-1BADFDEBB412.jpg" onclick="openModal();currentSlide(89)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/5FD007C4-934C-46EF-8827-0B5C65AAF2E6.jpg" onclick="openModal();currentSlide(90)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/6165D72C-04D5-4B4B-AB51-5DD6C4028CD0.jpg" onclick="openModal();currentSlide(91)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/619BD01E-5CE7-4FA7-A35C-2929F4C99945.jpg" onclick="openModal();currentSlide(92)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/6264835A-28FF-46D5-B2F8-CDED8B8E3B5C.jpg" onclick="openModal();currentSlide(93)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/6331E1DF-42C3-4074-869C-3DA8471BEE5F.jpg" onclick="openModal();currentSlide(94)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/63AF85C0-B421-4B81-991D-72BDA74ED5DD.jpg" onclick="openModal();currentSlide(95)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/63F42F20-F24B-4223-9A37-66466E8E2193.jpg" onclick="openModal();currentSlide(96)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/65ACBBC6-C144-456E-AD4B-4E89DBE9A5AB.jpg" onclick="openModal();currentSlide(97)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/6648E9F5-4AC4-4820-B983-699AD39ACE1D.jpg" onclick="openModal();currentSlide(98)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/671F5107-CEFA-4C3E-AAC5-A98E7E3A4D82.jpg" onclick="openModal();currentSlide(99)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/67D73498-9279-4A97-B951-74E3D1E9497B.jpg" onclick="openModal();currentSlide(100)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/6822C601-F307-4F20-BE17-6C28C20BD4DA.jpg" onclick="openModal();currentSlide(101)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/6AFAF721-5CDF-4B26-947E-FC46791FC606.jpg" onclick="openModal();currentSlide(102)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/6B26E08B-276E-425B-9316-61115EE66C80.jpg" onclick="openModal();currentSlide(103)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/6D0C94D8-B128-40C2-96B4-BBCD74EFAA7B.jpg" onclick="openModal();currentSlide(104)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/6D292DE3-A536-4619-82D0-20C83E555329.jpg" onclick="openModal();currentSlide(105)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/6E7DD86B-35DF-4DF3-8B50-E805D12F4D09.jpg" onclick="openModal();currentSlide(106)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/6E834F4D-C4AE-4BCD-8B9B-5C80D3E0D045.jpg" onclick="openModal();currentSlide(107)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/6EAE052C-93D3-441B-B5FC-40FD5F34A391.jpg" onclick="openModal();currentSlide(108)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/6FCCDE70-3B49-4624-A3B8-766DE15674A2.jpg" onclick="openModal();currentSlide(109)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/6FE4B6C6-69E1-4FC1-83BD-8A058AF620BC.jpg" onclick="openModal();currentSlide(110)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/709FDF54-93B3-4410-A754-875EEE95EEE5.jpg" onclick="openModal();currentSlide(111)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/70E49581-0EF5-4FCC-AB2F-A9B692BF29EE.jpg" onclick="openModal();currentSlide(112)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/7291B93D-7F57-4D31-B687-D828C377F4BC.jpg" onclick="openModal();currentSlide(113)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/73FA29B3-6D7F-4B78-8062-3418ED28E24D.jpg" onclick="openModal();currentSlide(114)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/747CD7CD-E65B-4FD3-B12C-654746AF8341.jpg" onclick="openModal();currentSlide(115)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/749CF9A0-3E97-4BCC-AB76-A84F390DB54E.jpg" onclick="openModal();currentSlide(116)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/7664CF4D-A885-4F37-9DA8-D1C2AC8C74EF.jpg" onclick="openModal();currentSlide(117)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/76D4C8AC-7062-4D1B-B815-266F0A31F50A.jpg" onclick="openModal();currentSlide(118)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/79953DEB-F35D-47F3-9CF5-42976E18CA53.jpg" onclick="openModal();currentSlide(119)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/7AB28512-8FF5-4A69-807E-7269ED122FBF.jpg" onclick="openModal();currentSlide(120)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/7BB30415-965E-4529-B819-901CDE11C7BA.jpg" onclick="openModal();currentSlide(121)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/7E98BA1D-992A-43F6-B949-B0932116C6A4.jpg" onclick="openModal();currentSlide(122)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/7EDB0FED-E93E-4971-BF3E-92CE022D2896.jpg" onclick="openModal();currentSlide(123)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/7F228091-1C26-4DF5-AA72-717FC8B38918.jpg" onclick="openModal();currentSlide(124)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/7F422078-842B-49B7-9134-CBC39FF49AFD.jpg" onclick="openModal();currentSlide(125)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/7F57A559-F3DB-4BE7-8C97-2E7E9A868A91.jpg" onclick="openModal();currentSlide(126)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/807AC7FB-F4C2-40F2-A2CC-8DA22BE374A5.jpg" onclick="openModal();currentSlide(127)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/814815BE-ACCA-410E-A4C5-DFB0E7E554A0.jpg" onclick="openModal();currentSlide(128)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/82DDF6C1-6653-4F6E-9C66-5D6185DDBDDB.jpg" onclick="openModal();currentSlide(129)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/831F1CC9-4DF1-42C2-91F1-44D06C603B1D.jpg" onclick="openModal();currentSlide(130)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/83793043-FF28-4D13-8CA1-F6B28A4B3B27.jpg" onclick="openModal();currentSlide(131)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/83DA7119-21E4-4478-A953-B5ADC5FD3124.jpg" onclick="openModal();currentSlide(132)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/842B6EB3-1F5C-4713-8F06-C6D1A91C1984.jpg" onclick="openModal();currentSlide(133)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/85BE40FD-BD03-43EC-BD0D-FBD2FEEE227A.jpg" onclick="openModal();currentSlide(134)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/869B3E2D-CFB0-446D-8BB7-105D91A5E464.jpg" onclick="openModal();currentSlide(135)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/87DBC435-C191-4DE7-BE64-D370ADB39EEB.jpg" onclick="openModal();currentSlide(136)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/88B2535A-493E-4DFB-8AA5-0A631F8F55D5.jpg" onclick="openModal();currentSlide(137)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/89845EE6-D9CE-42D2-89B4-1682882DF33A.jpg" onclick="openModal();currentSlide(138)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/8AF2315A-54CC-40D6-A079-C27B73F7BC85.jpg" onclick="openModal();currentSlide(139)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/8CDE2298-594F-41F2-87A3-F63DEA7BD1A4.jpg" onclick="openModal();currentSlide(140)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/8F22344C-8FF5-4BD2-B95B-9DB310992704.jpg" onclick="openModal();currentSlide(141)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/90B825EC-F38A-47F0-915B-D15DE0F941FE.jpg" onclick="openModal();currentSlide(142)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/9309D52C-7EE2-468E-8515-3864F53C48E1.jpg" onclick="openModal();currentSlide(143)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/934A475D-287F-48A4-BA2D-7D53B2FA7DBF.jpg" onclick="openModal();currentSlide(144)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/935E5467-B0CD-4B39-BCF0-9D2100D53396.jpg" onclick="openModal();currentSlide(145)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/93686A5A-7249-4865-B4EF-AB86B2856E37.jpg" onclick="openModal();currentSlide(146)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/93D760AA-EB00-4C79-848B-1F669E2F47E1.jpg" onclick="openModal();currentSlide(147)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/97CB76CF-5C3F-40FB-8EAE-06F04CE1AF09.jpg" onclick="openModal();currentSlide(148)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/985BE583-B939-4228-B4D7-C64A62A17D52.jpg" onclick="openModal();currentSlide(149)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/999CF56D-31BF-4818-AA1E-BC1F1B7DD076.jpg" onclick="openModal();currentSlide(150)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/99ED8748-3FD9-437F-AA5E-92C24AD6CB4E.jpg" onclick="openModal();currentSlide(151)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/9C6E0D42-BA5B-4383-A98A-58D54652543D.jpg" onclick="openModal();currentSlide(152)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/9CE6F9B2-4241-4903-9DC0-E7A90CE7AC34.jpg" onclick="openModal();currentSlide(153)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/9E5B990B-CDC8-4F3B-BFA6-A5A38D738408.jpg" onclick="openModal();currentSlide(154)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/9F2B9DC2-C527-4EB9-82F0-B67BDC762FF5.jpg" onclick="openModal();currentSlide(155)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/9F96F947-219A-4058-9533-4BF928DF7DDD.jpg" onclick="openModal();currentSlide(156)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/A0938381-90E1-4D56-83AF-093505B445EA.jpg" onclick="openModal();currentSlide(157)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/A1E02C84-D324-4DFD-8006-AE78F58BCBBD.jpg" onclick="openModal();currentSlide(158)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/A1E0B2DB-E8BA-4496-AF45-5AE4FDA13DAF.jpg" onclick="openModal();currentSlide(159)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/A3C76D90-8D1F-4CA1-888C-1D71AA026620.jpg" onclick="openModal();currentSlide(160)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/A4CF811F-2624-4FDA-88F4-A10D45077021.jpg" onclick="openModal();currentSlide(161)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/A6F00E94-D640-42C2-979B-EBA4B0549F65.jpg" onclick="openModal();currentSlide(162)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/A7F1030D-90DD-4963-A4D6-3FBF65FAA86B.jpg" onclick="openModal();currentSlide(163)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/A8641E80-3C30-4481-9515-C17270C76AB8.jpg" onclick="openModal();currentSlide(164)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/AA1992D6-D807-48C7-ADEB-5AA42DF6A5CB.jpg" onclick="openModal();currentSlide(165)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/AC087E62-54C0-4AE5-B437-BD8AB4C57727.jpg" onclick="openModal();currentSlide(166)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/ACF04A4E-3750-46A4-BCB2-12352A67A3E0.jpg" onclick="openModal();currentSlide(167)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/AD0C4AE4-AD7F-4D0F-999A-412613385DE9.jpg" onclick="openModal();currentSlide(168)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/AF54550A-12E5-400C-9415-5682D500C7AB.jpg" onclick="openModal();currentSlide(169)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/B11AE52C-1119-4D88-BFD3-51F322309DAE.jpg" onclick="openModal();currentSlide(170)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/B2172562-BF38-4D2D-9D34-3B63A6F76A6C.jpg" onclick="openModal();currentSlide(171)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/B25723E8-15EA-4876-B2A0-2800DB111410.jpg" onclick="openModal();currentSlide(172)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/B2F451C3-294C-4D5E-93F6-DD8E3FD27199.jpg" onclick="openModal();currentSlide(173)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/B35014CE-5754-47A1-9F7E-B5BCAF5EA3B4.jpg" onclick="openModal();currentSlide(174)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/B494D656-84B8-4D0F-90E4-8E12F6E3404D.jpg" onclick="openModal();currentSlide(175)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/B4D30D48-B1F5-4DFB-A538-3F320DD03558.jpg" onclick="openModal();currentSlide(176)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/B4D68BC5-42D7-4469-90DE-CF9D9B058B10.jpg" onclick="openModal();currentSlide(177)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/B550F07C-D024-4A0C-8EF1-C865E3E712D6.jpg" onclick="openModal();currentSlide(178)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/B57A5AC2-6AF7-4917-BA52-6BE1A2A00283.jpg" onclick="openModal();currentSlide(179)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/BAB6A5FD-9C0F-4726-8D8D-36A5EDA6B25F.jpg" onclick="openModal();currentSlide(180)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/BC93F4FA-0C87-4A44-A49A-9A9A3BDE44A5.jpg" onclick="openModal();currentSlide(181)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/BC986538-1B4C-47DC-BACB-A50BB7A2E41F.jpg" onclick="openModal();currentSlide(182)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/BD212499-A7F2-424A-9B24-5325466CB040.jpg" onclick="openModal();currentSlide(183)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/BF61EC84-4A9D-4004-A1F8-A2C62801C061.jpg" onclick="openModal();currentSlide(184)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/BF9DBA6D-CB44-4307-82BF-61DA6B2B1D5D.jpg" onclick="openModal();currentSlide(185)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/BFD06A7B-5F49-4E6A-BBAE-C489D6FC0235.jpg" onclick="openModal();currentSlide(186)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/BFECC5A6-15EC-4690-A8AB-C6DB18B0565B.jpg" onclick="openModal();currentSlide(187)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/C016D003-62AD-4764-8B84-7DDF1543AE50.jpg" onclick="openModal();currentSlide(188)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/C02916AF-2D9F-4FF1-8BF0-9FC6F78FFDD6.jpg" onclick="openModal();currentSlide(189)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/C0CDBB17-6598-4049-B26B-3192C255EC78.jpg" onclick="openModal();currentSlide(190)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/C0D058AD-EAD7-428A-B672-3E0E9DA07537.jpg" onclick="openModal();currentSlide(191)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/C1D3DFAE-CDA6-4E54-8570-7E92F538A0CB.jpg" onclick="openModal();currentSlide(192)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/C388AD9E-0F31-4B91-9A17-7964E7E21DF0.jpg" onclick="openModal();currentSlide(193)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/C5BF1E6D-CD6F-4DD1-AACB-C9A394DDC84D.jpg" onclick="openModal();currentSlide(194)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/C5CBAA1D-FB1B-4B89-9156-1404E0E154F2.jpg" onclick="openModal();currentSlide(195)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/C6FC56F9-CA97-4AC7-8BA8-280984CB9BDC.jpg" onclick="openModal();currentSlide(196)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/C8DB328F-BE58-4531-87B3-9407AEA5B664.jpg" onclick="openModal();currentSlide(197)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/C8EAFBE9-CFA7-4B50-B1FB-AA13296BA720.jpg" onclick="openModal();currentSlide(198)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/CA104847-4F6F-4F1E-9EA1-127BEEED6DFF.jpg" onclick="openModal();currentSlide(199)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/CACA5A7C-79E6-4DB7-9831-2B39B1309E0E.jpg" onclick="openModal();currentSlide(200)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/CB352F4F-064C-4E6D-9DEC-F240B2AC82CD.jpg" onclick="openModal();currentSlide(201)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/CDC2CC54-FBDE-44A0-A878-984AC2896BBB.jpg" onclick="openModal();currentSlide(202)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/CE1E5C38-953D-4706-9070-0C262DF35F92.jpg" onclick="openModal();currentSlide(203)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/CE256C33-8F13-40F4-98F5-D342CAC567D6.jpg" onclick="openModal();currentSlide(204)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/CE85B966-D24F-4D13-A7DD-79937BCAC4ED.jpg" onclick="openModal();currentSlide(205)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/CF062A13-E500-4AEE-89D9-D0D865FFAB0D.jpg" onclick="openModal();currentSlide(206)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/CF34FB9D-0374-4A11-B905-126DE96A4A9D.jpg" onclick="openModal();currentSlide(207)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/CF6C02F7-A5DD-4530-A352-22D312995F3B.jpg" onclick="openModal();currentSlide(208)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/CFE37285-7B71-44A8-92EC-41B74494FE7B.jpg" onclick="openModal();currentSlide(209)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/CFF81298-055D-4E11-9967-1ABE76C9A88B.jpg" onclick="openModal();currentSlide(210)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/D0A6374F-B08D-463A-B841-A50617867B2B.jpg" onclick="openModal();currentSlide(211)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/D57CAB8B-A6AF-4EE7-B681-4E0677E188BA.jpg" onclick="openModal();currentSlide(212)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/D64FB0CF-39C6-461E-9DE3-2225BF332653.jpg" onclick="openModal();currentSlide(213)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/D6D30632-6F93-4E7E-B0B2-97FCD2FD49C7.jpg" onclick="openModal();currentSlide(214)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/D8E19C67-EBA7-4351-942B-F501C1488690.jpg" onclick="openModal();currentSlide(215)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/D99CE67D-17C1-4009-B22C-12339EAAA3F2.jpg" onclick="openModal();currentSlide(216)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/DC31A755-9F07-4C9D-AB66-2456637D2B2B.jpg" onclick="openModal();currentSlide(217)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/DC939826-838C-482C-83FE-00F3AC446273.jpg" onclick="openModal();currentSlide(218)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/DD03A926-59EA-41DA-A716-EBEA676E601C.jpg" onclick="openModal();currentSlide(219)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/DD6A0E73-612E-4507-B58B-71F9EA4CD8E0.jpg" onclick="openModal();currentSlide(220)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/DD7E6C4D-AE3E-4D21-9582-AA79AEF06F3F.jpg" onclick="openModal();currentSlide(221)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/DDA37DCC-19F9-4BDE-BBC8-5CD5F7A950F7.jpg" onclick="openModal();currentSlide(222)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/DE2A6826-8242-4070-AD40-ADF1207ED265.jpg" onclick="openModal();currentSlide(223)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/E0C25317-1795-4D45-B0D3-1BA1D9486A91.jpg" onclick="openModal();currentSlide(224)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/E1A2EC5B-5EF2-478B-BEE7-9EE58DA368DE.jpg" onclick="openModal();currentSlide(225)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/E4510FBE-050F-4D7D-93AA-1F0A5AA602CE.jpg" onclick="openModal();currentSlide(226)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/E46219EE-A7A5-4AA9-8236-5DD02EF4FACD.jpg" onclick="openModal();currentSlide(227)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/E60488D9-030A-4640-BC3D-5C5858AB8D7B.jpg" onclick="openModal();currentSlide(228)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/E6A0F9D6-0DB5-4611-A8E7-342EC73AD95C.jpg" onclick="openModal();currentSlide(229)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/E97F3B08-B7C9-4932-B403-908A30CD9C73.jpg" onclick="openModal();currentSlide(230)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/E98D03A0-E0EB-4471-AF53-860B9154D3D5.jpg" onclick="openModal();currentSlide(231)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/E9E37B7D-414A-4453-AA37-B61C61DA7B07.jpg" onclick="openModal();currentSlide(232)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/EA95BA08-B9EB-45A3-A7F9-40C548E8BD43.jpg" onclick="openModal();currentSlide(233)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/EB4FDD6B-4C7A-419E-88BB-9E0DBF4C816E.jpg" onclick="openModal();currentSlide(234)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/EC8830DF-52FE-4F46-B812-6BFA9DEE1148.jpg" onclick="openModal();currentSlide(235)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/ED7E301C-CFE9-4229-93E4-E9517CFE0709.jpg" onclick="openModal();currentSlide(236)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/EEFF0A59-6792-47F7-8D04-478199615324.jpg" onclick="openModal();currentSlide(237)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/EF9B01E5-3D7A-4EDD-A511-5D1642581AD8.jpg" onclick="openModal();currentSlide(238)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/F157EFAA-95A9-4845-8609-5097A157392A.jpg" onclick="openModal();currentSlide(239)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/F1636C43-EF18-49CB-98CB-C760CBC8FD94.jpg" onclick="openModal();currentSlide(240)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/F214A8A5-9B8A-4057-BED1-6FB343C5B46C.jpg" onclick="openModal();currentSlide(241)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/F30C3609-123B-4831-93EA-7A8ED8CD57EC.jpg" onclick="openModal();currentSlide(242)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/F4237651-F9F1-421E-A6E5-D512BA5E33B0.jpg" onclick="openModal();currentSlide(243)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/F6EFB5D3-EBB3-4EF2-A0F4-3B68966A23DE.jpg" onclick="openModal();currentSlide(244)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/FB37951D-9422-437A-AEB1-066C3206CB00.jpg" onclick="openModal();currentSlide(245)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/FC148F03-260A-4A1C-8B27-C6E2887CC7BA.jpg" onclick="openModal();currentSlide(246)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/FCF96E09-1E5D-465C-8AF2-5537054B34C2.jpg" onclick="openModal();currentSlide(247)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/FCF97143-3AF2-43C1-A2F8-2094989E8755.jpg" onclick="openModal();currentSlide(248)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/June%20Fasting%202026/June%202026%20Fasting%203/Weekday%20Service/FF777A86-7B7F-40CB-B204-C0AB75568F5E.jpg" onclick="openModal();currentSlide(249)" alt="Service Photo">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The Modal/Lightbox -->
+<div id="myModal" class="modal">
+  <span class="close cursor" onclick="closeModal()">&times;</span>
+  <div class="modal-content">
+    <!-- Slides are generated from gallery thumbnails to keep paths synchronized -->
+    <div id="slideCounter" class="slide-counter">1 / 1</div>
+
+    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+    <a class="next" onclick="changeSlide(1)">&#10095;</a>
+  </div>
+</div>
+
+<!-- Copyright Footer -->
+<footer style="background: #750c83; color: #fff; text-align: center; padding: 30px 10px 20px 10px; margin: 0; width: 100%; box-sizing: border-box; margin-top: auto;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <p style="font-size: 1.2em; margin-bottom: 10px;">
+            &copy; 2025 Kharis Church. All rights reserved.
+        </p>
+        <p style="margin-bottom: 10px;">
+            <a href="/Index.html" style="color: #fff; text-decoration: underline;">Home</a> |
+            <a href="mailto:info@kharis.org" style="color: #fff; text-decoration: underline;">Contact</a> |
+            <a href="https://www.facebook.com/KharisMinistries" target="_blank" style="color: #fff; text-decoration: underline;">Facebook</a> |
+            <a href="https://www.instagram.com/kharischurch/" target="_blank" style="color: #fff; text-decoration: underline;">Instagram</a>
+        </p>
+        <p style="font-size: 0.95em; opacity: 0.8;">
+            Kharis Church, London, UK
+        </p>
+    </div>
+</footer>
+
+<script>
+// Open the Modal
+function openModal() {
+  document.getElementById("myModal").style.display = "block";
+}
+
+// Close the Modal
+function closeModal() {
+  document.getElementById("myModal").style.display = "none";
+}
+
+var slideIndex = 1;
+
+// Next/previous controls
+function changeSlide(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function buildModalSlidesFromGallery() {
+  var modalContent = document.querySelector('#myModal .modal-content');
+  var thumbnails = document.querySelectorAll('.gallery-row .demo');
+  var controls = modalContent.querySelectorAll('.prev, .next');
+
+  modalContent.querySelectorAll('.mySlides').forEach(function(slide) {
+    slide.remove();
+  });
+
+  thumbnails.forEach(function(thumb, index) {
+    var slide = document.createElement('div');
+    slide.className = 'mySlides';
+
+    var numberText = document.createElement('div');
+    numberText.className = 'numbertext';
+    numberText.textContent = (index + 1) + ' / ' + thumbnails.length;
+
+    var image = document.createElement('img');
+    image.src = thumb.src;
+    image.style.width = '100%';
+
+    slide.appendChild(numberText);
+    slide.appendChild(image);
+    modalContent.insertBefore(slide, controls[0]);
+  });
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("demo");
+  var captionText = document.getElementById("caption");
+  var slideCounter = document.getElementById("slideCounter");
+  if (slides.length === 0 || dots.length === 0) { return; }
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  if (captionText) {
+    captionText.innerHTML = dots[slideIndex-1].alt;
+  }
+  if (slideCounter) {
+    slideCounter.textContent = slideIndex + " / " + slides.length;
+  }
+}
+
+// Initialize slides on page load
+buildModalSlidesFromGallery();
+showSlides(slideIndex);
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    let modal = document.getElementById("myModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") {
+        closeModal();
+    }
+});
+
+// Navigate with arrow keys
+document.addEventListener('keydown', function(e) {
+    let modal = document.getElementById("myModal");
+    if (modal.style.display === "block") {
+        if (e.key === "ArrowLeft") {
+            changeSlide(-1);
+        } else if (e.key === "ArrowRight") {
+            changeSlide(1);
+        }
+    }
+});
+
+// Download all images as ZIP
+async function downloadAllImagesAsZip() {
+  const zip = new JSZip();
+  const images = document.querySelectorAll('.gallery-row .demo');
+  
+  for (let i = 0; i < images.length; i++) {
+    const img = images[i];
+    try {
+      const response = await fetch(img.src);
+      const blob = await response.blob();
+      zip.file(`kharis-church-photo-${i + 1}.jpg`, blob);
+    } catch (error) {
+      console.error(`Failed to fetch image ${i + 1}:`, error);
+    }
+  }
+  
+  const content = await zip.generateAsync({type: 'blob'});
+  saveAs(content, 'kharis-church-photos.zip');
+}
+</script>
+
+</body>
+</html>
