@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="External_demo.css">
+      <link rel="icon" type="image/png" href="https://kharis.org/wp-content/uploads/2022/08/Logo_transparent_noText.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=person" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=person" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- JSZip and FileSaver libraries for downloading images as ZIP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <title>Service Gallery</title>
+</head>
+
+<body>
+    <style>
+      /* Text styling of choice from Google fonts */
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      body {
+       font-family: "Oswald", serif;
+       display: flex;
+       flex-direction: column;
+     }
+
+     header {
+       background-color: purple;
+       width: 105%;
+       padding: 0;
+       margin: 0;
+     }
+
+     .uicore.elementor-container {
+       display: flex;
+       align-items: center;
+       padding: 0;
+       margin: 0;
+       width: 100%;
+     }
+
+     .uicore-branding {
+       background-color: purple;
+       padding: 20px;
+       width: 100%;
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-branding a {
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-logo {
+       width: 8% !important;
+       height: auto;
+     }
+
+     @media screen and (max-width: 768px) {
+        .topnav {
+            padding-left: 0;
+        }
+        .uicore-logo {
+          width: 12% !important;
+        }
+     }
+
+     section.featured-gallery {
+       flex: 1;
+       display: flex;
+       flex-direction: column;
+     }
+
+    /* Gallery Grid */
+    .gallery-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    /* Row and Column Styles */
+    .row > .column {
+      padding: 0 8px;
+    }
+
+
+    /* Create four equal columns that floats next to eachother */
+    .column {
+      float: left;
+      padding: 0 8px;
+      display: flex;
+      flex-direction: column;
+      max-inline-size: 100%;
+    }
+
+    /* The Modal (background) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: black;
+    }
+
+    /* Modal Content */
+    .modal-content {
+      position: relative;
+      background-color: #000;
+      margin: auto;
+      padding: 0;
+      width: 90%;
+      max-width: 1200px;
+    }
+
+    /* The Close Button */
+    .close {
+      color: white;
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #999;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Hide the slides by default */
+    .mySlides {
+      display: none;
+    }
+
+    /* Next & previous buttons */
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      padding: 16px;
+      margin-top: -50px;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .prev {
+      left: 0;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Number text (1/3 etc) */
+    .numbertext {
+      color: #f2f2f2;
+      font-size: 12px;
+      padding: 8px 12px;
+      position: absolute;
+      top: 0;
+    }
+
+    /* Caption text */
+    .caption-container {
+      text-align: center;
+      background-color: black;
+      padding: 2px 16px;
+      color: white;
+    }
+
+    img.demo {
+      opacity: 0.6;
+      cursor: pointer;
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: 0.3s;
+      flex-grow: 1;
+    }
+
+    .active,
+    .demo:hover {
+      opacity: 1;
+    }
+
+    img.hover-shadow {
+      transition: 0.3s;
+    }
+
+    .hover-shadow:hover {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    /* Responsive columns for mobile */
+    @media screen and (max-width: 1200px) {
+      .gallery-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media screen and (max-width: 800px) {
+      .column {
+        width: 50%;
+      }
+      .gallery-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+      img.demo {
+        height: 200px;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .column {
+        width: 100%;
+      }
+      .gallery-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      img.demo {
+        height: 180px;
+      }
+    }
+
+    .btn {
+      background-color: rgb(115, 16, 118);
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 500;
+      padding: 10px 20px;
+      letter-spacing: 0.5px;
+      border-radius: 5000px;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .btn--download {
+      padding: 16px 32px 15px 20px;
+      font-size: 16px;
+      position: fixed;
+      bottom: 27px;
+      left: calc(46%);
+      z-index: 100;
+      text-align: center;
+      box-shadow: 0 6px 23px rgba(0,0,0,0.45);
+      animation: fade-up 0.5s 0.4s backwards;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn--download:hover {
+      text-decoration: none;
+      background-color: rgb(61, 37, 68);
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Darker background on mouse-over */
+    .btn:hover {
+      background-color: rgb(61, 37, 68);
+    }
+
+    .btn--back {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 18px;
+      margin-right: 20px;
+      margin-left: 20px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      transition: background 0.2s;
+      align-self: center;
+      white-space: nowrap;
+      order: -1;
+    }
+
+    .btn--back:hover {
+      background: rgba(255,255,255,0.25);
+      color: white;
+    }
+
+   </style>
+ <header>
+            <nav class="uicore elementor-container">
+                     <div class="uicore-branding">
+
+            <a href="/Index.html" rel="home">
+                <img class="uicore uicore-logo uicore-main" src="https://kharis.org/wp-content/uploads/2022/08/Logo_transparent_noText.png" alt="Kharis Church">
+                    </a>
+
+                </div>
+                <a href="/Gallery-Selection/Sunday-Service-Album-Select.html" class="btn--back">&#8592; Back</a>
+      </nav>
+    </header>
+<section class="featured-gallery">
+    <div class="categories">
+      <div class="small-container">
+        <div class="row row-2">
+          <h2>Sunday Service</h2>
+      </div>
+
+      <div>
+      <button onclick="downloadAllImagesAsZip()" class="btn btn--download">
+           <i class="fa fa-download"></i> Download all <span class="u-bolder">photos</span>
+      </button>
+      </div>
+
+    <div class="gallery-row">
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/0129FB04-3498-465B-9F98-3812624E6C28.jpg" onclick="openModal();currentSlide(1)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/08F541C4-E992-4FE1-9819-4933CCE3324B.jpg" onclick="openModal();currentSlide(2)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/0DDB9805-7E6A-41F6-A1D6-E9EA81034E30.jpg" onclick="openModal();currentSlide(3)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/0F9150AF-2BCA-4FA7-A644-4422BC2449F3.jpg" onclick="openModal();currentSlide(4)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/1B7EDCC5-396F-46B0-8192-836CC392FF68.jpg" onclick="openModal();currentSlide(5)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/1BBCC062-A2B4-4D9B-A462-7780D30DC17A.jpg" onclick="openModal();currentSlide(6)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/2258F771-E4AC-4B30-8595-E798008A8685.jpg" onclick="openModal();currentSlide(7)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/2268D057-AAE7-449F-956A-C1A7CBF8A23D.jpg" onclick="openModal();currentSlide(8)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/34244EBC-CBFC-48FB-B717-33D604AF436C.jpg" onclick="openModal();currentSlide(9)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/474FD2F1-5856-43F0-994E-8E50C9BE028E.jpg" onclick="openModal();currentSlide(10)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/4CBE733B-E37A-4E92-B136-E7DA303C6BFA.jpg" onclick="openModal();currentSlide(11)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/4D50BA4D-2078-43FE-80FD-ED08B34816F2.jpg" onclick="openModal();currentSlide(12)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/4DD1AA90-0401-4B1B-8294-90860AE9AC7A.jpg" onclick="openModal();currentSlide(13)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/4EF18A7C-5B25-4D88-88F1-96CF6E290EF6.jpg" onclick="openModal();currentSlide(14)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/5086B21D-DB3C-42FE-8E52-4EC5763F24B5.jpg" onclick="openModal();currentSlide(15)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/51393E55-18B6-4C18-99B8-8497BBA87023.jpg" onclick="openModal();currentSlide(16)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/521BA2D3-62E3-4251-81C1-30D4926F8760.jpg" onclick="openModal();currentSlide(17)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/53A30A24-5042-4F6A-ABDF-7D8135C59862.jpg" onclick="openModal();currentSlide(18)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/5587D537-F200-4B84-9C11-9F9DCF241B49.jpg" onclick="openModal();currentSlide(19)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/586F2809-188E-411F-B69A-8EF151F32046.jpg" onclick="openModal();currentSlide(20)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/59390877-04AF-4E29-9853-5EBB85FB91E7.jpg" onclick="openModal();currentSlide(21)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/5AB7687E-8293-486F-8B2C-0CAD984FD868.jpg" onclick="openModal();currentSlide(22)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/5F2F7D08-2AD1-469C-BC54-DD91B63505E4.jpg" onclick="openModal();currentSlide(23)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/65926B54-A3E9-4CA7-9F06-19C1F935ADC8.jpg" onclick="openModal();currentSlide(24)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/773B8B7F-FE91-4D4E-9516-D902800986B0.jpg" onclick="openModal();currentSlide(25)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/77CADA55-0377-470E-A614-FADF133FF609.jpg" onclick="openModal();currentSlide(26)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/7BAB9678-D939-41ED-A7E0-2D7B7A8F85F0.jpg" onclick="openModal();currentSlide(27)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/805F63FB-0D6A-4802-9C60-4C8D10932EC2.jpg" onclick="openModal();currentSlide(28)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/825C9384-EA12-4E65-BF7A-C1C55D10EE28.jpg" onclick="openModal();currentSlide(29)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/82961F61-BF5D-472B-A551-71873AB3D5D2.jpg" onclick="openModal();currentSlide(30)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/86836200-5577-4703-9B51-5F26788C70C3.jpg" onclick="openModal();currentSlide(31)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/8F5C40E1-371A-48EA-A109-6CE50BDEE09F.jpg" onclick="openModal();currentSlide(32)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/96A391CD-5546-4823-9789-4C93B1C205AC.jpg" onclick="openModal();currentSlide(33)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/977BF962-D3CC-40C7-9D80-50D578E1E52D.jpg" onclick="openModal();currentSlide(34)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/982DB11A-BC7A-4779-B2A0-11488F97B82D.jpg" onclick="openModal();currentSlide(35)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/9BDBE935-7250-456A-ACF0-957BBAFA39CF.jpg" onclick="openModal();currentSlide(36)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/9D5C4956-C298-45D1-8D62-DF847BE6CEC0.jpg" onclick="openModal();currentSlide(37)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/A34B9CD6-1174-40A8-97B6-1D9FEEF3EDCD.jpg" onclick="openModal();currentSlide(38)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/AFD1CF6B-03B1-4F2A-B12C-9BC611A899CD.jpg" onclick="openModal();currentSlide(39)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/B0C93C38-C219-40F5-8F8D-2A700CEAE34F.jpg" onclick="openModal();currentSlide(40)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/B48F5A7F-415C-43B2-B8A2-D8F2E61C05A8.jpg" onclick="openModal();currentSlide(41)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/B72A17C7-CB4A-433E-A025-548FAEE12444.jpg" onclick="openModal();currentSlide(42)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/BA986D28-34BF-4849-AC68-3AE806839ECA.jpg" onclick="openModal();currentSlide(43)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/BABBDBC1-5400-4DBB-B593-0737365AF6C9.jpg" onclick="openModal();currentSlide(44)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/BC70CA9D-AD3B-49CA-9B41-F3158BF8B797.jpg" onclick="openModal();currentSlide(45)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/C72AB90C-829F-478E-8761-52AC8920E91D.jpg" onclick="openModal();currentSlide(46)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/CEDD1D44-7C20-4070-A106-CC251F14C8C0.jpg" onclick="openModal();currentSlide(47)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/D13F1C2E-230A-4497-B354-C0CC83D27B35.jpg" onclick="openModal();currentSlide(48)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/D79CDB4C-C1C1-48B3-87F7-57E25F1BFB72.jpg" onclick="openModal();currentSlide(49)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/D86C820C-9FCC-49E9-BB85-D97A0074891A.jpg" onclick="openModal();currentSlide(50)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/DE1E55A0-A2C8-477F-BCE9-D631C0B5615E.jpg" onclick="openModal();currentSlide(51)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/EADBF948-A6DD-4030-B164-8D302A206DA2.jpg" onclick="openModal();currentSlide(52)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/EB9A1196-9FF1-4046-B774-D042728E1EF6.jpg" onclick="openModal();currentSlide(53)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/F12FF8A4-92ED-438F-9F4A-4C4A5EACF347.jpg" onclick="openModal();currentSlide(54)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/F5B21411-ADC6-42FC-8276-534BCC16B1F3.jpg" onclick="openModal();currentSlide(55)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/F72B9EBC-B1C4-4C5A-9C05-1D6CC5FC7532.jpg" onclick="openModal();currentSlide(56)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/F9F116F9-1A49-4C70-8A60-674D3623D6AA.jpg" onclick="openModal();currentSlide(57)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/F9F59A10-EBDC-4B43-B048-D87503457CCB.jpg" onclick="openModal();currentSlide(58)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/FCFBD8DF-A7C1-40E9-BD57-B9DC8C23608E.jpg" onclick="openModal();currentSlide(59)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/FFBE61BF-1C75-4B31-8E37-BC5C56076999.jpg" onclick="openModal();currentSlide(60)" alt="Service Photo">
+      </div>
+    </div>
+</section>
+
+<!-- The Modal/Lightbox -->
+<div id="myModal" class="modal">
+  <span class="close cursor" onclick="closeModal()">&times;</span>
+  <div class="modal-content">
+
+    <div class="mySlides">
+      <div class="numbertext">1 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/0129FB04-3498-465B-9F98-3812624E6C28.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">2 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/08F541C4-E992-4FE1-9819-4933CCE3324B.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">3 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/0DDB9805-7E6A-41F6-A1D6-E9EA81034E30.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">4 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/0F9150AF-2BCA-4FA7-A644-4422BC2449F3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">5 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/1B7EDCC5-396F-46B0-8192-836CC392FF68.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">6 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/1BBCC062-A2B4-4D9B-A462-7780D30DC17A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">7 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/2258F771-E4AC-4B30-8595-E798008A8685.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">8 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/2268D057-AAE7-449F-956A-C1A7CBF8A23D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">9 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/34244EBC-CBFC-48FB-B717-33D604AF436C.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">10 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/474FD2F1-5856-43F0-994E-8E50C9BE028E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">11 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/4CBE733B-E37A-4E92-B136-E7DA303C6BFA.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">12 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/4D50BA4D-2078-43FE-80FD-ED08B34816F2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">13 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/4DD1AA90-0401-4B1B-8294-90860AE9AC7A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">14 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/4EF18A7C-5B25-4D88-88F1-96CF6E290EF6.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">15 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/5086B21D-DB3C-42FE-8E52-4EC5763F24B5.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">16 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/51393E55-18B6-4C18-99B8-8497BBA87023.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">17 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/521BA2D3-62E3-4251-81C1-30D4926F8760.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">18 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/53A30A24-5042-4F6A-ABDF-7D8135C59862.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">19 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/5587D537-F200-4B84-9C11-9F9DCF241B49.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">20 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/586F2809-188E-411F-B69A-8EF151F32046.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">21 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/59390877-04AF-4E29-9853-5EBB85FB91E7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">22 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/5AB7687E-8293-486F-8B2C-0CAD984FD868.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">23 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/5F2F7D08-2AD1-469C-BC54-DD91B63505E4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">24 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/65926B54-A3E9-4CA7-9F06-19C1F935ADC8.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">25 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/773B8B7F-FE91-4D4E-9516-D902800986B0.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">26 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/77CADA55-0377-470E-A614-FADF133FF609.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">27 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/7BAB9678-D939-41ED-A7E0-2D7B7A8F85F0.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">28 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/805F63FB-0D6A-4802-9C60-4C8D10932EC2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">29 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/825C9384-EA12-4E65-BF7A-C1C55D10EE28.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">30 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/82961F61-BF5D-472B-A551-71873AB3D5D2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">31 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/86836200-5577-4703-9B51-5F26788C70C3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">32 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/8F5C40E1-371A-48EA-A109-6CE50BDEE09F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">33 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/96A391CD-5546-4823-9789-4C93B1C205AC.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">34 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/977BF962-D3CC-40C7-9D80-50D578E1E52D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">35 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/982DB11A-BC7A-4779-B2A0-11488F97B82D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">36 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/9BDBE935-7250-456A-ACF0-957BBAFA39CF.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">37 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/9D5C4956-C298-45D1-8D62-DF847BE6CEC0.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">38 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/A34B9CD6-1174-40A8-97B6-1D9FEEF3EDCD.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">39 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/AFD1CF6B-03B1-4F2A-B12C-9BC611A899CD.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">40 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/B0C93C38-C219-40F5-8F8D-2A700CEAE34F.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">41 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/B48F5A7F-415C-43B2-B8A2-D8F2E61C05A8.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">42 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/B72A17C7-CB4A-433E-A025-548FAEE12444.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">43 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/BA986D28-34BF-4849-AC68-3AE806839ECA.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">44 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/BABBDBC1-5400-4DBB-B593-0737365AF6C9.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">45 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/BC70CA9D-AD3B-49CA-9B41-F3158BF8B797.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">46 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/C72AB90C-829F-478E-8761-52AC8920E91D.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">47 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/CEDD1D44-7C20-4070-A106-CC251F14C8C0.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">48 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/D13F1C2E-230A-4497-B354-C0CC83D27B35.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">49 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/D79CDB4C-C1C1-48B3-87F7-57E25F1BFB72.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">50 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/D86C820C-9FCC-49E9-BB85-D97A0074891A.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">51 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/DE1E55A0-A2C8-477F-BCE9-D631C0B5615E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">52 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/EADBF948-A6DD-4030-B164-8D302A206DA2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">53 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/EB9A1196-9FF1-4046-B774-D042728E1EF6.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">54 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/F12FF8A4-92ED-438F-9F4A-4C4A5EACF347.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">55 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/F5B21411-ADC6-42FC-8276-534BCC16B1F3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">56 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/F72B9EBC-B1C4-4C5A-9C05-1D6CC5FC7532.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">57 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/F9F116F9-1A49-4C70-8A60-674D3623D6AA.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">58 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/F9F59A10-EBDC-4B43-B048-D87503457CCB.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">59 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/FCFBD8DF-A7C1-40E9-BD57-B9DC8C23608E.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">60 / 60</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Service%20photos/Sunday%20Photos/Sunday%2002.08.2026/FFBE61BF-1C75-4B31-8E37-BC5C56076999.jpg" style="width:100%">
+    </div>
+
+    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+    <a class="next" onclick="changeSlide(1)">&#10095;</a>
+  </div>
+</div>
+
+<!-- Copyright Footer -->
+<footer style="background: #750c83; color: #fff; text-align: center; padding: 30px 10px 20px 10px; margin-top: auto; width: 100%;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <p style="font-size: 1.2em; margin-bottom: 10px;">
+            &copy; 2025 Kharis Church. All rights reserved.
+        </p>
+        <p style="margin-bottom: 10px;">
+            <a href="/Index.html" style="color: #fff; text-decoration: underline;">Home</a> |
+            <a href="mailto:info@kharis.org" style="color: #fff; text-decoration: underline;">Contact</a> |
+            <a href="https://www.facebook.com/KharisMinistries" target="_blank" style="color: #fff; text-decoration: underline;">Facebook</a> |
+            <a href="https://www.instagram.com/kharischurch/" target="_blank" style="color: #fff; text-decoration: underline;">Instagram</a>
+        </p>
+        <p style="font-size: 0.95em; opacity: 0.8;">
+            Kharis Church, London, UK
+        </p>
+    </div>
+</footer>
+
+<script>
+// Open the Modal
+function openModal() {
+  document.getElementById("myModal").style.display = "block";
+}
+
+// Close the Modal
+function closeModal() {
+  document.getElementById("myModal").style.display = "none";
+}
+
+var slideIndex = 1;
+
+// Next/previous controls
+function changeSlide(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("demo");
+  var captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  if (captionText) {
+    captionText.innerHTML = dots[slideIndex-1].alt;
+  }
+}
+
+// Initialize slides on page load
+showSlides(slideIndex);
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    let modal = document.getElementById("myModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") {
+        closeModal();
+    }
+});
+
+// Navigate with arrow keys
+document.addEventListener('keydown', function(e) {
+    let modal = document.getElementById("myModal");
+    if (modal.style.display === "block") {
+        if (e.key === "ArrowLeft") {
+            changeSlide(-1);
+        } else if (e.key === "ArrowRight") {
+            changeSlide(1);
+        }
+    }
+});
+
+// Download all images as ZIP
+async function downloadAllImagesAsZip() {
+  const zip = new JSZip();
+  const images = document.querySelectorAll('.gallery-row .demo');
+
+  for (let i = 0; i < images.length; i++) {
+    const img = images[i];
+    try {
+      const response = await fetch(img.src);
+      const blob = await response.blob();
+      zip.file(`kharis-church-photo-${i + 1}.jpg`, blob);
+    } catch (error) {
+      console.error(`Failed to fetch image ${i + 1}:`, error);
+    }
+  }
+
+  const content = await zip.generateAsync({type: 'blob'});
+  saveAs(content, 'kp2-birmingham-photos.zip');
+}
+</script>
+
+</body>
+</html>
