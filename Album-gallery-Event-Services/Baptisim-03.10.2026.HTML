@@ -1,0 +1,2717 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="External_demo.css">
+      <link rel="icon" type="image/png" href="https://kharis.org/wp-content/uploads/2022/08/Logo_transparent_noText.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=person" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=person" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- JSZip and FileSaver libraries for downloading images as ZIP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <title>Service Gallery</title>
+</head>
+
+<body>
+    <style>
+      /* Text styling of choice from Google fonts */
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      body {
+       font-family: "Oswald", serif;
+       display: flex;
+       flex-direction: column;
+     }
+
+     header {
+       background-color: purple;
+       width: 105%;
+       padding: 0;
+       margin: 0;
+     }
+
+     .uicore.elementor-container {
+       display: flex;
+       align-items: center;
+       padding: 0;
+       margin: 0;
+       width: 100%;
+     }
+
+     .uicore-branding {
+       background-color: purple;
+       padding: 20px;
+       width: 100%;
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-branding a {
+       display: flex;
+       align-items: center;
+     }
+
+     .uicore-logo {
+       width: 8% !important;
+       height: auto;
+     }
+
+     @media screen and (max-width: 768px) {
+        .topnav {
+            padding-left: 0;
+        }
+        .uicore-logo {
+          width: 12% !important;
+        }
+     }
+
+     section.featured-gallery {
+       flex: 1;
+       display: flex;
+       flex-direction: column;
+     }
+
+    /* Gallery Grid */
+    .gallery-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    /* Row and Column Styles */
+    .row > .column {
+      padding: 0 8px;
+    }
+
+
+    /* Create four equal columns that floats next to eachother */
+    .column {
+      float: left;
+      padding: 0 8px;
+      display: flex;
+      flex-direction: column;
+      max-inline-size: 100%;
+    }
+
+    /* The Modal (background) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: black;
+    }
+
+    /* Modal Content */
+    .modal-content {
+      position: relative;
+      background-color: #000;
+      margin: auto;
+      padding: 0;
+      width: 90%;
+      max-width: 1200px;
+    }
+
+    /* The Close Button */
+    .close {
+      color: white;
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #999;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Hide the slides by default */
+    .mySlides {
+      display: none;
+    }
+
+    /* Next & previous buttons */
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      padding: 16px;
+      margin-top: -50px;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .prev {
+      left: 0;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Number text (1/3 etc) */
+    .numbertext {
+      color: #f2f2f2;
+      font-size: 12px;
+      padding: 8px 12px;
+      position: absolute;
+      top: 0;
+    }
+
+    /* Caption text */
+    .caption-container {
+      text-align: center;
+      background-color: black;
+      padding: 2px 16px;
+      color: white;
+    }
+
+    img.demo {
+      opacity: 0.6;
+      cursor: pointer;
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: 0.3s;
+      flex-grow: 1;
+    }
+
+    .active,
+    .demo:hover {
+      opacity: 1;
+    }
+
+    img.hover-shadow {
+      transition: 0.3s;
+    }
+
+    .hover-shadow:hover {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    /* Responsive columns for mobile */
+    @media screen and (max-width: 1200px) {
+      .gallery-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media screen and (max-width: 800px) {
+      .column {
+        width: 50%;
+      }
+      .gallery-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+      img.demo {
+        height: 200px;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .column {
+        width: 100%;
+      }
+      .gallery-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      img.demo {
+        height: 180px;
+      }
+    }
+
+    .btn {
+      background-color: rgb(115, 16, 118);
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 500;
+      padding: 10px 20px;
+      letter-spacing: 0.5px;
+      border-radius: 5000px;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .btn--download {
+      padding: 16px 32px 15px 20px;
+      font-size: 16px;
+      position: fixed;
+      bottom: 27px;
+      left: calc(46%);
+      z-index: 100;
+      text-align: center;
+      box-shadow: 0 6px 23px rgba(0,0,0,0.45);
+      animation: fade-up 0.5s 0.4s backwards;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn--download:hover {
+      text-decoration: none;
+      background-color: rgb(61, 37, 68);
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Darker background on mouse-over */
+    .btn:hover {
+      background-color: rgb(61, 37, 68);
+    }
+
+    .btn--back {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 18px;
+      margin-right: 20px;
+      margin-left: 20px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      transition: background 0.2s;
+      align-self: center;
+      white-space: nowrap;
+      order: -1;
+    }
+
+    .btn--back:hover {
+      background: rgba(255,255,255,0.25);
+      color: white;
+    }
+
+   </style>
+ <header>
+            <nav class="uicore elementor-container">
+                     <div class="uicore-branding">
+
+            <a href="/Index.html" rel="home">
+                <img class="uicore uicore-logo uicore-main" src="https://kharis.org/wp-content/uploads/2022/08/Logo_transparent_noText.png" alt="Kharis Church">
+                    </a>
+
+                </div>
+                <a href="/Gallery-Selection/LTBS-Watch-Party-Service-Album-Select.html" class="btn--back">&#8592; Back</a>
+      </nav>
+    </header>
+<section class="featured-gallery">
+    <div class="categories">
+      <div class="small-container">
+        <div class="row row-2">
+          <h2>Baptism October 3, 2026</h2>
+      </div>
+
+      <div>
+      <button onclick="downloadAllImagesAsZip()" class="btn btn--download">
+           <i class="fa fa-download"></i> Download all <span class="u-bolder">photos</span>
+      </button>
+      </div>
+
+    <div class="gallery-row">
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun.jpg" onclick="openModal();currentSlide(1)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-2.jpg" onclick="openModal();currentSlide(2)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-3.jpg" onclick="openModal();currentSlide(3)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-4.jpg" onclick="openModal();currentSlide(4)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-5.jpg" onclick="openModal();currentSlide(5)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-6.jpg" onclick="openModal();currentSlide(6)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-7.jpg" onclick="openModal();currentSlide(7)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-8.jpg" onclick="openModal();currentSlide(8)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-9.jpg" onclick="openModal();currentSlide(9)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-10.jpg" onclick="openModal();currentSlide(10)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-11.jpg" onclick="openModal();currentSlide(11)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-12.jpg" onclick="openModal();currentSlide(12)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-13.jpg" onclick="openModal();currentSlide(13)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-14.jpg" onclick="openModal();currentSlide(14)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-15.jpg" onclick="openModal();currentSlide(15)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-16.jpg" onclick="openModal();currentSlide(16)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-17.jpg" onclick="openModal();currentSlide(17)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-18.jpg" onclick="openModal();currentSlide(18)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-19.jpg" onclick="openModal();currentSlide(19)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-20.jpg" onclick="openModal();currentSlide(20)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-21.jpg" onclick="openModal();currentSlide(21)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-22.jpg" onclick="openModal();currentSlide(22)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-23.jpg" onclick="openModal();currentSlide(23)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-24.jpg" onclick="openModal();currentSlide(24)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-25.jpg" onclick="openModal();currentSlide(25)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-26.jpg" onclick="openModal();currentSlide(26)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-27.jpg" onclick="openModal();currentSlide(27)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-28.jpg" onclick="openModal();currentSlide(28)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-29.jpg" onclick="openModal();currentSlide(29)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-30.jpg" onclick="openModal();currentSlide(30)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-31.jpg" onclick="openModal();currentSlide(31)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-32.jpg" onclick="openModal();currentSlide(32)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-33.jpg" onclick="openModal();currentSlide(33)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-34.jpg" onclick="openModal();currentSlide(34)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-35.jpg" onclick="openModal();currentSlide(35)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-36.jpg" onclick="openModal();currentSlide(36)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-37.jpg" onclick="openModal();currentSlide(37)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-38.jpg" onclick="openModal();currentSlide(38)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-39.jpg" onclick="openModal();currentSlide(39)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-40.jpg" onclick="openModal();currentSlide(40)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-41.jpg" onclick="openModal();currentSlide(41)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-42.jpg" onclick="openModal();currentSlide(42)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-43.jpg" onclick="openModal();currentSlide(43)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-44.jpg" onclick="openModal();currentSlide(44)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-45.jpg" onclick="openModal();currentSlide(45)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-46.jpg" onclick="openModal();currentSlide(46)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-47.jpg" onclick="openModal();currentSlide(47)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-48.jpg" onclick="openModal();currentSlide(48)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-49.jpg" onclick="openModal();currentSlide(49)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-50.jpg" onclick="openModal();currentSlide(50)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-51.jpg" onclick="openModal();currentSlide(51)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-52.jpg" onclick="openModal();currentSlide(52)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-53.jpg" onclick="openModal();currentSlide(53)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-54.jpg" onclick="openModal();currentSlide(54)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-55.jpg" onclick="openModal();currentSlide(55)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-56.jpg" onclick="openModal();currentSlide(56)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-57.jpg" onclick="openModal();currentSlide(57)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-58.jpg" onclick="openModal();currentSlide(58)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-59.jpg" onclick="openModal();currentSlide(59)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-60.jpg" onclick="openModal();currentSlide(60)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-61.jpg" onclick="openModal();currentSlide(61)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-62.jpg" onclick="openModal();currentSlide(62)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-63.jpg" onclick="openModal();currentSlide(63)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-64.jpg" onclick="openModal();currentSlide(64)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-65.jpg" onclick="openModal();currentSlide(65)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-66.jpg" onclick="openModal();currentSlide(66)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-67.jpg" onclick="openModal();currentSlide(67)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-68.jpg" onclick="openModal();currentSlide(68)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-69.jpg" onclick="openModal();currentSlide(69)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-70.jpg" onclick="openModal();currentSlide(70)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-71.jpg" onclick="openModal();currentSlide(71)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-72.jpg" onclick="openModal();currentSlide(72)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-73.jpg" onclick="openModal();currentSlide(73)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-74.jpg" onclick="openModal();currentSlide(74)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-75.jpg" onclick="openModal();currentSlide(75)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-76.jpg" onclick="openModal();currentSlide(76)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-77.jpg" onclick="openModal();currentSlide(77)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-78.jpg" onclick="openModal();currentSlide(78)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-79.jpg" onclick="openModal();currentSlide(79)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-80.jpg" onclick="openModal();currentSlide(80)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-81.jpg" onclick="openModal();currentSlide(81)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-82.jpg" onclick="openModal();currentSlide(82)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-83.jpg" onclick="openModal();currentSlide(83)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-84.jpg" onclick="openModal();currentSlide(84)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-85.jpg" onclick="openModal();currentSlide(85)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-86.jpg" onclick="openModal();currentSlide(86)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-87.jpg" onclick="openModal();currentSlide(87)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-88.jpg" onclick="openModal();currentSlide(88)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-89.jpg" onclick="openModal();currentSlide(89)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-90.jpg" onclick="openModal();currentSlide(90)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-91.jpg" onclick="openModal();currentSlide(91)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-92.jpg" onclick="openModal();currentSlide(92)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-93.jpg" onclick="openModal();currentSlide(93)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-94.jpg" onclick="openModal();currentSlide(94)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-95.jpg" onclick="openModal();currentSlide(95)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-96.jpg" onclick="openModal();currentSlide(96)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-97.jpg" onclick="openModal();currentSlide(97)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-98.jpg" onclick="openModal();currentSlide(98)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-99.jpg" onclick="openModal();currentSlide(99)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-100.jpg" onclick="openModal();currentSlide(100)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-101.jpg" onclick="openModal();currentSlide(101)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-102.jpg" onclick="openModal();currentSlide(102)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-103.jpg" onclick="openModal();currentSlide(103)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-104.jpg" onclick="openModal();currentSlide(104)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-105.jpg" onclick="openModal();currentSlide(105)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-106.jpg" onclick="openModal();currentSlide(106)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-107.jpg" onclick="openModal();currentSlide(107)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-108.jpg" onclick="openModal();currentSlide(108)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-109.jpg" onclick="openModal();currentSlide(109)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-110.jpg" onclick="openModal();currentSlide(110)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-111.jpg" onclick="openModal();currentSlide(111)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-112.jpg" onclick="openModal();currentSlide(112)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-113.jpg" onclick="openModal();currentSlide(113)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-114.jpg" onclick="openModal();currentSlide(114)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-115.jpg" onclick="openModal();currentSlide(115)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-116.jpg" onclick="openModal();currentSlide(116)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-117.jpg" onclick="openModal();currentSlide(117)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-118.jpg" onclick="openModal();currentSlide(118)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-119.jpg" onclick="openModal();currentSlide(119)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-120.jpg" onclick="openModal();currentSlide(120)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-121.jpg" onclick="openModal();currentSlide(121)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-122.jpg" onclick="openModal();currentSlide(122)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-123.jpg" onclick="openModal();currentSlide(123)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-124.jpg" onclick="openModal();currentSlide(124)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-125.jpg" onclick="openModal();currentSlide(125)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-126.jpg" onclick="openModal();currentSlide(126)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-127.jpg" onclick="openModal();currentSlide(127)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-128.jpg" onclick="openModal();currentSlide(128)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-129.jpg" onclick="openModal();currentSlide(129)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-130.jpg" onclick="openModal();currentSlide(130)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-131.jpg" onclick="openModal();currentSlide(131)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-132.jpg" onclick="openModal();currentSlide(132)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-133.jpg" onclick="openModal();currentSlide(133)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-134.jpg" onclick="openModal();currentSlide(134)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-135.jpg" onclick="openModal();currentSlide(135)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-136.jpg" onclick="openModal();currentSlide(136)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-137.jpg" onclick="openModal();currentSlide(137)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-138.jpg" onclick="openModal();currentSlide(138)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-139.jpg" onclick="openModal();currentSlide(139)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-140.jpg" onclick="openModal();currentSlide(140)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-141.jpg" onclick="openModal();currentSlide(141)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-142.jpg" onclick="openModal();currentSlide(142)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-143.jpg" onclick="openModal();currentSlide(143)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-144.jpg" onclick="openModal();currentSlide(144)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-145.jpg" onclick="openModal();currentSlide(145)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-146.jpg" onclick="openModal();currentSlide(146)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-147.jpg" onclick="openModal();currentSlide(147)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-148.jpg" onclick="openModal();currentSlide(148)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-149.jpg" onclick="openModal();currentSlide(149)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-150.jpg" onclick="openModal();currentSlide(150)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-151.jpg" onclick="openModal();currentSlide(151)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-152.jpg" onclick="openModal();currentSlide(152)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-153.jpg" onclick="openModal();currentSlide(153)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-154.jpg" onclick="openModal();currentSlide(154)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-155.jpg" onclick="openModal();currentSlide(155)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-156.jpg" onclick="openModal();currentSlide(156)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-157.jpg" onclick="openModal();currentSlide(157)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-158.jpg" onclick="openModal();currentSlide(158)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-159.jpg" onclick="openModal();currentSlide(159)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-160.jpg" onclick="openModal();currentSlide(160)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-161.jpg" onclick="openModal();currentSlide(161)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-162.jpg" onclick="openModal();currentSlide(162)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-163.jpg" onclick="openModal();currentSlide(163)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-164.jpg" onclick="openModal();currentSlide(164)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-165.jpg" onclick="openModal();currentSlide(165)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-166.jpg" onclick="openModal();currentSlide(166)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-167.jpg" onclick="openModal();currentSlide(167)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-168.jpg" onclick="openModal();currentSlide(168)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-169.jpg" onclick="openModal();currentSlide(169)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-170.jpg" onclick="openModal();currentSlide(170)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-171.jpg" onclick="openModal();currentSlide(171)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-172.jpg" onclick="openModal();currentSlide(172)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-173.jpg" onclick="openModal();currentSlide(173)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-174.jpg" onclick="openModal();currentSlide(174)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-175.jpg" onclick="openModal();currentSlide(175)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-176.jpg" onclick="openModal();currentSlide(176)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-177.jpg" onclick="openModal();currentSlide(177)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-178.jpg" onclick="openModal();currentSlide(178)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-179.jpg" onclick="openModal();currentSlide(179)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-180.jpg" onclick="openModal();currentSlide(180)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-181.jpg" onclick="openModal();currentSlide(181)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-182.jpg" onclick="openModal();currentSlide(182)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-183.jpg" onclick="openModal();currentSlide(183)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-184.jpg" onclick="openModal();currentSlide(184)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-185.jpg" onclick="openModal();currentSlide(185)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-186.jpg" onclick="openModal();currentSlide(186)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-187.jpg" onclick="openModal();currentSlide(187)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-188.jpg" onclick="openModal();currentSlide(188)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-189.jpg" onclick="openModal();currentSlide(189)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-190.jpg" onclick="openModal();currentSlide(190)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-191.jpg" onclick="openModal();currentSlide(191)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-192.jpg" onclick="openModal();currentSlide(192)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-193.jpg" onclick="openModal();currentSlide(193)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-194.jpg" onclick="openModal();currentSlide(194)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-195.jpg" onclick="openModal();currentSlide(195)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-196.jpg" onclick="openModal();currentSlide(196)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-197.jpg" onclick="openModal();currentSlide(197)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-198.jpg" onclick="openModal();currentSlide(198)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-199.jpg" onclick="openModal();currentSlide(199)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-200.jpg" onclick="openModal();currentSlide(200)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-201.jpg" onclick="openModal();currentSlide(201)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-202.jpg" onclick="openModal();currentSlide(202)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-203.jpg" onclick="openModal();currentSlide(203)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-204.jpg" onclick="openModal();currentSlide(204)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-205.jpg" onclick="openModal();currentSlide(205)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-206.jpg" onclick="openModal();currentSlide(206)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-207.jpg" onclick="openModal();currentSlide(207)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-208.jpg" onclick="openModal();currentSlide(208)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-209.jpg" onclick="openModal();currentSlide(209)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-210.jpg" onclick="openModal();currentSlide(210)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-211.jpg" onclick="openModal();currentSlide(211)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-212.jpg" onclick="openModal();currentSlide(212)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-213.jpg" onclick="openModal();currentSlide(213)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-214.jpg" onclick="openModal();currentSlide(214)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-215.jpg" onclick="openModal();currentSlide(215)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-216.jpg" onclick="openModal();currentSlide(216)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-217.jpg" onclick="openModal();currentSlide(217)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-218.jpg" onclick="openModal();currentSlide(218)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-219.jpg" onclick="openModal();currentSlide(219)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-220.jpg" onclick="openModal();currentSlide(220)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-221.jpg" onclick="openModal();currentSlide(221)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-222.jpg" onclick="openModal();currentSlide(222)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-223.jpg" onclick="openModal();currentSlide(223)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-224.jpg" onclick="openModal();currentSlide(224)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-225.jpg" onclick="openModal();currentSlide(225)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-226.jpg" onclick="openModal();currentSlide(226)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-227.jpg" onclick="openModal();currentSlide(227)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-228.jpg" onclick="openModal();currentSlide(228)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-229.jpg" onclick="openModal();currentSlide(229)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-230.jpg" onclick="openModal();currentSlide(230)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-231.jpg" onclick="openModal();currentSlide(231)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-232.jpg" onclick="openModal();currentSlide(232)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-233.jpg" onclick="openModal();currentSlide(233)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-234.jpg" onclick="openModal();currentSlide(234)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-235.jpg" onclick="openModal();currentSlide(235)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-236.jpg" onclick="openModal();currentSlide(236)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-237.jpg" onclick="openModal();currentSlide(237)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-238.jpg" onclick="openModal();currentSlide(238)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-239.jpg" onclick="openModal();currentSlide(239)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-240.jpg" onclick="openModal();currentSlide(240)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-241.jpg" onclick="openModal();currentSlide(241)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-242.jpg" onclick="openModal();currentSlide(242)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-243.jpg" onclick="openModal();currentSlide(243)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-244.jpg" onclick="openModal();currentSlide(244)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-245.jpg" onclick="openModal();currentSlide(245)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-246.jpg" onclick="openModal();currentSlide(246)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-247.jpg" onclick="openModal();currentSlide(247)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-248.jpg" onclick="openModal();currentSlide(248)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-249.jpg" onclick="openModal();currentSlide(249)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-250.jpg" onclick="openModal();currentSlide(250)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-251.jpg" onclick="openModal();currentSlide(251)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-252.jpg" onclick="openModal();currentSlide(252)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-253.jpg" onclick="openModal();currentSlide(253)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-254.jpg" onclick="openModal();currentSlide(254)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-255.jpg" onclick="openModal();currentSlide(255)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-256.jpg" onclick="openModal();currentSlide(256)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-257.jpg" onclick="openModal();currentSlide(257)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-258.jpg" onclick="openModal();currentSlide(258)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-259.jpg" onclick="openModal();currentSlide(259)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-260.jpg" onclick="openModal();currentSlide(260)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-261.jpg" onclick="openModal();currentSlide(261)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-262.jpg" onclick="openModal();currentSlide(262)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-263.jpg" onclick="openModal();currentSlide(263)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-264.jpg" onclick="openModal();currentSlide(264)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-265.jpg" onclick="openModal();currentSlide(265)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-266.jpg" onclick="openModal();currentSlide(266)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-267.jpg" onclick="openModal();currentSlide(267)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-268.jpg" onclick="openModal();currentSlide(268)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-269.jpg" onclick="openModal();currentSlide(269)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-270.jpg" onclick="openModal();currentSlide(270)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-271.jpg" onclick="openModal();currentSlide(271)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-272.jpg" onclick="openModal();currentSlide(272)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-273.jpg" onclick="openModal();currentSlide(273)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-274.jpg" onclick="openModal();currentSlide(274)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-275.jpg" onclick="openModal();currentSlide(275)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-276.jpg" onclick="openModal();currentSlide(276)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-277.jpg" onclick="openModal();currentSlide(277)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-278.jpg" onclick="openModal();currentSlide(278)" alt="Service Photo">
+      </div>
+      <div class="column">
+        <img class="demo" src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-279.jpg" onclick="openModal();currentSlide(279)" alt="Service Photo">
+      </div>
+    </div>
+</section>
+
+<!-- The Modal/Lightbox -->
+<div id="myModal" class="modal">
+  <span class="close cursor" onclick="closeModal()">&times;</span>
+  <div class="modal-content">
+
+    <div class="mySlides">
+      <div class="numbertext">1 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">2 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-2.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">3 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-3.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">4 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-4.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">5 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-5.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">6 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-6.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">7 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-7.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">8 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-8.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">9 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-9.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">10 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-10.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">11 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-11.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">12 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-12.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">13 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-13.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">14 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-14.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">15 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-15.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">16 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-16.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">17 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-17.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">18 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-18.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">19 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-19.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">20 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-20.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">21 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-21.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">22 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-22.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">23 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-23.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">24 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-24.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">25 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-25.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">26 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-26.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">27 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-27.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">28 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-28.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">29 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-29.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">30 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-30.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">31 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-31.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">32 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-32.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">33 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-33.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">34 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-34.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">35 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-35.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">36 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-36.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">37 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-37.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">38 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-38.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">39 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-39.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">40 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-40.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">41 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-41.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">42 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-42.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">43 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-43.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">44 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-44.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">45 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-45.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">46 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-46.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">47 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-47.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">48 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-48.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">49 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-49.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">50 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-50.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">51 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-51.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">52 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-52.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">53 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-53.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">54 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-54.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">55 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-55.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">56 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-56.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">57 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-57.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">58 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-58.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">59 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-59.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">60 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-60.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">61 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-61.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">62 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-62.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">63 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-63.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">64 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-64.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">65 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-65.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">66 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-66.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">67 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-67.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">68 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-68.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">69 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-69.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">70 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-70.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">71 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-71.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">72 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-72.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">73 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-73.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">74 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-74.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">75 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-75.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">76 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-76.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">77 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-77.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">78 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-78.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">79 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-79.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">80 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-80.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">81 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-81.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">82 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-82.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">83 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-83.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">84 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-84.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">85 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-85.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">86 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-86.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">87 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-87.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">88 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-88.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">89 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-89.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">90 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-90.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">91 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-91.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">92 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-92.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">93 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-93.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">94 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-94.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">95 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-95.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">96 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-96.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">97 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-97.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">98 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-98.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">99 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-99.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">100 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-100.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">101 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-101.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">102 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-102.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">103 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-103.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">104 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-104.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">105 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-105.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">106 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-106.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">107 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-107.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">108 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-108.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">109 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-109.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">110 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-110.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">111 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-111.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">112 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-112.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">113 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-113.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">114 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-114.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">115 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-115.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">116 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-116.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">117 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-117.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">118 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-118.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">119 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-119.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">120 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-120.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">121 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-121.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">122 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-122.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">123 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-123.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">124 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-124.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">125 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-125.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">126 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-126.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">127 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-127.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">128 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-128.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">129 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-129.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">130 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-130.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">131 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-131.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">132 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-132.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">133 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-133.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">134 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-134.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">135 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-135.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">136 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-136.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">137 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-137.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">138 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-138.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">139 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-139.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">140 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-140.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">141 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-141.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">142 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-142.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">143 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-143.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">144 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-144.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">145 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-145.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">146 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-146.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">147 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-147.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">148 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-148.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">149 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-149.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">150 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-150.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">151 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-151.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">152 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-152.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">153 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-153.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">154 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-154.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">155 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-155.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">156 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-156.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">157 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-157.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">158 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-158.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">159 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-159.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">160 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-160.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">161 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-161.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">162 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-162.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">163 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-163.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">164 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-164.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">165 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-165.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">166 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-166.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">167 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-167.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">168 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-168.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">169 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-169.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">170 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-170.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">171 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-171.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">172 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-172.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">173 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-173.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">174 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-174.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">175 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-175.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">176 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-176.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">177 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-177.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">178 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-178.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">179 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-179.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">180 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-180.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">181 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-181.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">182 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-182.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">183 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-183.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">184 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-184.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">185 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-185.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">186 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-186.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">187 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-187.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">188 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-188.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">189 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-189.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">190 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-190.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">191 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-191.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">192 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-192.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">193 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-193.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">194 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-194.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">195 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-195.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">196 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-196.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">197 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-197.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">198 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-198.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">199 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-199.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">200 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-200.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">201 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-201.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">202 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-202.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">203 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-203.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">204 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-204.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">205 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-205.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">206 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-206.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">207 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-207.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">208 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-208.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">209 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-209.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">210 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-210.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">211 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-211.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">212 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-212.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">213 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-213.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">214 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-214.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">215 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-215.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">216 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-216.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">217 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-217.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">218 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-218.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">219 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-219.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">220 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-220.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">221 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-221.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">222 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-222.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">223 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-223.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">224 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-224.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">225 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-225.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">226 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-226.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">227 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-227.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">228 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-228.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">229 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-229.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">230 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-230.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">231 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-231.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">232 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-232.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">233 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-233.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">234 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-234.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">235 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-235.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">236 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-236.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">237 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-237.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">238 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-238.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">239 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-239.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">240 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-240.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">241 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-241.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">242 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-242.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">243 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-243.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">244 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-244.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">245 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-245.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">246 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-246.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">247 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-247.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">248 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-248.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">249 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-249.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">250 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-250.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">251 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-251.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">252 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-252.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">253 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-253.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">254 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-254.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">255 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-255.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">256 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-256.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">257 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-257.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">258 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-258.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">259 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-259.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">260 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-260.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">261 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-261.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">262 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-262.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">263 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-263.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">264 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-264.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">265 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-265.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">266 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-266.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">267 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-267.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">268 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-268.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">269 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-269.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">270 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-270.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">271 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-271.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">272 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-272.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">273 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-273.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">274 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-274.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">275 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-275.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">276 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-276.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">277 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-277.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">278 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-278.jpg" style="width:100%">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">279 / 279</div>
+      <img src="https://KP2-Website-PZ.b-cdn.net/media/Event%20Services/Baptism/Baptism%2003.10.2026/sun-279.jpg" style="width:100%">
+    </div>
+
+    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+    <a class="next" onclick="changeSlide(1)">&#10095;</a>
+  </div>
+</div>
+
+<!-- Copyright Footer -->
+<footer style="background: #750c83; color: #fff; text-align: center; padding: 30px 10px 20px 10px; margin-top: auto; width: 100%;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <p style="font-size: 1.2em; margin-bottom: 10px;">
+            &copy; 2025 Kharis Church. All rights reserved.
+        </p>
+        <p style="margin-bottom: 10px;">
+            <a href="/Index.html" style="color: #fff; text-decoration: underline;">Home</a> |
+            <a href="mailto:info@kharis.org" style="color: #fff; text-decoration: underline;">Contact</a> |
+            <a href="https://www.facebook.com/KharisMinistries" target="_blank" style="color: #fff; text-decoration: underline;">Facebook</a> |
+            <a href="https://www.instagram.com/kharischurch/" target="_blank" style="color: #fff; text-decoration: underline;">Instagram</a>
+        </p>
+        <p style="font-size: 0.95em; opacity: 0.8;">
+            Kharis Church, London, UK
+        </p>
+    </div>
+</footer>
+
+<script>
+// Open the Modal
+function openModal() {
+  document.getElementById("myModal").style.display = "block";
+}
+
+// Close the Modal
+function closeModal() {
+  document.getElementById("myModal").style.display = "none";
+}
+
+var slideIndex = 1;
+
+// Next/previous controls
+function changeSlide(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("demo");
+  var captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  if (captionText) {
+    captionText.innerHTML = dots[slideIndex-1].alt;
+  }
+}
+
+// Initialize slides on page load
+showSlides(slideIndex);
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    let modal = document.getElementById("myModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") {
+        closeModal();
+    }
+});
+
+// Navigate with arrow keys
+document.addEventListener('keydown', function(e) {
+    let modal = document.getElementById("myModal");
+    if (modal.style.display === "block") {
+        if (e.key === "ArrowLeft") {
+            changeSlide(-1);
+        } else if (e.key === "ArrowRight") {
+            changeSlide(1);
+        }
+    }
+});
+
+// Download all images as ZIP
+async function downloadAllImagesAsZip() {
+  const zip = new JSZip();
+  const images = document.querySelectorAll('.gallery-row .demo');
+
+  for (let i = 0; i < images.length; i++) {
+    const img = images[i];
+    try {
+      const response = await fetch(img.src);
+      const blob = await response.blob();
+      zip.file(`kharis-church-photo-${i + 1}.jpg`, blob);
+    } catch (error) {
+      console.error(`Failed to fetch image ${i + 1}:`, error);
+    }
+  }
+
+  const content = await zip.generateAsync({type: 'blob'});
+  saveAs(content, 'ltbs-watch-party-day-2-photos.zip');
+}
+</script>
+
+</body>
+</html>
